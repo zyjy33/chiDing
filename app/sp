@@ -1,0 +1,8 @@
+longuserset 保存的用户信息
+longuserset_login 保存第三方的用户信息
+
+
+ keyAlias "gaiya"
+ keyPassword "gaiya123."
+ storePassword "gaiya123."
+
