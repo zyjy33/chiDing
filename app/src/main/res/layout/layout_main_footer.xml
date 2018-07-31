@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="51dp"
+    android:layout_height="60dp"
     android:background="@color/main_footer_bg">
 
     <View
@@ -10,6 +10,7 @@
         android:background="#EDEDED" />
 
     <RadioGroup
+        android:layout_marginTop="5dp"
         android:id="@+id/group"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
@@ -28,17 +29,6 @@
             android:drawableTop="@drawable/widget_bar_im_bg"
             android:text="@string/main_navigation_im" />
 
-        <RadioButton
-            android:id="@+id/foot_bar_interest"
-            style="@style/main_footer_bar_radio"
-            android:drawableTop="@drawable/widget_bar_interest_bg"
-            android:text="@string/main_navigation_interest" />
-
-        <RadioButton
-            android:id="@+id/foot_bar_car"
-            style="@style/main_footer_bar_radio"
-            android:drawableTop="@drawable/widget_bar_car_bg"
-            android:text="@string/main_navigation_message" />
         <RadioButton
             android:id="@+id/main_footbar_user"
             style="@style/main_footer_bar_radio"

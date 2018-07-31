@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">盖亚商城</string>
+    <string name="app_name">吃定你</string>
 
     <string name="no_network_connection_toast">无法连接网络</string>
 
     <!-- 页面名称 -->
     <string name="main_navigation_home">首页</string>
-    <string name="main_navigation_im">购物车</string>
+    <string name="main_navigation_im">关于我们</string>
     <string name="main_navigation_interest">推广助手</string>
     <string name="main_navigation_message">消息</string>
-    <string name="main_navigation_user">我的</string>
+    <string name="main_navigation_user">个人中心</string>
 
     <string name="progress_loading">加载中，请稍候</string>
     <string name="progress_load_error">加载失败，点击屏幕刷新</string>

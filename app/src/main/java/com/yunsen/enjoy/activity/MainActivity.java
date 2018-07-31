@@ -15,6 +15,7 @@ import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.yunsen.enjoy.R;
+import com.yunsen.enjoy.activity.about.AboutFragment;
 import com.yunsen.enjoy.common.Constants;
 import com.yunsen.enjoy.common.wsmanager.WsManager;
 import com.yunsen.enjoy.fragment.BuyFragment;
@@ -55,7 +56,7 @@ public class MainActivity extends BaseFragmentActivity {
 
     @Override
     protected void initView() {
-            WsManager.getInstance().init();
+        WsManager.getInstance().init();
     }
 
     @Override
@@ -77,7 +78,7 @@ public class MainActivity extends BaseFragmentActivity {
     }
 
     private void initMainData(Bundle savedInstanceState) {
-        fragmentTags = new ArrayList<>(Arrays.asList("HomeFragment", "ImFragment", "InterestFragment", "CarFragment", "MineFragment"));
+        fragmentTags = new ArrayList<>(Arrays.asList("HomeFragment", "AboutFragment", "MineFragment"));
         currIndex = 0;
         if (savedInstanceState != null) {
             currIndex = savedInstanceState.getInt(CURR_INDEX);
@@ -107,12 +108,6 @@ public class MainActivity extends BaseFragmentActivity {
                         indexId = R.id.foot_bar_im;
                         break;
                     case 2:
-                        indexId = R.id.foot_bar_interest;
-                        break;
-                    case 3:
-                        indexId = R.id.foot_bar_car;
-                        break;
-                    case 4:
                         indexId = R.id.main_footbar_user;
                         break;
                 }
@@ -133,14 +128,8 @@ public class MainActivity extends BaseFragmentActivity {
                     case R.id.foot_bar_im:
                         currIndex = 1;
                         break;
-                    case R.id.foot_bar_interest:
-                        currIndex = 2;
-                        break;
-                    case R.id.foot_bar_car:
-                        currIndex = 3;
-                        break;
                     case R.id.main_footbar_user:
-                        currIndex = 4;
+                        currIndex = 2;
                         break;
                     default:
                         break;
@@ -178,12 +167,8 @@ public class MainActivity extends BaseFragmentActivity {
             case 0:
                 return new MainPagerFragment();
             case 1:
-                return new CarFragment();
+                return new AboutFragment();
             case 2:
-                return new DiscoverFragment();
-            case 3:
-                return new NoticeFragment();
-            case 4:
                 mMineFragment = new MineFragment();
                 return mMineFragment;
             default:
@@ -209,7 +194,7 @@ public class MainActivity extends BaseFragmentActivity {
         if (index < 0) {
             index = 0;
         }
-        if (index > 3) {
+        if (index > 2) {
             index = 0;
         }
         switch (index) {
@@ -220,12 +205,6 @@ public class MainActivity extends BaseFragmentActivity {
                 group.check(R.id.foot_bar_im);
                 break;
             case 2:
-                group.check(R.id.foot_bar_interest);
-                break;
-            case 3:
-                group.check(R.id.foot_bar_car);
-                break;
-            case 4:
                 group.check(R.id.main_footbar_user);
                 break;
 

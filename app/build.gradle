@@ -26,7 +26,7 @@ android {
         renderscriptSupportModeEnabled true
         //添加如下配置就OK了
         javaCompileOptions { annotationProcessorOptions { includeCompileClasspath = true } }
-        applicationId "com.yunsen.gaea"
+        applicationId "com.yunsen.chiding"
         minSdkVersion 16
         targetSdkVersion 26
         versionCode 100
@@ -36,18 +36,19 @@ android {
     }
     signingConfigs {
         release {
-            storeFile file("\\gaiya.jks")
-            keyAlias "gaiya"
-            keyPassword "gaiya123."
-            storePassword "gaiya123."
+            storeFile file("\\goodFood.jks")
+            keyAlias "food"
+            keyPassword "goodfood"
+            storePassword "goodfood"
         }
         debug {
-            storeFile file("\\gaiya.jks")
-            keyAlias "gaiya"
-            keyPassword "gaiya123."
-            storePassword "gaiya123."
+            storeFile file("\\goodFood.jks")
+            keyAlias "food"
+            keyPassword "goodfood"
+            storePassword "goodfood"
         }
     }
+
     buildTypes {
         release {
             signingConfig signingConfigs.release
@@ -131,4 +132,5 @@ dependencies {
     compile 'com.android.support:multidex:1.0.2'
     implementation project(':citypicker')
     compile 'com.neovisionaries:nv-websocket-client:2.5'
+    compile 'com.lcodecorex:tkrefreshlayout:1.0.7'
 }

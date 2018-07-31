@@ -9,8 +9,8 @@
     <color name="main_footer_bg">#f5f5f5</color>
 
     <!-- 底栏字体颜色 -->
-    <color name="footer_text_color_normal">#343434</color>
-    <color name="footer_text_color_selected">#1a1a1a</color>
+    <color name="footer_text_color_normal">#666666</color>
+    <color name="footer_text_color_selected">#6f0102</color>
 
     <!-- 字体颜色值 -->
     <color name="text_color_white">#ffffff</color>
@@ -98,7 +98,7 @@
     <!-- 字体颜色 -->
     <color name="huiheise">#C8CACC</color>
 
-    <color name="color_theme">#08c75b</color>
+    <color name="color_theme">#6f0102</color>
     <color name="back_light">#161616</color>
     <color name="color_d81e06">#d81e06</color>
     <color name="title_color">#1a1a1a</color>

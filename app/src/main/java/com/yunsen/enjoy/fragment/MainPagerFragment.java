@@ -2,64 +2,35 @@ package com.yunsen.enjoy.fragment;
 
 
 import android.content.Context;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.request.target.GlideDrawableImageViewTarget;
 import com.yanzhenjie.permission.Permission;
 import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.activity.BaseFragmentActivity;
-import com.yunsen.enjoy.activity.MainActivity;
 import com.yunsen.enjoy.common.Constants;
 import com.yunsen.enjoy.common.SpConstants;
 import com.yunsen.enjoy.fragment.home.BannerAdapter;
 import com.yunsen.enjoy.fragment.home.HomeGoodsAdapter;
-import com.yunsen.enjoy.fragment.home.PreferenceCarAdapter;
-import com.yunsen.enjoy.fragment.home.StoreRecyclerAdapter;
 import com.yunsen.enjoy.http.HttpCallBack;
-import com.yunsen.enjoy.http.HttpCallBack2;
 import com.yunsen.enjoy.http.HttpProxy;
 import com.yunsen.enjoy.model.AdvertModel;
-import com.yunsen.enjoy.model.CarBrand;
 import com.yunsen.enjoy.model.CarDetails;
-import com.yunsen.enjoy.model.CarModel;
-import com.yunsen.enjoy.model.GoodsData;
-import com.yunsen.enjoy.model.HomeCarModel;
 import com.yunsen.enjoy.model.NoticeModel;
-import com.yunsen.enjoy.model.SProviderModel;
-import com.yunsen.enjoy.model.event.ActivityResultEvent;
-import com.yunsen.enjoy.model.event.EventConstants;
-import com.yunsen.enjoy.model.event.UpCityEvent;
-import com.yunsen.enjoy.model.event.UpHomeUiEvent;
-import com.yunsen.enjoy.model.event.UpNoticeUi;
 import com.yunsen.enjoy.ui.UIHelper;
-import com.yunsen.enjoy.ui.layout.GoodsPartsLayout;
-import com.yunsen.enjoy.ui.layout.IntegralChangeLayout;
-import com.yunsen.enjoy.ui.layout.SecondActivityLayout;
 import com.yunsen.enjoy.ui.loopviewpager.AutoLoopViewPager;
 import com.yunsen.enjoy.ui.recyclerview.HeaderAndFooterRecyclerViewAdapter;
 import com.yunsen.enjoy.ui.recyclerview.RecyclerViewUtils;
 import com.yunsen.enjoy.ui.viewpagerindicator.CirclePageIndicator;
 import com.yunsen.enjoy.utils.SharedPreference;
-import com.yunsen.enjoy.utils.ToastUtils;
 import com.yunsen.enjoy.widget.ADTextView;
-import com.yunsen.enjoy.widget.HorizontalLayout;
-import com.yunsen.enjoy.widget.HorizontalLayout2;
 import com.yunsen.enjoy.widget.SearchActionBar;
-import com.yunsen.enjoy.widget.ZyToastHelper;
 import com.yunsen.enjoy.widget.recyclerview.MultiItemTypeAdapter;
 
 import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -75,7 +46,6 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
     private AutoLoopViewPager banner;
     private CirclePageIndicator indicatorLayout;
     private BannerAdapter bannerAdapter;
-    private SearchActionBar searchBar;
     private ADTextView adtTv1;
     private ADTextView adtTv2;
     private RecyclerView recyclerView;
@@ -94,7 +64,6 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
 
     @Override
     protected void initView() {
-        searchBar = ((SearchActionBar) rootView.findViewById(R.id.search_bar));
         recyclerView = rootView.findViewById(R.id.recyclerView);
 
         LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -129,8 +98,6 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
         recyclerView.setAdapter(recyclerViewAdapter);
         RecyclerViewUtils.setHeaderView(recyclerView, topView);
         String currentCity = SharedPreference.getInstance().getString(SpConstants.CITY_KEY, "深圳市");
-        searchBar.setLeftText(currentCity);
-        searchBar.setSearchText("请输入车名搜索");
 
     }
 
@@ -191,7 +158,6 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
 
     @Override
     protected void initListener() {
-        searchBar.setSearchClick(this);
         adtTv1.setOnClickListener(this);
         adtTv2.setOnClickListener(this);
         mAdapter.setOnItemClickListener(this);
@@ -265,13 +231,12 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
     @Override
     public void onStart() {
         super.onStart();
-        EventBus.getDefault().register(this);
+
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        EventBus.getDefault().unregister(this);
     }
 
     @Override
@@ -294,13 +259,6 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
     @Override
     public boolean onItemLongClick(View view, RecyclerView.Adapter adapter, RecyclerView.ViewHolder holder, int position) {
         return false;
-    }
-
-    @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
-    public void onEvent(UpCityEvent event) {
-        if (event.getEventId() == EventConstants.UP_CITY) {
-            searchBar.setLeftText(event.getCity());
-        }
     }
 
 }

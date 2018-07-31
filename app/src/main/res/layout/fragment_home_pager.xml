@@ -1,23 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
     android:descendantFocusability="blocksDescendants"
     android:orientation="vertical">
 
-    <com.yunsen.enjoy.widget.SearchActionBar
-        android:id="@+id/search_bar"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:orientation="vertical"
-        android:visibility="gone" />
+        android:layout_height="50dp"
+        android:background="@color/color_theme"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclerView"
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_marginLeft="@dimen/app_margin"
+            android:layout_marginRight="@dimen/app_margin"
+            android:src="@mipmap/chidingwang" />
+        <LinearLayout
+            android:background="@drawable/search_bg"
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@mipmap/gray_search"
+                android:text="搜索"
+                android:drawablePadding="5dp"
+                android:textColor="@color/color_888"
+                android:textSize="15sp" />
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="@dimen/app_margin"
+            android:layout_marginRight="@dimen/app_margin"
+            android:src="@mipmap/white_qrcode" />
+
+    </LinearLayout>
+
+    <com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout
+        android:id="@+id/refreshLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="match_parent"
+        app:tr_bottom_height="180dp"
+        app:tr_head_height="100dp">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout>
 
     <View
         android:layout_width="match_parent"
