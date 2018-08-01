@@ -118,9 +118,9 @@ public class UserLoginActivity extends AppCompatActivity implements OnClickListe
         mTencent = Tencent.createInstance(Constants.APP_QQ_ID, AppContext.getInstance());
         spPreferences_weixin = getSharedPreferences("longuserset_weixin", MODE_PRIVATE);
         spPreferences_login = getSharedPreferences("longuserset_login", MODE_PRIVATE);
-        ImageView loginImage= (ImageView) findViewById(R.id.login_img);
+        ImageView loginImage = (ImageView) findViewById(R.id.login_img);
         Glide.with(this)
-                .load(R.mipmap.login_icon)
+                .load(R.mipmap.app_icon)
                 .transform(new GlideCircleTransform(this))
                 .into(loginImage);
         try {
@@ -274,7 +274,7 @@ public class UserLoginActivity extends AppCompatActivity implements OnClickListe
         Button phoneLoginBtn = (Button) findViewById(R.id.phone_login_btn);
         btn_login.setOnClickListener(this);
         phoneLoginBtn.setOnClickListener(this);
-        TextView img_menu = (TextView) findViewById(R.id.img_menu);
+        ImageView img_menu = (ImageView) findViewById(R.id.action_back);
         img_menu.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View arg0) {
@@ -529,7 +529,7 @@ public class UserLoginActivity extends AppCompatActivity implements OnClickListe
                             .onGranted(new Action() {
                                 @Override
                                 public void onAction(List<String> permissions) {
-                                    new UpdateApkThread(URL,Constants.APK_NAME, UserLoginActivity.this).startDownLoadFile();
+                                    new UpdateApkThread(URL, Constants.APK_NAME, UserLoginActivity.this).startDownLoadFile();
                                 }
                             })
                             .onDenied(new Action() {

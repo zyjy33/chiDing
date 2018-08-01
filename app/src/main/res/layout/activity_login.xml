@@ -10,6 +10,7 @@
         android:orientation="vertical">
 
         <LinearLayout
+            android:background="@mipmap/login_bg"
             android:id="@+id/ll_buju"
             android:layout_width="match_parent"
             android:layout_height="200dp"
@@ -17,20 +18,13 @@
 
             <ImageView
                 android:id="@+id/img_menu"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
                 android:layout_margin="10dp"
                 android:src="@drawable/fanhui"
-                android:visibility="gone" />
+              />
 
-            <TextView
-                android:id="@+id/iv_fanhui"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:text="返回"
-                android:textColor="@color/juhongse"
-                android:textSize="16dip" />
+
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -92,7 +86,7 @@
             android:layout_height="1dp"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
-            android:background="@color/gray" />
+            android:background="@color/color_888" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -128,7 +122,7 @@
             android:layout_height="1dp"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
-            android:background="@color/gray" />
+            android:background="@color/color_888"  />
 
         <Button
             android:id="@+id/btn_login"

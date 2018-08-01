@@ -33,7 +33,7 @@
     <application
         android:name=".common.AppContext"
         android:allowBackup="true"
-        android:icon="@mipmap/app_icon_1"
+        android:icon="@mipmap/app_icon"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
@@ -404,6 +404,9 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.mine.MoneyWithdrawActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.mine.NoticeActivity"
             android:screenOrientation="portrait" />
     </application>
 

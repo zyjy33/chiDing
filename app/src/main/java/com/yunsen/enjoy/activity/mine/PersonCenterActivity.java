@@ -708,7 +708,6 @@ public class PersonCenterActivity extends BaseFragmentActivity implements OnClic
                             client.login("zams", "zams1230.");
                             SimpleDateFormat f = new SimpleDateFormat("yyyyMMddHHmmssSSS");
                             time = f.format(new Date());
-                            yth = MineFragment.yth;   // TODO: 2018/4/24 yth 是什么值
                             String remotePathTmp = "phone/" + "" + yth + "";//路径
                             System.out.println("========================" + remotePathTmp);
 

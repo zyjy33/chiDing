@@ -52,8 +52,7 @@ public class UserForgotPasswordActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_wangji_pass);
-        getWindow().setSoftInputMode(
-                WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         initdata();
 
         tv_title = (TextView) findViewById(R.id.tv_title);

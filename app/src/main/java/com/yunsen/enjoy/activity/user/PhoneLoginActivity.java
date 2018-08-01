@@ -92,7 +92,6 @@ public class PhoneLoginActivity extends BaseFragmentActivity implements OnClickL
     private String strUrlone, strUrltwo;
     private MyPopupWindowMenu popupWindowMenu;
     private String strUr2 = URLConstants.REALM_NAME_LL + "/get_apk_version?browser=android";
-    boolean zhuangtai = false;
     public static Bitmap bitmap;
 
 
@@ -109,7 +108,7 @@ public class PhoneLoginActivity extends BaseFragmentActivity implements OnClickL
         popupWindowMenu = new MyPopupWindowMenu(this);
         ImageView loginImage = (ImageView) findViewById(R.id.login_img);
         Glide.with(this)
-                .load(R.mipmap.login_icon)
+                .load(R.mipmap.app_icon)
                 .transform(new GlideCircleTransform(this))
                 .into(loginImage);
         initdata();
@@ -218,12 +217,11 @@ public class PhoneLoginActivity extends BaseFragmentActivity implements OnClickL
         img_title_register.setOnClickListener(this);
         btn_login.setOnClickListener(this);
         imgbtn_findpwd.setOnClickListener(this);
-        TextView img_menu = (TextView) findViewById(R.id.iv_fanhui);
+        ImageView img_menu = (ImageView) findViewById(R.id.img_menu);
         img_menu.setOnClickListener(new OnClickListener() {
 
             @Override
             public void onClick(View arg0) {
-
                 finish();
             }
         });

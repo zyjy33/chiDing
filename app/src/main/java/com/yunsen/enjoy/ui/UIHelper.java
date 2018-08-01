@@ -55,6 +55,7 @@ import com.yunsen.enjoy.activity.mine.MonthOrderActivity;
 import com.yunsen.enjoy.activity.mine.MyAssetsActivity;
 import com.yunsen.enjoy.activity.mine.MyOrderConfrimActivity;
 import com.yunsen.enjoy.activity.mine.MyQianBaoActivity;
+import com.yunsen.enjoy.activity.mine.NoticeActivity;
 import com.yunsen.enjoy.activity.mine.OrderNumberActivity;
 import com.yunsen.enjoy.activity.mine.PersonCenterActivity;
 import com.yunsen.enjoy.activity.mine.PersonNumberActivity;
@@ -1230,6 +1231,16 @@ public class UIHelper {
      */
     public static void showPhoneLoginActivity(Context ctx) {
         Intent intent = new Intent(ctx, PhoneLoginActivity.class);
+        ctx.startActivity(intent);
+    }
+
+    /**
+     * 消息通知页面
+     *
+     * @param ctx
+     */
+    public static void showNoticeActivity(Context ctx) {
+        Intent intent = new Intent(ctx, NoticeActivity.class);
         ctx.startActivity(intent);
     }
 
