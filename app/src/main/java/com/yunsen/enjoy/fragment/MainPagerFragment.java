@@ -8,6 +8,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 
+import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter;
+import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
 import com.yanzhenjie.permission.Permission;
 import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.activity.BaseFragmentActivity;
@@ -19,18 +21,15 @@ import com.yunsen.enjoy.http.HttpCallBack;
 import com.yunsen.enjoy.http.HttpProxy;
 import com.yunsen.enjoy.model.AdvertModel;
 import com.yunsen.enjoy.model.CarDetails;
-import com.yunsen.enjoy.model.NoticeModel;
 import com.yunsen.enjoy.ui.UIHelper;
 import com.yunsen.enjoy.ui.loopviewpager.AutoLoopViewPager;
 import com.yunsen.enjoy.ui.recyclerview.HeaderAndFooterRecyclerViewAdapter;
 import com.yunsen.enjoy.ui.recyclerview.RecyclerViewUtils;
 import com.yunsen.enjoy.ui.viewpagerindicator.CirclePageIndicator;
 import com.yunsen.enjoy.utils.SharedPreference;
-import com.yunsen.enjoy.widget.ADTextView;
+import com.yunsen.enjoy.utils.ToastUtils;
 import com.yunsen.enjoy.widget.SearchActionBar;
 import com.yunsen.enjoy.widget.recyclerview.MultiItemTypeAdapter;
-
-import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,20 +40,32 @@ import okhttp3.Request;
 /**
  * 首页
  */
-public class MainPagerFragment extends BaseFragment implements SearchActionBar.SearchClickListener, View.OnClickListener, MultiItemTypeAdapter.OnItemClickListener {
+public class MainPagerFragment extends BaseFragment implements SearchActionBar.SearchClickListener, MultiItemTypeAdapter.OnItemClickListener, View.OnClickListener {
 
     private AutoLoopViewPager banner;
     private CirclePageIndicator indicatorLayout;
     private BannerAdapter bannerAdapter;
-    private ADTextView adtTv1;
-    private ADTextView adtTv2;
     private RecyclerView recyclerView;
-    private View topView;
+    //    private View topView;
     private HomeGoodsAdapter mAdapter;
 
     private List<CarDetails> mAdverModels = new ArrayList<>();
     private int mPageIndex = 0;
-    private RecyclerView bottomRecycler;
+    private View topView;
+    private View topNearbyLayout;
+    private View nearbyLayout;
+    private View vipDiscountTv;
+    private View moneyDiscountTv;
+    private View topMoneyDiscountTv;
+    private View topVipDiscountTv;
+    private View deliciousLayout;
+    private View entertainmentLayout;
+    private View stayLayout;
+    private View shareLayout;
+    private View experienceLayout;
+    private View searchLayout;
+    private View qrCodeImg;
+    private TwinklingRefreshLayout refreshLayout;
 
 
     @Override
@@ -64,23 +75,35 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
 
     @Override
     protected void initView() {
+        searchLayout = rootView.findViewById(R.id.search_layout);
+        qrCodeImg = rootView.findViewById(R.id.qrcode_img);
         recyclerView = rootView.findViewById(R.id.recyclerView);
+        nearbyLayout = rootView.findViewById(R.id.nearby_layout);
+        moneyDiscountTv = rootView.findViewById(R.id.money_discount_tv);
+        vipDiscountTv = rootView.findViewById(R.id.vip_discount_tv);
+        refreshLayout = rootView.findViewById(R.id.refreshLayout);
 
         LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         topView = inflater.inflate(R.layout.fragment_top_layout, null);
+
+        deliciousLayout = topView.findViewById(R.id.delicious_layout);
+        entertainmentLayout = topView.findViewById(R.id.entertainment_layout);
+        stayLayout = topView.findViewById(R.id.stay_layout);
+        experienceLayout = topView.findViewById(R.id.experience_layout);
+        shareLayout = topView.findViewById(R.id.share_layout);
+
+        topNearbyLayout = topView.findViewById(R.id.top_nearby_layout);
+        topMoneyDiscountTv = topView.findViewById(R.id.top_money_discount_tv);
+        topVipDiscountTv = topView.findViewById(R.id.top_vip_discount_tv);
 
         banner = (AutoLoopViewPager) topView.findViewById(R.id.pager);
         indicatorLayout = ((CirclePageIndicator) topView.findViewById(R.id.indicator));
 
 
-        adtTv1 = (ADTextView) topView.findViewById(R.id.adt_text1);
-        adtTv2 = (ADTextView) topView.findViewById(R.id.adt_text2);
-
     }
 
     @Override
     protected void initData() {
-
         bannerAdapter = new BannerAdapter(getData(), getActivity());
         banner.setAdapter(bannerAdapter);
         indicatorLayout.setViewPager(banner);
@@ -97,6 +120,7 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
         HeaderAndFooterRecyclerViewAdapter recyclerViewAdapter = new HeaderAndFooterRecyclerViewAdapter(mAdapter);
         recyclerView.setAdapter(recyclerViewAdapter);
         RecyclerViewUtils.setHeaderView(recyclerView, topView);
+
         String currentCity = SharedPreference.getInstance().getString(SpConstants.CITY_KEY, "深圳市");
 
     }
@@ -123,29 +147,13 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
             }
         });
 
-        //公告1
-        HttpProxy.getNoticeData1(new HttpCallBack<List<NoticeModel>>() {
-            @Override
-            public void onSuccess(List<NoticeModel> responseData) {
-                Log.e(TAG, "onSuccess: 公告1");
-                adtTv1.setResources(responseData);
-                adtTv1.setTextStillTime(5000, -1, 1);
-                adtTv2.setResources(responseData);
-                adtTv2.setTextStillTime(5000, 0, 2);
-            }
-
-            @Override
-            public void onError(Request request, Exception e) {
-
-            }
-        });
         /**
          * 首页的商品
          */
         HttpProxy.getHomeGoods(new HttpCallBack<List<CarDetails>>() {
             @Override
             public void onSuccess(List<CarDetails> responseData) {
-                mAdapter.upBaseDatas(responseData);
+                mAdapter.addBaseDatas(responseData);
             }
 
             @Override
@@ -158,11 +166,65 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
 
     @Override
     protected void initListener() {
-        adtTv1.setOnClickListener(this);
-        adtTv2.setOnClickListener(this);
+        searchLayout.setOnClickListener(this);
+        qrCodeImg.setOnClickListener(this);
+
+        deliciousLayout.setOnClickListener(this);
+        entertainmentLayout.setOnClickListener(this);
+        stayLayout.setOnClickListener(this);
+        experienceLayout.setOnClickListener(this);
+        shareLayout.setOnClickListener(this);
+
+        topMoneyDiscountTv.setOnClickListener(this);
+        topVipDiscountTv.setOnClickListener(this);
+        moneyDiscountTv.setOnClickListener(this);
+        vipDiscountTv.setOnClickListener(this);
         mAdapter.setOnItemClickListener(this);
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                if (topNearbyLayout.getY() >= getScollYDistance(recyclerView)) {
+                    nearbyLayout.setVisibility(View.GONE);
+                } else {
+                    nearbyLayout.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+
+        refreshLayout.setOnRefreshListener(new RefreshListenerAdapter() {
+            @Override
+            public void onRefresh(final TwinklingRefreshLayout refreshLayout) {
+                refreshLayout.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        refreshLayout.finishRefreshing();
+                    }
+                }, 2000);
+            }
+
+            @Override
+            public void onLoadMore(final TwinklingRefreshLayout refreshLayout) {
+                refreshLayout.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        refreshLayout.finishLoadmore();
+                    }
+                }, 2000);
+            }
+        });
+
 
     }
+
+    public int getScollYDistance(RecyclerView recy) {
+        LinearLayoutManager layoutManager = (LinearLayoutManager) recy.getLayoutManager();
+        int position = layoutManager.findFirstVisibleItemPosition();
+        View firstVisiableChildView = layoutManager.findViewByPosition(position);
+        int itemHeight = firstVisiableChildView.getHeight();
+        return (position) * itemHeight - firstVisiableChildView.getTop();
+    }
+
 
     public List<AdvertModel> getData() {
         ArrayList<AdvertModel> data = new ArrayList<>();
@@ -192,57 +254,18 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
         return null;
     }
 
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.adt_text1:
-                NoticeModel data = adtTv1.getCurrentData();
-                if (data != null) {
-                    UIHelper.showHasTitleWebActivity(getActivity(), data);
-                }
-                break;
-            case R.id.adt_text2:
-                NoticeModel data2 = adtTv2.getCurrentData();
-                if (data2 != null) {
-                    UIHelper.showHasTitleWebActivity(getActivity(), data2);
-                }
-                break;
-        }
-
-    }
-
     @Override
     public void onResume() {
         super.onResume();
         banner.startAutoScroll();
-        adtTv1.onStartAuto(1);
-        adtTv2.onStartAuto(2);
     }
 
     @Override
     public void onPause() {
         super.onPause();
         banner.stopAutoScroll();
-        adtTv1.onStopAuto(1);
-        adtTv2.onStopAuto(2);
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-    }
 
     @Override
     public void onItemClick(View view, RecyclerView.Adapter adapter, RecyclerView.ViewHolder holder, int position) {
@@ -261,4 +284,39 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
         return false;
     }
 
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.search_layout:
+                UIHelper.showSearchActivity(getActivity());
+                break;
+            case R.id.qrcode_img:
+                ToastUtils.makeTextShort("二维码");
+                break;
+            case R.id.money_discount_tv: //吃币优惠
+            case R.id.top_money_discount_tv: //吃币优惠
+                ToastUtils.makeTextShort("吃币优惠");
+                break;
+            case R.id.top_vip_discount_tv: //会员优惠
+            case R.id.vip_discount_tv: //会员优惠
+                ToastUtils.makeTextShort("会员优惠");
+                break;
+            case R.id.delicious_layout:
+                ToastUtils.makeTextShort("美食");
+                break;
+            case R.id.entertainment_layout:
+                ToastUtils.makeTextShort("娱乐");
+                break;
+            case R.id.stay_layout:
+                ToastUtils.makeTextShort("住宿");
+                break;
+            case R.id.experience_layout:
+                ToastUtils.makeTextShort("商品体验");
+                break;
+            case R.id.share_layout:
+                ToastUtils.makeTextShort("分享赚钱");
+                break;
+        }
+    }
 }

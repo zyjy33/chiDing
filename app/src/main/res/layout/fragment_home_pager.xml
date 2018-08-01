@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
@@ -21,48 +20,98 @@
             android:layout_marginLeft="@dimen/app_margin"
             android:layout_marginRight="@dimen/app_margin"
             android:src="@mipmap/chidingwang" />
+
         <LinearLayout
-            android:background="@drawable/search_bg"
+            android:id="@+id/search_layout"
             android:layout_width="0dp"
             android:layout_height="30dp"
             android:layout_weight="1"
+            android:layout_marginLeft="@dimen/app_margin"
+            android:layout_marginRight="@dimen/app_margin"
+            android:background="@drawable/search_bg"
             android:gravity="center"
             android:orientation="horizontal">
 
             <TextView
+                android:gravity="center_vertical"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:drawableLeft="@mipmap/gray_search"
-                android:text="搜索"
                 android:drawablePadding="5dp"
+                android:text="搜索"
                 android:textColor="@color/color_888"
                 android:textSize="15sp" />
         </LinearLayout>
 
         <ImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:id="@+id/qrcode_img"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
             android:layout_marginLeft="@dimen/app_margin"
             android:layout_marginRight="@dimen/app_margin"
             android:src="@mipmap/white_qrcode" />
 
     </LinearLayout>
 
-    <com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout
-        android:id="@+id/refreshLayout"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:tr_bottom_height="180dp"
-        app:tr_head_height="100dp">
+        android:layout_height="match_parent">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recyclerView"
+        <com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout
+            android:id="@+id/refreshLayout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-    </com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout>
+            android:layout_height="match_parent"
+            app:tr_bottom_height="180dp"
+            app:tr_head_height="100dp">
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="10dp"
-        android:background="@color/color_f5f7fa" />
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+        </com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout>
+
+        <LinearLayout
+            android:id="@+id/nearby_layout"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:background="@color/white"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/app_margin"
+                android:layout_weight="1"
+                android:text="--附近商家--"
+                android:textColor="@color/color_666" />
+
+            <TextView
+                android:id="@+id/money_discount_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/app_margin"
+                android:layout_marginRight="@dimen/app_margin"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp"
+                android:text="吃币特惠"
+                android:textColor="@color/orange_color" />
+
+            <TextView
+                android:id="@+id/vip_discount_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/app_margin"
+                android:layout_marginRight="@dimen/app_margin"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp"
+                android:text="会员特惠"
+                android:textColor="@color/orange_color" />
+        </LinearLayout>
+
+    </FrameLayout>
+
+
 </LinearLayout>

@@ -489,8 +489,10 @@ public class MineFragment extends BaseFragment {
                 case R.id.my_complaint_layout:
                     break;
                 case R.id.my_collect_layout:
+                    UIHelper.showCollectionActivity(getActivity());
                     break;
                 case R.id.my_address_layout:
+                    UIHelper.showAddressManagerGlActivity(getActivity());
                     break;
                 case R.id.my_order_layout:
                     break;

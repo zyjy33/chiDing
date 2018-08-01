@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.activity.BaseFragmentActivity;
@@ -45,7 +46,8 @@ public class CollectionActivity extends BaseFragmentActivity implements OnClickL
 
     @Override
     protected void initView() {
-        mBackImg = (ImageView) findViewById(R.id.iv_fanhui);
+        mBackImg = (ImageView) findViewById(R.id.action_back);
+        ((TextView) findViewById(R.id.action_bar_title)).setText("我的收藏");
         tab = (TabLayout) findViewById(R.id.collect_tab);
         viewPager = (ViewPager) findViewById(R.id.collect_pager);
         tab.setupWithViewPager(viewPager);

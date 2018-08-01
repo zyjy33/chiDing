@@ -119,7 +119,9 @@ public class AboutFragment extends BaseFragment {
                 //                view.loadUrl("javascript:document.body.innerHTML=\"" + data + "\"");
                 Log.e(TAG, "onReceivedError: " + failingUrl);
                 mWebError = true;
-                webErrorLayout.setVisibility(View.VISIBLE);
+                if(webErrorLayout!=null){
+                    webErrorLayout.setVisibility(View.VISIBLE);
+                }
             }
 
 

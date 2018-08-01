@@ -64,6 +64,7 @@ public class SearchActivity extends BaseFragmentActivity implements SearchView.O
         ButterKnife.bind(this);
         actionBarTitle.setText("搜索");
         searchView.setIconified(false);
+        actionBarRight.setVisibility(View.INVISIBLE);
     }
 
     @Override

@@ -2,7 +2,6 @@ package com.yunsen.enjoy.activity.mine;
 
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -25,7 +24,6 @@ import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -46,7 +44,6 @@ import com.yunsen.enjoy.adapter.CountryAdapter;
 import com.yunsen.enjoy.common.Constants;
 import com.yunsen.enjoy.common.PermissionSetting;
 import com.yunsen.enjoy.common.SpConstants;
-import com.yunsen.enjoy.fragment.MineFragment;
 import com.yunsen.enjoy.http.AsyncHttp;
 import com.yunsen.enjoy.http.HttpCallBack;
 import com.yunsen.enjoy.http.HttpProxy;
@@ -60,7 +57,6 @@ import com.yunsen.enjoy.model.event.PullImageEvent;
 import com.yunsen.enjoy.model.event.UpUiEvent;
 import com.yunsen.enjoy.ui.DialogUtils;
 import com.yunsen.enjoy.ui.UIHelper;
-import com.yunsen.enjoy.utils.DeviceUtil;
 import com.yunsen.enjoy.utils.GetImgUtil;
 import com.yunsen.enjoy.utils.ToastUtils;
 import com.yunsen.enjoy.utils.Utils;
@@ -77,21 +73,16 @@ import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import it.sauronsoftware.ftp4j.FTPAbortedException;
 import it.sauronsoftware.ftp4j.FTPClient;
 import it.sauronsoftware.ftp4j.FTPDataTransferException;
@@ -108,6 +99,8 @@ public class PersonCenterActivity extends BaseFragmentActivity implements OnClic
 
     @Bind(R.id.default_address_tv)
     TextView defaultAddressTv;
+    @Bind(R.id.action_bar_title)
+    TextView actionBarTitle;
 
     private String yth;
     private TextView v2, v7, tv_nicheng, tv_nick_name;
@@ -148,6 +141,7 @@ public class PersonCenterActivity extends BaseFragmentActivity implements OnClic
     @Override
     protected void initView() {
         ButterKnife.bind(this);
+        actionBarTitle.setText("账户管理");
         mSp = getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, MODE_PRIVATE);
         mUserName = mSp.getString(SpConstants.USER_NAME, "");
         user_id = mSp.getString(SpConstants.USER_ID, "");
@@ -157,7 +151,6 @@ public class PersonCenterActivity extends BaseFragmentActivity implements OnClic
 
     @Override
     protected void initData(Bundle savedInstanceState) {
-
     }
 
     @Override
@@ -254,16 +247,6 @@ public class PersonCenterActivity extends BaseFragmentActivity implements OnClic
 
             }
         });
-
-        ImageView iv_fanhui = (ImageView) findViewById(R.id.iv_fanhui);
-        iv_fanhui.setOnClickListener(new OnClickListener() {
-
-            @Override
-            public void onClick(View arg0) {
-                finish();
-            }
-        });
-
 
         v6 = (RelativeLayout) findViewById(R.id.v6);
         v6.setOnClickListener(new OnClickListener() {
@@ -444,7 +427,7 @@ public class PersonCenterActivity extends BaseFragmentActivity implements OnClic
     }
 
     Handler handler = new Handler() {
-        public void dispatchMessage(android.os.Message msg) {
+        public void dispatchMessage(Message msg) {
             switch (msg.what) {
                 case 0:
                     dialog();
@@ -605,7 +588,7 @@ public class PersonCenterActivity extends BaseFragmentActivity implements OnClic
      * 显示修改头像的对话框
      */
     protected void showChoosePicDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        Builder builder = new Builder(this);
         builder.setTitle("设置头像");
         String[] items = {"选择本地照片", "拍照"};
         builder.setNegativeButton("取消", null);
@@ -911,7 +894,7 @@ public class PersonCenterActivity extends BaseFragmentActivity implements OnClic
     // 程序版本更新
     private void dialog() {
 
-        AlertDialog.Builder builder = new Builder(PersonCenterActivity.this);
+        Builder builder = new Builder(PersonCenterActivity.this);
         builder.setMessage(content);
         System.out.println("content==============" + content);
         //			builder.setMessage("检查到最新版本，是否要更新！");
@@ -930,7 +913,7 @@ public class PersonCenterActivity extends BaseFragmentActivity implements OnClic
                                 @Override
                                 public void onAction(List<String> permissions) {
                                     String filePath = Environment.getExternalStorageDirectory() + "/ss";
-                                    new UpdateApkThread(URL,  Constants.APK_NAME, PersonCenterActivity.this).startDownLoadFile();
+                                    new UpdateApkThread(URL, Constants.APK_NAME, PersonCenterActivity.this).startDownLoadFile();
                                 }
                             })
                             .onDenied(new Action() {
@@ -951,6 +934,7 @@ public class PersonCenterActivity extends BaseFragmentActivity implements OnClic
                 });
         builder.create().show();
     }
+
     /**
      * 修改地区
      */
@@ -996,7 +980,7 @@ public class PersonCenterActivity extends BaseFragmentActivity implements OnClic
                 @Override
                 public void onSuccess(String responseData) {
                     SharedPreferences sp = getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, Context.MODE_PRIVATE);
-                    SharedPreferences.Editor edit = sp.edit();
+                    Editor edit = sp.edit();
                     edit.putString(SpConstants.USER_IMG, imgUrl);
                     edit.commit();
                     EventBus.getDefault().postSticky(new UpUiEvent(EventConstants.APP_LOGIN));
@@ -1019,5 +1003,10 @@ public class PersonCenterActivity extends BaseFragmentActivity implements OnClic
     protected void onDestroy() {
         super.onDestroy();
         ButterKnife.unbind(this);
+    }
+
+    @OnClick(R.id.action_back)
+    public void onViewClicked() {
+        finish();
     }
 }
