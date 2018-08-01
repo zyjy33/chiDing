@@ -36,4 +36,7 @@
 	<dimen name="item_height_and_line">51dp</dimen>
 	<dimen name="item_height_min">49dp</dimen>
     <dimen name="food_icon_width">40dp</dimen>
+    <dimen name="more_icon_width">15dp</dimen>
+    <dimen name="item_title_size">14sp</dimen>
+    <dimen name="left_icon_size">20dp</dimen>
 </resources>

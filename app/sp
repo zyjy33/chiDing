@@ -6,3 +6,7 @@ longuserset_login 保存第三方的用户信息
  keyPassword "gaiya123."
  storePassword "gaiya123."
 
+         keyAlias "food"
+             keyPassword "goodfood"
+             storePassword "goodfood"
+

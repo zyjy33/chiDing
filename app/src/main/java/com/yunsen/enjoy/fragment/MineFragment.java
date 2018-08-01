@@ -145,6 +145,7 @@ public class MineFragment extends BaseFragment {
         } else {
             memberIdTv.setVisibility(View.GONE);
             userNameTv.setVisibility(View.GONE);
+            loginTv.setVisibility(View.VISIBLE);
         }
     }
 
@@ -250,6 +251,7 @@ public class MineFragment extends BaseFragment {
                 userNameTv.setText(nickName);
                 memberIdTv.setVisibility(View.VISIBLE);
                 userNameTv.setVisibility(View.VISIBLE);
+                loginTv.setVisibility(View.GONE);
             }
 
             @Override

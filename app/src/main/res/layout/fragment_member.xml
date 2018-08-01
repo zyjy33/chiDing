@@ -120,6 +120,7 @@
                 android:background="@color/color_f5f7fa" />
 
             <LinearLayout
+                android:id="@+id/login_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
@@ -133,7 +134,6 @@
                     android:src="@mipmap/app_icon" />
 
                 <LinearLayout
-                    android:id="@+id/login_layout"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -169,8 +169,8 @@
 
 
                 <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
+                    android:layout_width="@dimen/more_icon_width"
+                    android:layout_height="@dimen/more_icon_width"
                     android:layout_marginRight="@dimen/app_margin"
                     android:src="@mipmap/arrow_right_black" />
             </LinearLayout>
@@ -188,8 +188,8 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
+                    android:layout_width="@dimen/left_icon_size"
+                    android:layout_height="@dimen/left_icon_size"
                     android:layout_marginLeft="@dimen/app_margin"
                     android:src="@mipmap/icon_chibi_1" />
 
@@ -207,7 +207,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="5dp"
+                            android:layout_marginLeft="10dp"
                             android:layout_marginRight="5dp"
                             android:text="充值吃币"
                             android:textColor="@color/color_5e6570"
@@ -219,8 +219,8 @@
                             android:layout_weight="1" />
 
                         <ImageView
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
+                            android:layout_width="@dimen/more_icon_width"
+                            android:layout_height="@dimen/more_icon_width"
                             android:layout_gravity="center_vertical"
                             android:layout_marginRight="@dimen/app_margin"
                             android:src="@mipmap/arrow_right_black" />
@@ -244,8 +244,8 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
+                    android:layout_width="@dimen/left_icon_size"
+                    android:layout_height="@dimen/left_icon_size"
                     android:layout_marginLeft="@dimen/app_margin"
                     android:src="@mipmap/icon_wodezhanghu" />
 
@@ -263,11 +263,11 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="5dp"
+                            android:layout_marginLeft="10dp"
                             android:layout_marginRight="5dp"
                             android:text="我的账单"
                             android:textColor="@color/color_5e6570"
-                            android:textSize="13sp" />
+                            android:textSize="14sp" />
 
                         <View
                             android:layout_width="0dp"
@@ -275,8 +275,8 @@
                             android:layout_weight="1" />
 
                         <ImageView
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
+                            android:layout_width="@dimen/more_icon_width"
+                            android:layout_height="@dimen/more_icon_width"
                             android:layout_gravity="center_vertical"
                             android:layout_marginRight="@dimen/app_margin"
                             android:src="@mipmap/arrow_right_black" />
@@ -303,8 +303,8 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
+                    android:layout_width="@dimen/left_icon_size"
+                    android:layout_height="@dimen/left_icon_size"
                     android:layout_marginLeft="@dimen/app_margin"
                     android:src="@mipmap/icon_tuosu" />
 
@@ -322,11 +322,11 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="5dp"
+                            android:layout_marginLeft="10dp"
                             android:layout_marginRight="5dp"
                             android:text="我的投诉"
                             android:textColor="@color/color_5e6570"
-                            android:textSize="12sp" />
+                            android:textSize="@dimen/item_title_size" />
 
                         <View
                             android:layout_width="0dp"
@@ -334,8 +334,8 @@
                             android:layout_weight="1" />
 
                         <ImageView
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
+                            android:layout_width="@dimen/more_icon_width"
+                            android:layout_height="@dimen/more_icon_width"
                             android:layout_gravity="center_vertical"
                             android:layout_marginRight="@dimen/app_margin"
                             android:src="@mipmap/arrow_right_black" />
@@ -359,8 +359,8 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
+                    android:layout_width="@dimen/left_icon_size"
+                    android:layout_height="@dimen/left_icon_size"
                     android:layout_marginLeft="@dimen/app_margin"
                     android:src="@mipmap/icon_shouchang" />
 
@@ -378,11 +378,11 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="5dp"
+                            android:layout_marginLeft="10dp"
                             android:layout_marginRight="5dp"
                             android:text="我的收藏"
                             android:textColor="@color/color_5e6570"
-                            android:textSize="12sp" />
+                            android:textSize="@dimen/item_title_size" />
 
                         <View
                             android:layout_width="0dp"
@@ -390,8 +390,8 @@
                             android:layout_weight="1" />
 
                         <ImageView
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
+                            android:layout_width="@dimen/more_icon_width"
+                            android:layout_height="@dimen/more_icon_width"
                             android:layout_gravity="center_vertical"
                             android:layout_marginRight="@dimen/app_margin"
                             android:src="@mipmap/arrow_right_black" />
@@ -420,8 +420,8 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
+                    android:layout_width="@dimen/left_icon_size"
+                    android:layout_height="@dimen/left_icon_size"
                     android:layout_marginLeft="@dimen/app_margin"
                     android:src="@mipmap/delivery_address" />
 
@@ -439,11 +439,11 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="5dp"
+                            android:layout_marginLeft="10dp"
                             android:layout_marginRight="5dp"
                             android:text="我的收获地址"
                             android:textColor="@color/color_5e6570"
-                            android:textSize="12sp" />
+                            android:textSize="@dimen/item_title_size" />
 
                         <View
                             android:layout_width="0dp"
@@ -451,8 +451,8 @@
                             android:layout_weight="1" />
 
                         <ImageView
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
+                            android:layout_width="@dimen/more_icon_width"
+                            android:layout_height="@dimen/more_icon_width"
                             android:layout_gravity="center_vertical"
                             android:layout_marginRight="@dimen/app_margin"
                             android:src="@mipmap/arrow_right_black" />
@@ -476,8 +476,8 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
+                    android:layout_width="@dimen/left_icon_size"
+                    android:layout_height="@dimen/left_icon_size"
                     android:layout_marginLeft="@dimen/app_margin"
                     android:src="@mipmap/my_order" />
 
@@ -495,11 +495,11 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="5dp"
+                            android:layout_marginLeft="10dp"
                             android:layout_marginRight="5dp"
                             android:text="我的订单"
                             android:textColor="@color/color_5e6570"
-                            android:textSize="12sp" />
+                            android:textSize="@dimen/item_title_size" />
 
                         <View
                             android:layout_width="0dp"
@@ -507,8 +507,8 @@
                             android:layout_weight="1" />
 
                         <ImageView
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
+                            android:layout_width="@dimen/more_icon_width"
+                            android:layout_height="@dimen/more_icon_width"
                             android:layout_gravity="center_vertical"
                             android:layout_marginRight="@dimen/app_margin"
                             android:src="@mipmap/arrow_right_black" />
@@ -532,8 +532,8 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
+                    android:layout_width="@dimen/left_icon_size"
+                    android:layout_height="@dimen/left_icon_size"
                     android:layout_marginLeft="@dimen/app_margin"
                     android:src="@mipmap/invitation_list" />
 
@@ -551,11 +551,11 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="5dp"
+                            android:layout_marginLeft="10dp"
                             android:layout_marginRight="5dp"
                             android:text="推广赚钱"
                             android:textColor="@color/color_5e6570"
-                            android:textSize="12sp" />
+                            android:textSize="@dimen/item_title_size" />
 
                         <View
                             android:layout_width="0dp"
@@ -563,8 +563,8 @@
                             android:layout_weight="1" />
 
                         <ImageView
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
+                            android:layout_width="@dimen/more_icon_width"
+                            android:layout_height="@dimen/more_icon_width"
                             android:layout_gravity="center_vertical"
                             android:layout_marginRight="@dimen/app_margin"
                             android:src="@mipmap/arrow_right_black" />
@@ -593,8 +593,8 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
+                    android:layout_width="@dimen/left_icon_size"
+                    android:layout_height="@dimen/left_icon_size"
                     android:layout_marginLeft="@dimen/app_margin"
                     android:src="@mipmap/help_center" />
 
@@ -612,11 +612,11 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="5dp"
+                            android:layout_marginLeft="10dp"
                             android:layout_marginRight="5dp"
                             android:text="帮助中心"
                             android:textColor="@color/color_5e6570"
-                            android:textSize="12sp" />
+                            android:textSize="@dimen/item_title_size" />
 
                         <View
                             android:layout_width="0dp"
@@ -624,8 +624,8 @@
                             android:layout_weight="1" />
 
                         <ImageView
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
+                            android:layout_width="@dimen/more_icon_width"
+                            android:layout_height="@dimen/more_icon_width"
                             android:layout_gravity="center_vertical"
                             android:layout_marginRight="@dimen/app_margin"
                             android:src="@mipmap/arrow_right_black" />
@@ -649,8 +649,8 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
+                    android:layout_width="@dimen/left_icon_size"
+                    android:layout_height="@dimen/left_icon_size"
                     android:layout_marginLeft="@dimen/app_margin"
                     android:src="@mipmap/icon_ruzhu" />
 
@@ -668,11 +668,11 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="5dp"
+                            android:layout_marginLeft="10dp"
                             android:layout_marginRight="5dp"
                             android:text="商家加盟"
                             android:textColor="@color/color_5e6570"
-                            android:textSize="12sp" />
+                            android:textSize="@dimen/item_title_size" />
 
                         <View
                             android:layout_width="0dp"
@@ -680,8 +680,8 @@
                             android:layout_weight="1" />
 
                         <ImageView
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
+                            android:layout_width="@dimen/more_icon_width"
+                            android:layout_height="@dimen/more_icon_width"
                             android:layout_gravity="center_vertical"
                             android:layout_marginRight="@dimen/app_margin"
                             android:src="@mipmap/arrow_right_black" />
@@ -705,8 +705,8 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
+                    android:layout_width="@dimen/left_icon_size"
+                    android:layout_height="@dimen/left_icon_size"
                     android:layout_marginLeft="@dimen/app_margin"
                     android:src="@mipmap/icon_daili" />
 
@@ -724,11 +724,11 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="5dp"
+                            android:layout_marginLeft="10dp"
                             android:layout_marginRight="5dp"
                             android:text="代理商加盟"
                             android:textColor="@color/color_5e6570"
-                            android:textSize="12sp" />
+                            android:textSize="@dimen/item_title_size" />
 
                         <View
                             android:layout_width="0dp"
@@ -736,8 +736,8 @@
                             android:layout_weight="1" />
 
                         <ImageView
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
+                            android:layout_width="@dimen/more_icon_width"
+                            android:layout_height="@dimen/more_icon_width"
                             android:layout_gravity="center_vertical"
                             android:layout_marginRight="@dimen/app_margin"
                             android:src="@mipmap/arrow_right_black" />
@@ -761,8 +761,8 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
+                    android:layout_width="@dimen/left_icon_size"
+                    android:layout_height="@dimen/left_icon_size"
                     android:layout_marginLeft="@dimen/app_margin"
                     android:src="@mipmap/collection" />
 
@@ -780,11 +780,11 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="5dp"
+                            android:layout_marginLeft="10dp"
                             android:layout_marginRight="5dp"
                             android:text="关于吃定网"
                             android:textColor="@color/color_5e6570"
-                            android:textSize="12sp" />
+                            android:textSize="@dimen/item_title_size" />
 
                         <View
                             android:layout_width="0dp"
@@ -792,8 +792,8 @@
                             android:layout_weight="1" />
 
                         <ImageView
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
+                            android:layout_width="@dimen/more_icon_width"
+                            android:layout_height="@dimen/more_icon_width"
                             android:layout_gravity="center_vertical"
                             android:layout_marginRight="@dimen/app_margin"
                             android:src="@mipmap/arrow_right_black" />
