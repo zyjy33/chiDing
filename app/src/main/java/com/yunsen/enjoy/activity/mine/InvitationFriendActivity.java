@@ -1,9 +1,7 @@
-package com.yunsen.enjoy.activity.dealer;
+package com.yunsen.enjoy.activity.mine;
 
 import android.os.Bundle;
 import android.view.View;
-import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -16,12 +14,10 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
- * 申请服务商（我是服务商）
+ * Created by Administrator on 2018/8/2/002.
  */
-public class ApplyServiceActivity extends BaseFragmentActivity {
 
-    @Bind(R.id.action_back)
-    ImageView actionBack;
+public class InvitationFriendActivity extends BaseFragmentActivity {
     @Bind(R.id.action_bar_title)
     TextView actionBarTitle;
     @Bind(R.id.action_bar_right)
@@ -29,14 +25,13 @@ public class ApplyServiceActivity extends BaseFragmentActivity {
 
     @Override
     public int getLayout() {
-        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
-        return R.layout.activity_apply_service;
+        return R.layout.activity_invitation_friend;
     }
 
     @Override
     protected void initView() {
         ButterKnife.bind(this);
-        actionBarTitle.setText("代理商加盟");
+
     }
 
     @Override
@@ -49,22 +44,16 @@ public class ApplyServiceActivity extends BaseFragmentActivity {
 
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        ButterKnife.unbind(this);
-    }
 
-
-    @OnClick({R.id.action_back})
+    @OnClick({R.id.action_back, R.id.share_btn})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.action_back:
                 finish();
                 break;
-//            case R.id.next_btn:
-//                UIHelper.showApplyServiceSecondActivity(this);
-//                break;
+            case R.id.share_btn:
+                UIHelper.showShareAppInfoActivity(this, "");
+                break;
         }
     }
 }

@@ -151,7 +151,6 @@ public class ApplyBuyFirstActivity extends BaseFragmentActivity {
                 finish();
                 break;
             case R.id.apply_first_bottom_btn:
-                UIHelper.showApplyTwoActivity(this, mApplyCar);
                 break;
         }
     }

@@ -61,6 +61,7 @@ public class WebActivity extends BaseFragmentActivity {
     private String mWebClick;
     private String mWebTime;
     private String mWebCategory;
+    private String mNoChangeTitle;
 
     @Override
     public int getLayout() {
@@ -73,7 +74,10 @@ public class WebActivity extends BaseFragmentActivity {
         webView = new WebView(this);
         webRootView.addView(webView);
         webView.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-        actionBarTitle.setText("加载中，请稍后...");
+        if(TextUtils.isEmpty(mNoChangeTitle)){
+            actionBarTitle.setText("加载中，请稍后...");
+        }
+
     }
 
     @Override
@@ -85,12 +89,16 @@ public class WebActivity extends BaseFragmentActivity {
             mWebClick = intent.getStringExtra(Constants.WEB_CLICK_KEY);
             mWebTime = intent.getStringExtra(Constants.WEB_TIME_KEY);
             mWebCategory = intent.getStringExtra(Constants.WEB_CATEGORY_KEY);
+            mNoChangeTitle = intent.getStringExtra(Constants.WEB_NO_CHANGE_TITLE);
         }
         if (!TextUtils.isEmpty(mWebTitle)) {
             webTitle.setText(mWebTitle);
             webCategoryTv.setText("分类: " + mWebCategory);
             webTime.setText("" + mWebTime);
             webClickTv.setText(mWebClick + "次浏览");
+        }
+        if (!TextUtils.isEmpty(mNoChangeTitle)) {
+            actionBarTitle.setText(mNoChangeTitle);
         }
 
         WebUitls.initWebView(webView);
@@ -173,7 +181,9 @@ public class WebActivity extends BaseFragmentActivity {
             public void onReceivedTitle(WebView view, String title) {
                 super.onReceivedTitle(view, title);
                 if (title != null && actionBarTitle != null) {
-                    actionBarTitle.setText(title);
+                    if (TextUtils.isEmpty(mNoChangeTitle)) {
+                        actionBarTitle.setText(title);
+                    }
                 }
             }
         });

@@ -14,6 +14,7 @@ import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 
@@ -32,6 +33,8 @@ import com.yunsen.enjoy.http.HttpCallBack;
 import com.yunsen.enjoy.http.HttpProxy;
 import com.yunsen.enjoy.http.URLConstants;
 import com.yunsen.enjoy.model.ApkVersionInfo;
+import com.yunsen.enjoy.utils.BitmapUtil;
+import com.yunsen.enjoy.utils.DeviceUtil;
 import com.yunsen.enjoy.widget.DialogProgress;
 
 import java.util.concurrent.ExecutionException;
@@ -57,6 +60,7 @@ public class DBFengXiangActivity extends BaseFragmentActivity implements OnClick
     private String mShareTitle = "";
     private String mShareDescription = "";
     private DialogProgress progress;
+    private ImageView qrCodeImg;
 
     @Override
     public int getLayout() {
@@ -72,6 +76,7 @@ public class DBFengXiangActivity extends BaseFragmentActivity implements OnClick
         btn_sms = (ImageButton) findViewById(R.id.img_btn_sms);
         img_btn_tencent = (ImageButton) findViewById(R.id.img_btn_tencent);
         btn_holdr = (Button) findViewById(R.id.btn_holdr);
+        qrCodeImg = (ImageView) findViewById(R.id.qr_code_img);
     }
 
     @Override
@@ -117,11 +122,36 @@ public class DBFengXiangActivity extends BaseFragmentActivity implements OnClick
 
         switch (mShareType) {
             case Constants.SHARE_APP_INFO: // 分享app
-                mShareTitle = getResources().getString(R.string.app_name);
+                qrCodeImg.setVisibility(View.VISIBLE);
                 mShareUrl = URLConstants.REALM_URL + "/appshare/" + mUserId + ".html";
+                final String path = getCacheDir().toString() + "enjoy";
+
+                new AsyncTask<String, Nullable, Boolean>() {
+
+                    @Override
+                    protected Boolean doInBackground(String... str) {
+                        boolean flag = false;
+                        Bitmap icon = BitmapFactory.decodeResource(getResources(), R.mipmap.app_icon);
+                        int size = DeviceUtil.dp2px(DBFengXiangActivity.this, 100);
+                        flag = BitmapUtil.createQRImage(mShareUrl, size, size, icon, str[0]);
+                        return flag;
+                    }
+
+                    @Override
+                    protected void onPostExecute(Boolean result) {
+                        super.onPostExecute(result);
+                        if (result) {
+                            Bitmap bitmap = BitmapFactory.decodeFile(path);
+                            qrCodeImg.setImageBitmap(bitmap);
+                        }
+
+                    }
+                }.execute(path);
+                mShareTitle = getResources().getString(R.string.app_name);
                 requestAppVersion();
                 break;
             default:
+                qrCodeImg.setVisibility(View.GONE);
                 String shareTitle = intent.getStringExtra(Constants.SHARE_TITLE);
                 if (!TextUtils.isEmpty(shareTitle)) {
                     mShareTitle = shareTitle;

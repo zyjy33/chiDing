@@ -58,6 +58,7 @@ public class AboutFragment extends BaseFragment {
     protected void initView() {
         ButterKnife.bind(this, rootView);
         actionBack.setVisibility(View.GONE);
+        actionBarRight.setVisibility(View.GONE);
         actionBackLayout.setBackground(null);
         actionBarTitle.setGravity(Gravity.CENTER);
         actionBarTitle.setText("关于我们");
@@ -119,7 +120,7 @@ public class AboutFragment extends BaseFragment {
                 //                view.loadUrl("javascript:document.body.innerHTML=\"" + data + "\"");
                 Log.e(TAG, "onReceivedError: " + failingUrl);
                 mWebError = true;
-                if(webErrorLayout!=null){
+                if (webErrorLayout != null) {
                     webErrorLayout.setVisibility(View.VISIBLE);
                 }
             }

@@ -7,8 +7,10 @@ import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
 import android.text.InputType;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -51,6 +53,7 @@ import com.yunsen.enjoy.widget.recyclerview.MultiItemTypeAdapter;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -81,11 +84,15 @@ public class MonneyChongZhiActivity extends AppCompatActivity implements OnClick
     boolean flag = false;
     private WxSignData mSignData;
     private RecyclerView recyclerView;
+    private TextView giveCoinTv;
+    private TextView payMoneyTv;
+    private double mInputMoney;
+    private double mGiveCoin;
 
     @Override
     protected void onResume() {
         super.onResume();
-        if (flag == true) {
+        if (flag) {
             userloginqm();
         }
     }
@@ -98,13 +105,15 @@ public class MonneyChongZhiActivity extends AppCompatActivity implements OnClick
         iv_fanhui = (ImageView) findViewById(R.id.action_back);
         iv_fanhui.setOnClickListener(this);
         textView1 = (TextView) findViewById(R.id.action_bar_title);
-        textView1.setText("钱包充值");
+        textView1.setText("吃币充值");
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+        giveCoinTv = (TextView) findViewById(R.id.give_coin_tv);
+        payMoneyTv = (TextView) findViewById(R.id.pay_money_tv);
+
 
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         api = WXAPIFactory.createWXAPI(MonneyChongZhiActivity.this, null);
         api.registerApp(Constants.APP_ID);
-        wareDao = new WareDao(getApplicationContext());
         progress = new DialogProgress(this);
         spPreferences = getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, MODE_PRIVATE);
         user_name = spPreferences.getString(SpConstants.USER_NAME, "");
@@ -123,6 +132,35 @@ public class MonneyChongZhiActivity extends AppCompatActivity implements OnClick
 
         initData();
 
+        chongzhi_edit.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                String strMoney = chongzhi_edit.getText().toString();
+                if (TextUtils.isEmpty(strMoney)) {
+                    strMoney = "0";
+                }
+                mInputMoney = Double.parseDouble(strMoney);
+                if (mInputMoney >= 3000) {
+                    mGiveCoin = mInputMoney * 0.5;
+                } else if (mInputMoney >= 10) {
+                    mGiveCoin = mInputMoney * 0.43;
+                } else {
+                    mGiveCoin = 0;
+                }
+                giveCoinTv.setText("+" + String.valueOf(mGiveCoin));
+                payMoneyTv.setText("¥" + mInputMoney);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
 
         /**
          * 微信支付
@@ -244,16 +282,15 @@ public class MonneyChongZhiActivity extends AppCompatActivity implements OnClick
     }
 
     private void initData() {
-        recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
-        ArrayList<RechargeModel> datas = new ArrayList<>();
-        datas.add(new RechargeModel("1000", true));
-        datas.add(new RechargeModel("2000", false));
-        datas.add(new RechargeModel("3000", false));
-        datas.add(new RechargeModel("4000", false));
-        RechargeMoneyAdapter adapter = new RechargeMoneyAdapter(this, R.layout.recharge_item, datas);
-        recyclerView.setAdapter(adapter);
-        chongzhi_edit.setText("1000");
-        adapter.setOnItemClickListener(this);
+//        recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
+//        ArrayList<RechargeModel> datas = new ArrayList<>();
+//        datas.add(new RechargeModel("1000", true));
+//        datas.add(new RechargeModel("2000", false));
+//        datas.add(new RechargeModel("3000", false));
+//        datas.add(new RechargeModel("4000", false));
+//        RechargeMoneyAdapter adapter = new RechargeMoneyAdapter(this, R.layout.recharge_item, datas);
+//        recyclerView.setAdapter(adapter);
+//        adapter.setOnItemClickListener(this);
     }
 
     @Override
@@ -664,5 +701,10 @@ public class MonneyChongZhiActivity extends AppCompatActivity implements OnClick
     @Override
     public boolean onItemLongClick(View view, RecyclerView.Adapter adapter, RecyclerView.ViewHolder holder, int position) {
         return false;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 }

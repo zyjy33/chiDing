@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/team_top_layout"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="45dp"
+    android:layout_height="match_parent"
     android:orientation="vertical">
 
     <LinearLayout
-        android:id="@+id/action_back_layout"
         android:layout_width="match_parent"
         android:layout_height="45dp"
         android:background="@color/color_theme"
@@ -32,21 +31,44 @@
             android:layout_weight="1"
             android:gravity="center"
             android:maxLines="1"
+            android:text="推广奖励"
             android:textColor="@color/white"
             android:textSize="18sp" />
 
-        <ImageView
+        <TextView
             android:id="@+id/action_bar_right"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:layout_marginRight="20dp"
-            android:visibility="invisible" />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:text="奖励记录"
+            android:textColor="@color/white"
+            android:textSize="13sp" />
     </LinearLayout>
+
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tab_layout"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        app:tabGravity="fill"
+        app:tabIndicatorColor="@color/color_theme"
+        app:tabIndicatorHeight="1dp"
+        app:tabMode="fixed"
+        app:tabSelectedTextColor="@color/color_theme"
+        app:tabTextAppearance="@style/TeamTabLayoutStyle"
+        app:tabTextColor="@color/title_color">
+
+    </android.support.design.widget.TabLayout>
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginBottom="10dp"
-        android:background="@color/gray"
-        android:visibility="gone" />
+        android:layout_height="8dp"
+        android:background="@color/color_f5f7fa" />
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </android.support.v4.view.ViewPager>
+
 </LinearLayout>

@@ -43,14 +43,25 @@
                     android:inputType="number" />
 
                 <EditText
-                    android:id="@+id/address_edt"
+                    android:id="@+id/shopping_name"
                     style="@style/edtStyle"
-                    android:hint="地址" />
+                    android:hint="店铺名称" />
 
                 <EditText
-                    android:id="@+id/address_point"
+                    android:id="@+id/shopping_type"
                     style="@style/edtStyle"
-                    android:hint="地区优势" />
+                    android:hint="店铺类型" />
+
+                <EditText
+                    android:id="@+id/shopping_address"
+                    style="@style/edtStyle"
+                    android:hint="店铺地址" />
+
+                <EditText
+                    android:id="@+id/shopping_introduce"
+                    style="@style/edtStyle"
+                    android:hint="店铺简介" />
+
 
                 <Button
                     android:id="@+id/submit_btn"

@@ -1934,7 +1934,7 @@ public class HttpProxy {
         HttpClient.get(URLConstants.GET_APK_VERSION, param, new HttpResponseHandler<ApkVersionResponse>() {
             @Override
             public void onSuccess(ApkVersionResponse response) {
-                callBack.onSuccess(response.getData());
+//                callBack.onSuccess(response.getData());
             }
 
             @Override

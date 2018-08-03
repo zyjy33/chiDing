@@ -25,7 +25,7 @@ import com.yunsen.enjoy.activity.ServiceShopInfoActivity;
 import com.yunsen.enjoy.activity.WebActivity;
 import com.yunsen.enjoy.activity.buy.ApplyBuyFirstActivity;
 import com.yunsen.enjoy.activity.buy.ApplyBuyThreeActivity;
-import com.yunsen.enjoy.activity.buy.ApplyBuyTwoActivity;
+import com.yunsen.enjoy.activity.buy.ApplyShoppingActivity;
 import com.yunsen.enjoy.activity.buy.CarServiceActivity;
 import com.yunsen.enjoy.activity.buy.ExchangePointActivity;
 import com.yunsen.enjoy.activity.buy.GoodsDescriptionActivity;
@@ -47,21 +47,28 @@ import com.yunsen.enjoy.activity.mine.BindBankCardActivity;
 import com.yunsen.enjoy.activity.mine.CollectionActivity;
 import com.yunsen.enjoy.activity.mine.CumulativeIncomeActivity;
 import com.yunsen.enjoy.activity.mine.ExtensionActivity;
+import com.yunsen.enjoy.activity.mine.HelpActivity;
+import com.yunsen.enjoy.activity.mine.InvitationFriendActivity;
 import com.yunsen.enjoy.activity.mine.MineAchievementActivity;
 import com.yunsen.enjoy.activity.mine.MoneyRecordActivity;
 import com.yunsen.enjoy.activity.mine.MoneyWithdrawActivity;
 import com.yunsen.enjoy.activity.mine.MonthIncomeActivity;
 import com.yunsen.enjoy.activity.mine.MonthOrderActivity;
+import com.yunsen.enjoy.activity.mine.MyAccountOrderActivity;
 import com.yunsen.enjoy.activity.mine.MyAssetsActivity;
 import com.yunsen.enjoy.activity.mine.MyOrderConfrimActivity;
 import com.yunsen.enjoy.activity.mine.MyQianBaoActivity;
+import com.yunsen.enjoy.activity.mine.MyTranslateActivity;
 import com.yunsen.enjoy.activity.mine.NoticeActivity;
 import com.yunsen.enjoy.activity.mine.OrderNumberActivity;
 import com.yunsen.enjoy.activity.mine.PersonCenterActivity;
 import com.yunsen.enjoy.activity.mine.PersonNumberActivity;
 import com.yunsen.enjoy.activity.mine.ShopCartActivity;
+import com.yunsen.enjoy.activity.mine.SpreadActivity;
+import com.yunsen.enjoy.activity.mine.SpreadActivity2;
 import com.yunsen.enjoy.activity.mine.StoredCardActivity;
 import com.yunsen.enjoy.activity.mine.TeamActivity;
+import com.yunsen.enjoy.activity.mine.TransferOtherActivity;
 import com.yunsen.enjoy.activity.mine.UserCertificationActivity;
 import com.yunsen.enjoy.activity.mine.UserForgotPasswordActivity;
 import com.yunsen.enjoy.activity.mine.WalletActivity;
@@ -302,9 +309,7 @@ public class UIHelper {
      * @param ctx
      */
     public static void showHelpActivity(Context ctx) {
-        Intent intent4 = new Intent(ctx, WebActivity.class);
-        String url = URLConstants.REALM_NAME_WEB + "/mobile/news/conent-10334.html";
-        intent4.putExtra(Constants.WEB_URL_KEY, url);
+        Intent intent4 = new Intent(ctx, HelpActivity.class);
         ctx.startActivity(intent4);
     }
 
@@ -434,6 +439,20 @@ public class UIHelper {
     }
 
     /**
+     * 显示不更改标题的webActivity
+     *
+     * @param ctx
+     * @param url
+     * @param title
+     */
+    public static void showWebActivity(Context ctx, String url, String title) {
+        Intent intent = new Intent(ctx, WebActivity.class);
+        intent.putExtra(Constants.WEB_URL_KEY, url);
+        intent.putExtra(Constants.WEB_NO_CHANGE_TITLE, title);
+        ctx.startActivity(intent);
+    }
+
+    /**
      * 跳转消息网页
      *
      * @param ctx
@@ -493,24 +512,14 @@ public class UIHelper {
     }
 
     /**
-     * 申请买车页面二
+     * 商家加盟
      *
      * @param ctx
-     * @param model
      */
 
-    public static void showApplyTwoActivity(Context ctx, ApplyCarModel model) {
-        if (!AccountUtils.hasLogin()) {
-            showUserLoginActivity(ctx);
-        } else if (!AccountUtils.hasBoundPhone()) {
-            showBundPhoneActivity(ctx);
-        } else {
-            Intent intent = new Intent(ctx, ApplyBuyTwoActivity.class);
-            Bundle bundle = new Bundle();
-            bundle.putParcelable(Constants.APPLY_BUY_CAR_KEY, model);
-            intent.putExtras(bundle);
-            ctx.startActivity(intent);
-        }
+    public static void showApplyShoppingActivity(Context ctx) {
+        Intent intent = new Intent(ctx, ApplyShoppingActivity.class);
+        ctx.startActivity(intent);
     }
 
     /**
@@ -1241,6 +1250,66 @@ public class UIHelper {
      */
     public static void showNoticeActivity(Context ctx) {
         Intent intent = new Intent(ctx, NoticeActivity.class);
+        ctx.startActivity(intent);
+    }
+
+    /**
+     * 显示邀请
+     *
+     * @param ctx
+     */
+    public static void showInvitationFriendActivity(Context ctx) {
+        Intent intent = new Intent(ctx, InvitationFriendActivity.class);
+        ctx.startActivity(intent);
+    }
+
+    /**
+     * 转赠
+     *
+     * @param ctx
+     */
+    public static void showTransferOtherActivity(Context ctx) {
+        Intent intent = new Intent(ctx, TransferOtherActivity.class);
+        ctx.startActivity(intent);
+    }
+
+    /**
+     * 我的账单
+     *
+     * @param ctx
+     */
+    public static void showMyAccountOrderActivity(Context ctx) {
+        Intent intent = new Intent(ctx, MyAccountOrderActivity.class);
+        ctx.startActivity(intent);
+    }
+
+    /**
+     * 我的投诉
+     *
+     * @param ctx
+     */
+    public static void showMyTranslateActivity(Context ctx) {
+        Intent intent = new Intent(ctx, MyTranslateActivity.class);
+        ctx.startActivity(intent);
+    }
+
+    /**
+     * 推广奖励
+     *
+     * @param ctx
+     */
+    public static void showSpreadActivity(Context ctx) {
+        Intent intent = new Intent(ctx, SpreadActivity.class);
+        ctx.startActivity(intent);
+    }
+
+    /**
+     * 推广奖励记录
+     *
+     * @param ctx
+     */
+    public static void showSpreadActivity2(Context ctx) {
+        Intent intent = new Intent(ctx, SpreadActivity2.class);
         ctx.startActivity(intent);
     }
 

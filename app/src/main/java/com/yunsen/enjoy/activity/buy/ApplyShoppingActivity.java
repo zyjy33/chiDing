@@ -1,42 +1,63 @@
-package com.yunsen.enjoy.activity.dealer;
+package com.yunsen.enjoy.activity.buy;
 
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.activity.BaseFragmentActivity;
-import com.yunsen.enjoy.ui.UIHelper;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
- * 申请服务商（我是服务商）
+ * Created by Administrator on 2018/4/27.
+ * 商家加盟
  */
-public class ApplyServiceActivity extends BaseFragmentActivity {
 
-    @Bind(R.id.action_back)
-    ImageView actionBack;
+public class ApplyShoppingActivity extends BaseFragmentActivity {
+
     @Bind(R.id.action_bar_title)
     TextView actionBarTitle;
     @Bind(R.id.action_bar_right)
     ImageView actionBarRight;
+    @Bind(R.id.action_back_layout)
+    LinearLayout actionBackLayout;
+    @Bind(R.id.team_top_layout)
+    LinearLayout teamTopLayout;
+    @Bind(R.id.name_edt)
+    EditText nameEdt;
+    @Bind(R.id.phone_edt)
+    EditText phoneEdt;
+    @Bind(R.id.shopping_name)
+    EditText shoppingName;
+    @Bind(R.id.shopping_type)
+    EditText shoppingType;
+    @Bind(R.id.shopping_address)
+    EditText shoppingAddress;
+    @Bind(R.id.shopping_introduce)
+    EditText shoppingIntroduce;
+    @Bind(R.id.submit_btn)
+    Button submitBtn;
+    @Bind(R.id.online_btn)
+    Button onlineBtn;
 
     @Override
     public int getLayout() {
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
-        return R.layout.activity_apply_service;
+        return R.layout.activity_apply_shopping;
     }
 
     @Override
     protected void initView() {
         ButterKnife.bind(this);
-        actionBarTitle.setText("代理商加盟");
+        actionBarTitle.setText("商家加盟");
     }
 
     @Override
@@ -49,6 +70,7 @@ public class ApplyServiceActivity extends BaseFragmentActivity {
 
     }
 
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -56,15 +78,16 @@ public class ApplyServiceActivity extends BaseFragmentActivity {
     }
 
 
-    @OnClick({R.id.action_back})
+    @OnClick({R.id.action_back, R.id.submit_btn, R.id.online_btn})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.action_back:
                 finish();
                 break;
-//            case R.id.next_btn:
-//                UIHelper.showApplyServiceSecondActivity(this);
-//                break;
+            case R.id.submit_btn:
+                break;
+            case R.id.online_btn:
+                break;
         }
     }
 }

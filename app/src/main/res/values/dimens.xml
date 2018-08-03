@@ -39,4 +39,5 @@
     <dimen name="more_icon_width">15dp</dimen>
     <dimen name="item_title_size">14sp</dimen>
     <dimen name="left_icon_size">20dp</dimen>
+    <dimen name="edt_height">40dp</dimen>
 </resources>

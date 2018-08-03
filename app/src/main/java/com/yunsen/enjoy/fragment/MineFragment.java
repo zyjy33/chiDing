@@ -476,9 +476,11 @@ public class MineFragment extends BaseFragment {
                 case R.id.setting_img:
                     UIHelper.showPersonCenterActivity(getActivity());
                     break;
-                case R.id.invite_friends:
+                case R.id.invite_friends://邀请好友
+                    UIHelper.showInvitationFriendActivity(getActivity());
                     break;
-                case R.id.gift_other:
+                case R.id.gift_other: //转赠
+                    UIHelper.showTransferOtherActivity(getActivity());
                     break;
                 case R.id.login_layout:
                     UIHelper.showPersonCenterActivity(getActivity());
@@ -487,8 +489,10 @@ public class MineFragment extends BaseFragment {
                     UIHelper.showMonneyChongZhiActivity(getActivity());
                     break;
                 case R.id.my_account_layout:
+                    UIHelper.showMyAccountOrderActivity(getActivity());
                     break;
                 case R.id.my_complaint_layout:
+                    UIHelper.showMyTranslateActivity(getActivity());
                     break;
                 case R.id.my_collect_layout:
                     UIHelper.showCollectionActivity(getActivity());
@@ -497,14 +501,19 @@ public class MineFragment extends BaseFragment {
                     UIHelper.showAddressManagerGlActivity(getActivity());
                     break;
                 case R.id.my_order_layout:
+                    UIHelper.showOrderActivity(getActivity(), "1");
                     break;
                 case R.id.spread_layout:
+                    UIHelper.showSpreadActivity(getActivity());
                     break;
                 case R.id.help_layout:
+                    UIHelper.showHelpActivity(getActivity());
                     break;
-                case R.id.seller_layout:
+                case R.id.seller_layout://商家加盟
+                    UIHelper.showApplyShoppingActivity(getActivity());
                     break;
                 case R.id.proxy_layout:
+                    UIHelper.showApplyServiceActivity(getActivity());
                     break;
                 case R.id.about_layout:
                     UIHelper.showWebActivity(getActivity(), "http://www.baidu.com");

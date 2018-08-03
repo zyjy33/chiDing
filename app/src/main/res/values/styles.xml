@@ -186,7 +186,7 @@
         <item name="android:layout_marginRight">@dimen/app_margin</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:textSize">15sp</item>
+        <item name="android:textSize">14sp</item>
         <item name="android:textColor">@color/title_color</item>
         <item name="android:gravity">center_vertical</item>
     </style>
@@ -195,8 +195,8 @@
         <item name="android:maxLines">1</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:textSize">15sp</item>
-        <item name="android:textColor">@color/title_color</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/color_666</item>
         <item name="android:gravity">center_vertical|right</item>
         <item name="android:background">@null</item>
     </style>
@@ -443,6 +443,18 @@
         <item name="android:layout_marginRight">15dp</item>
         <item name="android:color">@color/color_666</item>
         <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="edtStyle">
+        <item name="android:layout_height">@dimen/edt_height</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:paddingLeft">@dimen/app_margin</item>
+        <item name="android:textColor">@color/title_color</item>
+        <item name="android:background">@drawable/food_button_bg</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:layout_margin">@dimen/app_margin</item>
+        <item name="android:textColorHint">@color/color_666</item>
     </style>
 
 
