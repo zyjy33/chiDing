@@ -154,6 +154,8 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
             @Override
             public void onSuccess(List<CarDetails> responseData) {
                 mAdapter.addBaseDatas(responseData);
+                mAdapter.addBaseDatas(responseData);
+                mAdapter.addBaseDatas(responseData);
             }
 
             @Override
@@ -180,11 +182,15 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
         moneyDiscountTv.setOnClickListener(this);
         vipDiscountTv.setOnClickListener(this);
         mAdapter.setOnItemClickListener(this);
-        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+
+        recyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
+            long totalDy = 0;
+
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                if (topNearbyLayout.getY() >= getScollYDistance(recyclerView)) {
+                totalDy += dy;
+                if (topNearbyLayout.getY() >= totalDy) {
                     nearbyLayout.setVisibility(View.GONE);
                 } else {
                     nearbyLayout.setVisibility(View.VISIBLE);
@@ -303,19 +309,23 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
                 ToastUtils.makeTextShort("会员优惠");
                 break;
             case R.id.delicious_layout:
-                ToastUtils.makeTextShort("美食");
+//                ToastUtils.makeTextShort("美食");
+                UIHelper.showGoodsListActivity(getActivity(), "美食", Constants.DELICIOUS_ID);
                 break;
             case R.id.entertainment_layout:
-                ToastUtils.makeTextShort("娱乐");
+                UIHelper.showGoodsListActivity(getActivity(), "娱乐", Constants.ENTERTAINMENT_ID);
+//                ToastUtils.makeTextShort("娱乐");
                 break;
             case R.id.stay_layout:
-                ToastUtils.makeTextShort("住宿");
+                UIHelper.showGoodsListActivity(getActivity(), "住宿", Constants.STAY_ID);
+//                ToastUtils.makeTextShort("住宿");
                 break;
             case R.id.experience_layout:
-                ToastUtils.makeTextShort("商品体验");
+                UIHelper.showGoodsListActivity(getActivity(), "商品体验", Constants.EXPERIENCE_ID);
+//                ToastUtils.makeTextShort("商品体验");
                 break;
             case R.id.share_layout:
-                ToastUtils.makeTextShort("分享赚钱");
+                UIHelper.showInvitationFriendActivity(getActivity());
                 break;
         }
     }

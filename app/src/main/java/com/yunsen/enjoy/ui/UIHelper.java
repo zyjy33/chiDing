@@ -30,6 +30,7 @@ import com.yunsen.enjoy.activity.buy.CarServiceActivity;
 import com.yunsen.enjoy.activity.buy.ExchangePointActivity;
 import com.yunsen.enjoy.activity.buy.GoodsDescriptionActivity;
 import com.yunsen.enjoy.activity.buy.GoodsDescriptionActivityOld;
+import com.yunsen.enjoy.activity.buy.GoodsListActivity;
 import com.yunsen.enjoy.activity.buy.MeetAddressActivity;
 import com.yunsen.enjoy.activity.buy.PartsShopActivity;
 import com.yunsen.enjoy.activity.buy.SecondActivityActivity;
@@ -1312,5 +1313,18 @@ public class UIHelper {
         Intent intent = new Intent(ctx, SpreadActivity2.class);
         ctx.startActivity(intent);
     }
+
+    /**
+     * 商品列表
+     *
+     * @param ctx
+     */
+    public static void showGoodsListActivity(Context ctx, String title, int goodType) {
+        Intent intent = new Intent(ctx, GoodsListActivity.class);
+        intent.putExtra(Constants.GOODS_LIST_TITLE, title);
+        intent.putExtra(Constants.GOODS_LIST_TYPE, goodType);
+        ctx.startActivity(intent);
+    }
+
 
 }
