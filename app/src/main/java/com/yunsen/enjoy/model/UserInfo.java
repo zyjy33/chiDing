@@ -1,5 +1,7 @@
 package com.yunsen.enjoy.model;
 
+import com.yunsen.enjoy.http.URLConstants;
+
 import java.text.DecimalFormat;
 import java.util.List;
 
@@ -295,7 +297,11 @@ public class UserInfo {
     }
 
     public String getAvatar() {
-        return avatar;
+        if (avatar != null && avatar.startsWith("http")) {
+            return avatar;
+        } else {
+            return URLConstants.REALM_URL + avatar;
+        }
     }
 
     public void setAvatar(String avatar) {

@@ -4,7 +4,6 @@ package com.yunsen.enjoy.fragment;
 import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 
@@ -13,14 +12,15 @@ import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
 import com.yanzhenjie.permission.Permission;
 import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.activity.BaseFragmentActivity;
+import com.yunsen.enjoy.adapter.GoodsListAdapter;
 import com.yunsen.enjoy.common.Constants;
 import com.yunsen.enjoy.common.SpConstants;
 import com.yunsen.enjoy.fragment.home.BannerAdapter;
-import com.yunsen.enjoy.fragment.home.HomeGoodsAdapter;
 import com.yunsen.enjoy.http.HttpCallBack;
 import com.yunsen.enjoy.http.HttpProxy;
 import com.yunsen.enjoy.model.AdvertModel;
 import com.yunsen.enjoy.model.CarDetails;
+import com.yunsen.enjoy.model.SProviderModel;
 import com.yunsen.enjoy.ui.UIHelper;
 import com.yunsen.enjoy.ui.loopviewpager.AutoLoopViewPager;
 import com.yunsen.enjoy.ui.recyclerview.HeaderAndFooterRecyclerViewAdapter;
@@ -47,10 +47,10 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
     private BannerAdapter bannerAdapter;
     private RecyclerView recyclerView;
     //    private View topView;
-    private HomeGoodsAdapter mAdapter;
+    private GoodsListAdapter mAdapter;
 
     private List<CarDetails> mAdverModels = new ArrayList<>();
-    private int mPageIndex = 0;
+    private int mPageIndex = 1;
     private View topView;
     private View topNearbyLayout;
     private View nearbyLayout;
@@ -115,8 +115,8 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
         layoutmanager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(layoutmanager);
 
-        ArrayList<CarDetails> storeModes = new ArrayList<>();
-        mAdapter = new HomeGoodsAdapter(getActivity(), R.layout.home_goods_item, storeModes);
+        ArrayList<SProviderModel> storeModes = new ArrayList<>();
+        mAdapter = new GoodsListAdapter(getActivity(), R.layout.goods_list_item, storeModes);
         HeaderAndFooterRecyclerViewAdapter recyclerViewAdapter = new HeaderAndFooterRecyclerViewAdapter(mAdapter);
         recyclerView.setAdapter(recyclerViewAdapter);
         RecyclerViewUtils.setHeaderView(recyclerView, topView);
@@ -147,20 +147,30 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
             }
         });
 
-        /**
-         * 首页的商品
-         */
-        HttpProxy.getHomeGoods(new HttpCallBack<List<CarDetails>>() {
+//        /**
+//         * 首页的商品
+//         */
+//        HttpProxy.getHomeGoods(new HttpCallBack<List<CarDetails>>() {
+//            @Override
+//            public void onSuccess(List<CarDetails> responseData) {
+//                mAdapter.addBaseDatas(responseData);
+//            }
+//
+//            @Override
+//            public void onError(Request request, Exception e) {
+//                Log.e(TAG, "onError: " + e.getMessage());
+//            }
+//        });
+
+        HttpProxy.getServiceMoreProvider(mPageIndex, null, new HttpCallBack<List<SProviderModel>>() {
             @Override
-            public void onSuccess(List<CarDetails> responseData) {
-                mAdapter.addBaseDatas(responseData);
-                mAdapter.addBaseDatas(responseData);
+            public void onSuccess(List<SProviderModel> responseData) {
                 mAdapter.addBaseDatas(responseData);
             }
 
             @Override
             public void onError(Request request, Exception e) {
-                Log.e(TAG, "onError: " + e.getMessage());
+
             }
         });
 
@@ -275,12 +285,12 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
 
     @Override
     public void onItemClick(View view, RecyclerView.Adapter adapter, RecyclerView.ViewHolder holder, int position) {
-        if (adapter instanceof HomeGoodsAdapter) {
-            List<CarDetails> datas = ((HomeGoodsAdapter) adapter).getDatas();
+        if (adapter instanceof GoodsListAdapter) {
+            List<SProviderModel> datas = ((GoodsListAdapter) adapter).getDatas();
             int pos = position - 1;
             if (pos >= 0 && pos < datas.size()) {
                 int id = datas.get(pos).getId();
-                UIHelper.showGoodsDescriptionActivity(getActivity(), String.valueOf(id));
+                UIHelper.showFoodDescriptionActivity(getActivity(), String.valueOf(id), datas.get(pos).getName());
             }
         }
     }

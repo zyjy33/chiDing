@@ -97,6 +97,7 @@ import com.yunsen.enjoy.model.response.WalletCashResponse;
 import com.yunsen.enjoy.model.response.WatchCarResponse;
 import com.yunsen.enjoy.model.response.WithdrawLogResponse;
 import com.yunsen.enjoy.model.response.WxPaySignResponse;
+import com.yunsen.enjoy.ui.UIHelper;
 import com.yunsen.enjoy.utils.AccountUtils;
 import com.yunsen.enjoy.utils.DeviceUtil;
 import com.yunsen.enjoy.utils.EntityToMap;
@@ -152,7 +153,7 @@ public class HttpProxy {
         HashMap<String, Object> param = new HashMap<>();
         param.put("channel_name", "goods");
         param.put("category_id", "0");
-        param.put("top", "5");
+        param.put("top", "20");
         param.put("strwhere", "");
         HttpClient.get(URLConstants.HOME_GOODS_URL, param, new HttpResponseHandler<SearchListResponse>() {
             @Override
@@ -304,7 +305,12 @@ public class HttpProxy {
     public static void getServiceMoreProvider(int pageIndex, String city, final HttpCallBack<List<SProviderModel>> callBack) {
         HashMap<String, String> param = new HashMap<>();
         param.put("trade_id", "0");
-        param.put("page_size", "10");
+        if(!TextUtils.isEmpty(city)){
+            param.put("page_size", "4");
+
+        }else {
+            param.put("page_size", "10");
+        }
         param.put("page_index", "" + pageIndex);
         param.put("strwhere", "status=0 and datatype='Supply'");
 //        param.put("strwhere", "status=0 and datatype='Supply'and city = \'" + city + "\'");
@@ -2645,5 +2651,38 @@ public class HttpProxy {
         });
     }
 
+    /**
+     * 换产品的接口
+     */
+    public static void getChangeGoodsList(String pageIdx, String orderBy, String city, final HttpCallBack<List<CarDetails>> callBack) {
+//        UIHelper.showChangeGoodsActivity(getActivity(), "goods", "1698", "换产品", 0);
+//        String channelName, String categoryId,
+
+        HashMap<String, String> map = new HashMap<>();
+        map.put("channel_name", "goods");
+        map.put("category_id", "0");
+        map.put("page_size", "10");
+        map.put("page_index", pageIdx);
+        map.put("strwhere", "city=\'" + city + " \'");//and brand_id like '%条件%'
+        map.put("orderby", orderBy);
+        HttpClient.get(URLConstants.CHANGE_GOODS_LIST, map, new HttpResponseHandler<SearchListResponse>() {
+            @Override
+            public void onSuccess(SearchListResponse response) {
+                super.onSuccess(response);
+                List<CarDetails> data = response.getData();
+                if (data != null) {
+                    callBack.onSuccess(data);
+                } else {
+                    callBack.onError(null, new Exception("data is empty!"));
+                }
+            }
+
+            @Override
+            public void onFailure(Request request, Exception e) {
+                callBack.onError(request, e);
+                super.onFailure(request, e);
+            }
+        });
+    }
 }
 

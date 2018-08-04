@@ -54,14 +54,14 @@ android {
             signingConfig signingConfigs.release
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            buildConfigField "String", "ROOT_URL", "\"http://mobile.gaiachn.com\""
+            buildConfigField "String", "ROOT_URL", "\"http://mobile.ddek3.com\""
         }
         debug {
             debuggable true
             signingConfig signingConfigs.debug
             minifyEnabled false//是否混淆
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            buildConfigField "String", "ROOT_URL", "\"http://mobile.gaiachn.com\""
+            buildConfigField "String", "ROOT_URL", "\"http://mobile.ddek3.com\""
         }
     }
 

@@ -6,7 +6,6 @@ import android.support.v4.app.FragmentPagerAdapter;
 
 import com.yunsen.enjoy.activity.buy.PartsShopFragment;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -15,9 +14,9 @@ import java.util.List;
 
 public class PartsShopFragmentPager extends FragmentPagerAdapter {
     private List<String> mListTitles;
-    private List<PartsShopFragment> mFragments;
+    private List<Fragment> mFragments;
 
-    public PartsShopFragmentPager(FragmentManager fm, List<PartsShopFragment> fragments, List<String> listTitle) {
+    public PartsShopFragmentPager(FragmentManager fm, List<Fragment> fragments, List<String> listTitle) {
         super(fm);
         this.mFragments = fragments;
         this.mListTitles = listTitle;

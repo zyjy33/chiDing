@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -36,11 +37,13 @@ import com.yunsen.enjoy.activity.buy.MeetAddressActivity;
 import com.yunsen.enjoy.activity.buy.PartsShopActivity;
 import com.yunsen.enjoy.activity.buy.SecondActivityActivity;
 import com.yunsen.enjoy.activity.buy.ServiceMoreActivity;
+import com.yunsen.enjoy.activity.buy.ShoppingPhotoActivity;
 import com.yunsen.enjoy.activity.buy.WatchCarActivity;
 import com.yunsen.enjoy.activity.dealer.ApplyServiceActivity;
 import com.yunsen.enjoy.activity.dealer.ApplyServiceSecondActivity;
 import com.yunsen.enjoy.activity.dealer.ApplyServiceThreeActivity;
 import com.yunsen.enjoy.activity.dealer.MyFacilitatorActivity;
+import com.yunsen.enjoy.activity.mine.AddShoppingActivity;
 import com.yunsen.enjoy.activity.mine.AddressManagerGlActivity;
 import com.yunsen.enjoy.activity.mine.AppointmentActivity;
 import com.yunsen.enjoy.activity.mine.BalanceCashActivity;
@@ -1332,10 +1335,26 @@ public class UIHelper {
      *
      * @param ctx
      */
-    public static void showFoodDescriptionActivity(Context ctx) {
+    public static void showFoodDescriptionActivity(Context ctx, String goodsId, String title) {
         Intent intent = new Intent(ctx, FoodDescriptionActivity.class);
+        intent.putExtra(Constants.GOODS_ID_KEY, goodsId);
+        intent.putExtra(Constants.GOODS_TITLE_KEY, title);
+        ctx.startActivity(intent);
+    }
+
+    /**
+     * 商家照片
+     *
+     * @param ctx
+     */
+    public static void showShoppingPhotoActivity(Context ctx) {
+        Intent intent = new Intent(ctx, ShoppingPhotoActivity.class);
         ctx.startActivity(intent);
     }
 
 
+    public static void showAddShoppingActivity(Context ctx) {
+        Intent intent = new Intent(ctx, AddShoppingActivity.class);
+        ctx.startActivity(intent);
+    }
 }

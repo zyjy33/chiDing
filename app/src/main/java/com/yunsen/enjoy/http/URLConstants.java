@@ -402,6 +402,11 @@ public class URLConstants {
      */
     public static final String GET_PAYRECORD_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/get_payrecord_list";
 
+    /**
+     * 交换产品的接口
+     */
+    public static final String CHANGE_GOODS_LIST = BuildConfig.ROOT_URL + "/toolS/mobile_ajax.asmx/get_article_page_size_list_2018";
+
     public static final String REALM_NAME_WEB = BuildConfig.ROOT_URL;
     public static final String REALM_NAME_HTTP = BuildConfig.ROOT_URL;
     public static final String REALM_NAME_LL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx";

@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="45dp"
@@ -43,18 +44,17 @@
     </LinearLayout>
 
     <ScrollView
-        android:scrollbars="none"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/white"
         android:fillViewport="true"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:scrollbars="none">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
-
 
 
             <LinearLayout
@@ -695,6 +695,61 @@
 
             </LinearLayout>
             <!--结束-->
+            <!--添加商家-->
+            <LinearLayout
+                android:id="@+id/add_shopping_layout"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/item_height"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="@dimen/left_icon_size"
+                    android:layout_height="@dimen/left_icon_size"
+                    android:layout_marginLeft="@dimen/app_margin"
+                    android:src="@mipmap/icon_ruzhu" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/item_height_min"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="5dp"
+                            android:text="添加店铺"
+                            android:textColor="@color/color_5e6570"
+                            android:textSize="@dimen/item_title_size" />
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="1dp"
+                            android:layout_weight="1" />
+
+                        <ImageView
+                            android:layout_width="@dimen/more_icon_width"
+                            android:layout_height="@dimen/more_icon_width"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginRight="@dimen/app_margin"
+                            android:src="@mipmap/arrow_right_black" />
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/color_f5f7fa" />
+                </LinearLayout>
+
+            </LinearLayout>
+
 
             <!--代理商 开始-->
             <LinearLayout

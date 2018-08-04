@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +23,10 @@ import com.yunsen.enjoy.adapter.ImageAndTextAdapter;
 import com.yunsen.enjoy.adapter.SelectStringAdapter;
 import com.yunsen.enjoy.adapter.TypeListAdapter;
 import com.yunsen.enjoy.common.Constants;
+import com.yunsen.enjoy.http.HttpCallBack;
+import com.yunsen.enjoy.http.HttpProxy;
+import com.yunsen.enjoy.model.CarDetails;
+import com.yunsen.enjoy.model.SProviderModel;
 import com.yunsen.enjoy.model.SelectStringModel;
 import com.yunsen.enjoy.model.UsedFunction;
 import com.yunsen.enjoy.ui.UIHelper;
@@ -34,10 +37,12 @@ import com.yunsen.enjoy.utils.ToastUtils;
 import com.yunsen.enjoy.widget.recyclerview.MultiItemTypeAdapter;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import okhttp3.Request;
 
 /**
  * Created by Administrator on 2018/8/3/003.
@@ -78,7 +83,8 @@ public class GoodsListActivity extends BaseFragmentActivity implements View.OnCl
     private PopupWindow mTypePopupWindow;
     private PopupWindow mNearByPopup;
     private PopupWindow mSortPopup;
-    private ArrayList<String> mDatas;
+    private ArrayList<SProviderModel> mDatas;
+    private int mPageIndex = 1;
 
     @Override
     public int getLayout() {
@@ -97,13 +103,6 @@ public class GoodsListActivity extends BaseFragmentActivity implements View.OnCl
         topSortType = topView.findViewById(R.id.top_sort_tv);
 
 
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        ArrayList<String> datas = new ArrayList<>();
-
-        mAdapter = new GoodsListAdapter(this, R.layout.goods_list_item, datas);
-        HeaderAndFooterRecyclerViewAdapter viewAdapter = new HeaderAndFooterRecyclerViewAdapter(mAdapter);
-        recyclerView.setAdapter(viewAdapter);
-        RecyclerViewUtils.setHeaderView(recyclerView, topView);
     }
 
     @Override
@@ -115,6 +114,8 @@ public class GoodsListActivity extends BaseFragmentActivity implements View.OnCl
             mTitle = Constants.EMPTY;
         }
         actionBackTitle.setText(mTitle);
+
+
         switch (mTypeId) {
             case Constants.DELICIOUS_ID: //美食
                 mRecyclerTop.setLayoutManager(new GridLayoutManager(this, 4));
@@ -139,12 +140,14 @@ public class GoodsListActivity extends BaseFragmentActivity implements View.OnCl
                 mRecyclerTop.setVisibility(View.GONE);
                 break;
         }
-
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
         mDatas = new ArrayList<>();
-        for (int i = 0; i < 20; i++) {
-            mDatas.add("" + i);
-        }
-        mAdapter.upBaseDatas(mDatas);
+        mAdapter = new GoodsListAdapter(this, R.layout.goods_list_item, mDatas);
+        HeaderAndFooterRecyclerViewAdapter viewAdapter = new HeaderAndFooterRecyclerViewAdapter(mAdapter);
+        recyclerView.setAdapter(viewAdapter);
+        RecyclerViewUtils.setHeaderView(recyclerView, topView);
+
+
     }
 
     private static final String TAG = "GoodsListActivity";
@@ -193,6 +196,33 @@ public class GoodsListActivity extends BaseFragmentActivity implements View.OnCl
             }
         });
 
+    }
+
+    @Override
+    public void requestData() {
+//        HttpProxy.getChangeGoodsList(String.valueOf(mPageIndex), "", "", new HttpCallBack<List<CarDetails>>() {
+//            @Override
+//            public void onSuccess(List<CarDetails> responseData) {
+//                mAdapter.upBaseDatas(responseData);
+//            }
+//
+//            @Override
+//            public void onError(Request request, Exception e) {
+//
+//            }
+//        });
+
+        HttpProxy.getServiceMoreProvider(mPageIndex, null, new HttpCallBack<List<SProviderModel>>() {
+            @Override
+            public void onSuccess(List<SProviderModel> responseData) {
+                mAdapter.addBaseDatas(responseData);
+            }
+
+            @Override
+            public void onError(Request request, Exception e) {
+
+            }
+        });
     }
 
     public int getScollYDistance(RecyclerView recy) {
@@ -393,9 +423,9 @@ public class GoodsListActivity extends BaseFragmentActivity implements View.OnCl
 
     @Override
     public void onItemClick(View view, RecyclerView.Adapter adapter, RecyclerView.ViewHolder holder, int position) {
-
         if (position > 0 && position < mDatas.size() + 1) {
-            UIHelper.showFoodDescriptionActivity(this);
+            SProviderModel data = mDatas.get(position);
+            UIHelper.showFoodDescriptionActivity(this, String.valueOf(data.getUser_id()), data.getName());
         }
     }
 

@@ -252,6 +252,11 @@ public class MineFragment extends BaseFragment {
                 memberIdTv.setVisibility(View.VISIBLE);
                 userNameTv.setVisibility(View.VISIBLE);
                 loginTv.setVisibility(View.GONE);
+                Glide.with(getActivity())
+                        .load(data.getAvatar())
+                        .placeholder(R.mipmap.login_icon)
+                        .transform(new GlideCircleTransform(getActivity()))
+                        .into(userImg);
             }
 
             @Override
@@ -444,7 +449,7 @@ public class MineFragment extends BaseFragment {
 //                    .load(URLConstants.REALM_URL + imgUrl)
 //                    .placeholder(R.mipmap.login_icon)
 //                    .transform(new GlideCircleTransform(getActivity()))
-//                    .into(userIconImg);
+//                    .into(userImg);
         }
     }
 
@@ -462,7 +467,9 @@ public class MineFragment extends BaseFragment {
     }
 
 
-    @OnClick({R.id.messageImg, R.id.setting_img, R.id.invite_friends, R.id.gift_other, R.id.login_layout, R.id.recharge_layout, R.id.my_account_layout, R.id.my_complaint_layout, R.id.my_collect_layout, R.id.my_address_layout, R.id.my_order_layout, R.id.spread_layout, R.id.help_layout, R.id.seller_layout, R.id.proxy_layout, R.id.about_layout})
+    @OnClick({R.id.messageImg, R.id.setting_img, R.id.invite_friends, R.id.gift_other, R.id.login_layout, R.id.recharge_layout,
+            R.id.my_account_layout, R.id.my_complaint_layout, R.id.my_collect_layout, R.id.my_address_layout, R.id.my_order_layout,
+            R.id.spread_layout, R.id.help_layout, R.id.seller_layout, R.id.proxy_layout, R.id.about_layout, R.id.add_shopping_layout})
     public void onViewClicked(View view) {
         if (!AccountUtils.hasLogin()) {
             UIHelper.showUserLoginActivity(getActivity());
@@ -517,6 +524,9 @@ public class MineFragment extends BaseFragment {
                     break;
                 case R.id.about_layout:
                     UIHelper.showWebActivity(getActivity(), "http://www.baidu.com");
+                    break;
+                case R.id.add_shopping_layout:
+                    UIHelper.showAddShoppingActivity(getActivity());
                     break;
             }
         }

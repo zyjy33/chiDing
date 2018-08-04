@@ -183,11 +183,12 @@
 
     <style name="ApplyService2Tv">
         <item name="android:maxLines">1</item>
+        <item name="android:layout_marginLeft">@dimen/app_margin</item>
         <item name="android:layout_marginRight">@dimen/app_margin</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textSize">14sp</item>
-        <item name="android:textColor">@color/title_color</item>
+        <item name="android:textColor">@color/color_666</item>
         <item name="android:gravity">center_vertical</item>
     </style>
 

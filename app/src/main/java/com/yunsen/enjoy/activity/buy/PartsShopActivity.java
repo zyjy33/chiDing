@@ -42,7 +42,7 @@ public class PartsShopActivity extends BaseFragmentActivity {
     @Bind(R.id.part_shop_pager)
     ViewPager partShopPager;
 
-    private ArrayList<PartsShopFragment> mPartsShopFragments;
+    private ArrayList<Fragment> mPartsShopFragments;
     private ArrayList<String> mListTitle;
 
     @Override

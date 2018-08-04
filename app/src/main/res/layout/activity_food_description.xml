@@ -15,11 +15,30 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <ImageView
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="210dp"
-                android:scaleType="centerCrop"
-                android:src="@mipmap/ic_launcher" />
+                android:layout_height="210dp">
+
+                <ImageView
+                    android:id="@+id/look_img_img"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+            />
+
+                <TextView
+                    android:id="@+id/look_img_tv"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_gravity="bottom|right"
+                    android:layout_marginBottom="15dp"
+                    android:layout_marginRight="20dp"
+                    android:background="@drawable/round_gray_bg"
+                    android:gravity="center"
+                    android:text="99张"
+                    android:textColor="@color/white"
+                    android:textSize="12sp" />
+            </FrameLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"

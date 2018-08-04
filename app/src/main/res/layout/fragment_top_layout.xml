@@ -45,7 +45,7 @@
             <ImageView
                 android:layout_width="@dimen/food_icon_width"
                 android:layout_height="@dimen/food_icon_width"
-                android:src="@mipmap/delicious_food" />
+                android:src="@mipmap/sy_jkg" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -67,7 +67,7 @@
             <ImageView
                 android:layout_width="@dimen/food_icon_width"
                 android:layout_height="@dimen/food_icon_width"
-                android:src="@mipmap/delicious_food" />
+                android:src="@mipmap/sy_shg" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -89,7 +89,7 @@
             <ImageView
                 android:layout_width="@dimen/food_icon_width"
                 android:layout_height="@dimen/food_icon_width"
-                android:src="@mipmap/delicious_food" />
+                android:src="@mipmap/sy_ptg" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -111,7 +111,7 @@
             <ImageView
                 android:layout_width="@dimen/food_icon_width"
                 android:layout_height="@dimen/food_icon_width"
-                android:src="@mipmap/delicious_food" />
+                android:src="@mipmap/sy_ppsj" />
 
             <TextView
                 android:layout_width="wrap_content"

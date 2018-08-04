@@ -39,6 +39,7 @@ public class Constants {
     public static final String WEB_NO_CHANGE_TITLE = "web_no_change_title";
     public static final String GOODS_LIST_TYPE = "goods_list_type";
     public static final String GOODS_LIST_TITLE = "goods_list_title";
+    public static final String GOODS_TITLE_KEY = "GOODS_TITLE_KEY";
 //    public static final String APP_SECRET = "";
 //appId=wxe60c28541b0fa8a2&body=zyjytest&device_info=1000&key=ca30ef7495cdd92ee94e1190f78a8735&mch_id=1502153101&nonce_str=ibuaiVcKdpRxkhJA
 
