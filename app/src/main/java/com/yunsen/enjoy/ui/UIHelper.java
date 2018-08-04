@@ -28,6 +28,7 @@ import com.yunsen.enjoy.activity.buy.ApplyBuyThreeActivity;
 import com.yunsen.enjoy.activity.buy.ApplyShoppingActivity;
 import com.yunsen.enjoy.activity.buy.CarServiceActivity;
 import com.yunsen.enjoy.activity.buy.ExchangePointActivity;
+import com.yunsen.enjoy.activity.buy.FoodDescriptionActivity;
 import com.yunsen.enjoy.activity.buy.GoodsDescriptionActivity;
 import com.yunsen.enjoy.activity.buy.GoodsDescriptionActivityOld;
 import com.yunsen.enjoy.activity.buy.GoodsListActivity;
@@ -1323,6 +1324,16 @@ public class UIHelper {
         Intent intent = new Intent(ctx, GoodsListActivity.class);
         intent.putExtra(Constants.GOODS_LIST_TITLE, title);
         intent.putExtra(Constants.GOODS_LIST_TYPE, goodType);
+        ctx.startActivity(intent);
+    }
+
+    /**
+     * 商品详情
+     *
+     * @param ctx
+     */
+    public static void showFoodDescriptionActivity(Context ctx) {
+        Intent intent = new Intent(ctx, FoodDescriptionActivity.class);
         ctx.startActivity(intent);
     }
 

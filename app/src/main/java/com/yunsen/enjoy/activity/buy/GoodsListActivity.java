@@ -78,6 +78,7 @@ public class GoodsListActivity extends BaseFragmentActivity implements View.OnCl
     private PopupWindow mTypePopupWindow;
     private PopupWindow mNearByPopup;
     private PopupWindow mSortPopup;
+    private ArrayList<String> mDatas;
 
     @Override
     public int getLayout() {
@@ -139,11 +140,11 @@ public class GoodsListActivity extends BaseFragmentActivity implements View.OnCl
                 break;
         }
 
-        ArrayList<String> list = new ArrayList<>();
+        mDatas = new ArrayList<>();
         for (int i = 0; i < 20; i++) {
-            list.add("" + i);
+            mDatas.add("" + i);
         }
-        mAdapter.upBaseDatas(list);
+        mAdapter.upBaseDatas(mDatas);
     }
 
     private static final String TAG = "GoodsListActivity";
@@ -393,6 +394,9 @@ public class GoodsListActivity extends BaseFragmentActivity implements View.OnCl
     @Override
     public void onItemClick(View view, RecyclerView.Adapter adapter, RecyclerView.ViewHolder holder, int position) {
 
+        if (position > 0 && position < mDatas.size() + 1) {
+            UIHelper.showFoodDescriptionActivity(this);
+        }
     }
 
     @Override
