@@ -105,7 +105,7 @@ public class MonneyChongZhiActivity extends AppCompatActivity implements OnClick
         iv_fanhui = (ImageView) findViewById(R.id.action_back);
         iv_fanhui.setOnClickListener(this);
         textView1 = (TextView) findViewById(R.id.action_bar_title);
-        textView1.setText("吃币充值");
+        textView1.setText("消费卷充值");
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         giveCoinTv = (TextView) findViewById(R.id.give_coin_tv);
         payMoneyTv = (TextView) findViewById(R.id.pay_money_tv);

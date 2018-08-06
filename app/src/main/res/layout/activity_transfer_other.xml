@@ -17,7 +17,7 @@
         android:layout_marginLeft="@dimen/app_margin"
         android:layout_marginRight="@dimen/app_margin"
         android:gravity="center_vertical"
-        android:text="转赠他人获取的吃币不能退款哦!"
+        android:text="转赠他人获取的消费卷不能退款哦!"
         android:textColor="@color/color_theme"
         android:textSize="13sp" />
 
@@ -35,7 +35,7 @@
 
         <TextView
             style="@style/ApplyService2Tv"
-            android:text="账号可转赠吃币金额" />
+            android:text="账号可转赠消费卷金额" />
 
         <View
             android:layout_width="0dp"
@@ -101,7 +101,7 @@
         <EditText
             android:id="@+id/transfer_coin_edt"
             style="@style/ApplyService2Edt"
-            android:hint="请输入转赠吃币金额"
+            android:hint="请输入转赠消费卷金额"
             android:inputType="numberDecimal" />
     </LinearLayout>
 
@@ -120,7 +120,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:text="转赠吃币金额不能大于当前账号可用的金额"
+            android:text="转赠消费卷金额不能大于当前账号可用的金额"
             android:textColor="@color/color_666" />
 
         <Button

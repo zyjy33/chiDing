@@ -8,8 +8,8 @@
         android:id="@+id/refreshLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:tr_bottom_height="180dp"
-        app:tr_head_height="100dp">
+        app:tr_autoLoadMore="true"
+        >
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_view"

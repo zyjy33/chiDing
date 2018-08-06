@@ -16,6 +16,8 @@ import android.widget.TextView;
 
 import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter;
 import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
+import com.lcodecore.tkrefreshlayout.footer.LoadingView;
+import com.lcodecore.tkrefreshlayout.header.SinaRefreshView;
 import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.activity.BaseFragmentActivity;
 import com.yunsen.enjoy.adapter.GoodsListAdapter;
@@ -85,6 +87,7 @@ public class GoodsListActivity extends BaseFragmentActivity implements View.OnCl
     private PopupWindow mSortPopup;
     private ArrayList<SProviderModel> mDatas;
     private int mPageIndex = 1;
+    private boolean mIsLoadMore = true;
 
     @Override
     public int getLayout() {
@@ -101,7 +104,10 @@ public class GoodsListActivity extends BaseFragmentActivity implements View.OnCl
         topAllType = topView.findViewById(R.id.top_all_type);
         topNearbyType = topView.findViewById(R.id.top_nearby_tv);
         topSortType = topView.findViewById(R.id.top_sort_tv);
-
+        SinaRefreshView headerView = new SinaRefreshView(this);
+        refreshLayout.setHeaderView(headerView);
+        LoadingView loadingView = new LoadingView(this);
+        refreshLayout.setBottomView(loadingView);
 
     }
 
@@ -180,9 +186,12 @@ public class GoodsListActivity extends BaseFragmentActivity implements View.OnCl
                 refreshLayout.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        refreshLayout.finishRefreshing();
+                        mIsLoadMore=false;
+                        mPageIndex = 1;
+                        requestData();
+
                     }
-                }, 2000);
+                }, 500);
             }
 
             @Override
@@ -190,9 +199,11 @@ public class GoodsListActivity extends BaseFragmentActivity implements View.OnCl
                 refreshLayout.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        refreshLayout.finishLoadmore();
+                        mIsLoadMore=true;
+                        mPageIndex++;
+                        requestData();
                     }
-                }, 2000);
+                }, 500);
             }
         });
 
@@ -215,12 +226,23 @@ public class GoodsListActivity extends BaseFragmentActivity implements View.OnCl
         HttpProxy.getServiceMoreProvider(mPageIndex, null, new HttpCallBack<List<SProviderModel>>() {
             @Override
             public void onSuccess(List<SProviderModel> responseData) {
-                mAdapter.addBaseDatas(responseData);
+                if (mIsLoadMore) {
+                    boolean hasMore = mAdapter.addBaseDatas(responseData);
+//                    ToastUtils.makeTextShort("没有更多数据");
+                    refreshLayout.finishLoadmore();
+                } else {
+                    mAdapter.upBaseDatas(responseData);
+                    refreshLayout.finishRefreshing();
+                }
             }
 
             @Override
             public void onError(Request request, Exception e) {
-
+                if (mIsLoadMore) {
+                    refreshLayout.finishLoadmore();
+                } else {
+                    refreshLayout.finishRefreshing();
+                }
             }
         });
     }

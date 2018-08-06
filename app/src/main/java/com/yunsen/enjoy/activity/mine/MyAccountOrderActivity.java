@@ -111,7 +111,7 @@ public class MyAccountOrderActivity extends BaseFragmentActivity {
             recyclerType.setLayoutManager(layoutManager3);
             ArrayList<CheckedData> data3 = new ArrayList<>();
             data3.add(new CheckedData("0", "全部", false));
-            data3.add(new CheckedData("1", "吃币", false));
+            data3.add(new CheckedData("1", "消费卷", false));
             data3.add(new CheckedData("2", "云币", false));
             final CheckItemAdapter adapter3 = new CheckItemAdapter(this, R.layout.checked_item, data3);
             recyclerType.setAdapter(adapter3);

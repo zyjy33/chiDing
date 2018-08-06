@@ -4,11 +4,14 @@ package com.yunsen.enjoy.fragment;
 import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 
 import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter;
 import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
+import com.lcodecore.tkrefreshlayout.footer.LoadingView;
+import com.lcodecore.tkrefreshlayout.header.SinaRefreshView;
 import com.yanzhenjie.permission.Permission;
 import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.activity.BaseFragmentActivity;
@@ -22,6 +25,7 @@ import com.yunsen.enjoy.model.AdvertModel;
 import com.yunsen.enjoy.model.CarDetails;
 import com.yunsen.enjoy.model.SProviderModel;
 import com.yunsen.enjoy.ui.UIHelper;
+import com.yunsen.enjoy.ui.loadmore.ZyBottomView;
 import com.yunsen.enjoy.ui.loopviewpager.AutoLoopViewPager;
 import com.yunsen.enjoy.ui.recyclerview.HeaderAndFooterRecyclerViewAdapter;
 import com.yunsen.enjoy.ui.recyclerview.RecyclerViewUtils;
@@ -66,6 +70,7 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
     private View searchLayout;
     private View qrCodeImg;
     private TwinklingRefreshLayout refreshLayout;
+    private boolean mIsLoadMore = true;
 
 
     @Override
@@ -104,6 +109,11 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
 
     @Override
     protected void initData() {
+        SinaRefreshView headerView = new SinaRefreshView(getActivity());
+        refreshLayout.setHeaderView(headerView);
+        LoadingView loadingView = new LoadingView(getActivity());
+        refreshLayout.setBottomView(loadingView);
+
         bannerAdapter = new BannerAdapter(getData(), getActivity());
         banner.setAdapter(bannerAdapter);
         indicatorLayout.setViewPager(banner);
@@ -161,19 +171,38 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
 //                Log.e(TAG, "onError: " + e.getMessage());
 //            }
 //        });
+        requestServiceMore();
 
+    }
+
+    public void requestServiceMore() {
         HttpProxy.getServiceMoreProvider(mPageIndex, null, new HttpCallBack<List<SProviderModel>>() {
             @Override
             public void onSuccess(List<SProviderModel> responseData) {
-                mAdapter.addBaseDatas(responseData);
+                if (mIsLoadMore) {
+                    boolean hasMore = mAdapter.addBaseDatas(responseData);
+                    if (!hasMore) {
+                        Log.e(TAG, "onSuccess: 没有更多数据");
+                        refreshLayout.setBottomView(new ZyBottomView(getActivity()));
+                    } else {
+                        refreshLayout.finishLoadmore();
+                    }
+                } else {
+                    mAdapter.upBaseDatas(responseData);
+                    refreshLayout.finishRefreshing();
+                }
             }
 
             @Override
             public void onError(Request request, Exception e) {
+                if (mIsLoadMore) {
+                    refreshLayout.finishLoadmore();
 
+                } else {
+                    refreshLayout.finishRefreshing();
+                }
             }
         });
-
     }
 
     @Override
@@ -214,9 +243,12 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
                 refreshLayout.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        refreshLayout.finishRefreshing();
+                        mPageIndex = 1;
+                        mIsLoadMore = false;
+                        refreshLayout.setBottomView(new LoadingView(getActivity()));
+                        requestServiceMore();
                     }
-                }, 2000);
+                }, 500);
             }
 
             @Override
@@ -224,9 +256,12 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
                 refreshLayout.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        refreshLayout.finishLoadmore();
+                        mIsLoadMore = true;
+                        mPageIndex++;
+                        requestServiceMore();
                     }
-                }, 2000);
+                }, 500);
+
             }
         });
 

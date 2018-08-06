@@ -71,7 +71,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="可消费吃币:"
+                            android:text="可消费消费卷:"
                             android:textColor="@color/color_888"
                             android:textSize="13sp" />
 

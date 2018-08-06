@@ -32,17 +32,20 @@ public class GoodsListAdapter extends CommonAdapter<SProviderModel> {
         holder.setText(R.id.goods_list_title_tv, data.getName());
         String address = data.getProvince() + data.getCity() + data.getArea() + data.getAddress();
         holder.setText(R.id.goods_list_address_tv, address);
-        String text = "可用吃币" + 88 + "元";
+//        String text = "可用消费卷" + 88 + "元";
+        String text = mContext.getResources().getString(R.string.available_volume, 88.62);
         TextView textView = (TextView) holder.getView(R.id.goods_list_coin_tv);
         //ForegroundColorSpan 为文字前景色，BackgroundColorSpan为文字背景色
         ForegroundColorSpan redSpan = new ForegroundColorSpan(mContext.getResources().getColor(R.color.color_theme));
         ForegroundColorSpan graySpan = new ForegroundColorSpan(mContext.getResources().getColor(R.color.color_888));
         //这里注意一定要先给textview赋值
         SpannableStringBuilder builder = new SpannableStringBuilder(text);
+        int startEnd = text.indexOf("卷");
+        int End = text.indexOf("元");
         //为不同位置字符串设置不同颜色
-        builder.setSpan(graySpan, 0, 4, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        builder.setSpan(redSpan, 4, 6, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        builder.setSpan(graySpan, 6, text.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        builder.setSpan(graySpan, 0, startEnd + 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        builder.setSpan(redSpan, startEnd + 1, End, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        builder.setSpan(graySpan, End, text.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         //最后为textview赋值
         textView.setText(builder);
 

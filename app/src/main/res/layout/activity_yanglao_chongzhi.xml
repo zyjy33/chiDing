@@ -29,7 +29,7 @@
                     android:layout_marginLeft="@dimen/app_margin"
                     android:layout_marginRight="@dimen/app_margin"
                     android:gravity="center_vertical"
-                    android:text="吃币吃币"
+                    android:text="消费卷消费卷"
                     android:textColor="@color/title_color"
                     android:textSize="16sp" />
 
@@ -40,7 +40,7 @@
                     android:layout_marginRight="@dimen/app_margin"
                     android:gravity="bottom"
                     android:paddingBottom="10dp"
-                    android:text="仅限于有吃币余额的商家支付"
+                    android:text="仅限于有消费卷余额的商家支付"
                     android:textColor="@color/color_theme"
                     android:textSize="12sp" />
 
@@ -110,7 +110,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="元,赠送吃币比例"
+                    android:text="元,赠送消费卷比例"
                     android:textColor="@color/color_666"
                     android:textSize="12sp" />
 
@@ -153,7 +153,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="元,赠送吃币比例"
+                    android:text="元,赠送消费卷比例"
                     android:textColor="@color/color_666"
                     android:textSize="12sp" />
 
@@ -194,7 +194,7 @@
 
                 <TextView
                     style="@style/ApplyService2Tv"
-                    android:text="赠送吃币"
+                    android:text="赠送消费卷"
                     android:textColor="@color/color_666" />
 
                 <View
