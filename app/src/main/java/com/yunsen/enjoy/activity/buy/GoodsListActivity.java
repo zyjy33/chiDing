@@ -32,6 +32,7 @@ import com.yunsen.enjoy.model.SProviderModel;
 import com.yunsen.enjoy.model.SelectStringModel;
 import com.yunsen.enjoy.model.UsedFunction;
 import com.yunsen.enjoy.ui.UIHelper;
+import com.yunsen.enjoy.ui.loadmore.ZyBottomView;
 import com.yunsen.enjoy.ui.recyclerview.HeaderAndFooterRecyclerViewAdapter;
 import com.yunsen.enjoy.ui.recyclerview.RecyclerViewUtils;
 import com.yunsen.enjoy.utils.DeviceUtil;
@@ -108,7 +109,6 @@ public class GoodsListActivity extends BaseFragmentActivity implements View.OnCl
         refreshLayout.setHeaderView(headerView);
         LoadingView loadingView = new LoadingView(this);
         refreshLayout.setBottomView(loadingView);
-
     }
 
     @Override
@@ -120,8 +120,6 @@ public class GoodsListActivity extends BaseFragmentActivity implements View.OnCl
             mTitle = Constants.EMPTY;
         }
         actionBackTitle.setText(mTitle);
-
-
         switch (mTypeId) {
             case Constants.DELICIOUS_ID: //美食
                 mRecyclerTop.setLayoutManager(new GridLayoutManager(this, 4));
@@ -186,7 +184,9 @@ public class GoodsListActivity extends BaseFragmentActivity implements View.OnCl
                 refreshLayout.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        mIsLoadMore=false;
+                        LoadingView loadingView = new LoadingView(GoodsListActivity.this);
+                        refreshLayout.setBottomView(loadingView);
+                        mIsLoadMore = false;
                         mPageIndex = 1;
                         requestData();
 
@@ -199,7 +199,7 @@ public class GoodsListActivity extends BaseFragmentActivity implements View.OnCl
                 refreshLayout.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        mIsLoadMore=true;
+                        mIsLoadMore = true;
                         mPageIndex++;
                         requestData();
                     }
@@ -228,18 +228,22 @@ public class GoodsListActivity extends BaseFragmentActivity implements View.OnCl
             public void onSuccess(List<SProviderModel> responseData) {
                 if (mIsLoadMore) {
                     boolean hasMore = mAdapter.addBaseDatas(responseData);
-//                    ToastUtils.makeTextShort("没有更多数据");
-                    refreshLayout.finishLoadmore();
+                    if (hasMore) {
+                        refreshLayout.finishLoadmore();
+                    } else {
+                        refreshLayout.setBottomView(new ZyBottomView(GoodsListActivity.this));
+                    }
                 } else {
                     mAdapter.upBaseDatas(responseData);
                     refreshLayout.finishRefreshing();
+                    refreshLayout.finishLoadmore();
                 }
             }
 
             @Override
             public void onError(Request request, Exception e) {
                 if (mIsLoadMore) {
-                    refreshLayout.finishLoadmore();
+                    refreshLayout.setBottomView(new ZyBottomView(GoodsListActivity.this));
                 } else {
                     refreshLayout.finishRefreshing();
                 }

@@ -185,19 +185,20 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
                         Log.e(TAG, "onSuccess: 没有更多数据");
                         refreshLayout.setBottomView(new ZyBottomView(getActivity()));
                     } else {
+                        Log.e(TAG, "onSuccess: 加载更多" );
                         refreshLayout.finishLoadmore();
                     }
                 } else {
                     mAdapter.upBaseDatas(responseData);
                     refreshLayout.finishRefreshing();
+                    refreshLayout.finishLoadmore();
                 }
             }
 
             @Override
             public void onError(Request request, Exception e) {
                 if (mIsLoadMore) {
-                    refreshLayout.finishLoadmore();
-
+                    refreshLayout.setBottomView(new ZyBottomView(getActivity()));
                 } else {
                     refreshLayout.finishRefreshing();
                 }

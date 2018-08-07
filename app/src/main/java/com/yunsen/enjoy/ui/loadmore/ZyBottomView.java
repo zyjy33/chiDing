@@ -6,6 +6,7 @@ import android.support.v7.widget.AppCompatTextView;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -29,9 +30,10 @@ public class ZyBottomView extends AppCompatTextView implements IBottomView {
     public ZyBottomView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         int size = DensityUtil.dp2px(context, 34);
-        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(size, size);
+        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, size);
         params.gravity = Gravity.CENTER;
         setLayoutParams(params);
+        this.setGravity(Gravity.CENTER);
         this.setText("没有更多数据");
     }
 
