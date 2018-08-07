@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.activity.BaseFragmentActivity;
+import com.yunsen.enjoy.ui.UIHelper;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -65,6 +66,7 @@ public class AddShoppingActivity extends BaseFragmentActivity {
                 finish();
                 break;
             case R.id.submit_btn:
+               UIHelper.showMapLocationActivity(this);
                 break;
         }
     }

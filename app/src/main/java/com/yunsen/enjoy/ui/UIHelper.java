@@ -96,6 +96,7 @@ import com.yunsen.enjoy.fragment.buy.SelectBrandActivity;
 import com.yunsen.enjoy.fragment.buy.SeniorFilterActivity;
 import com.yunsen.enjoy.http.AsyncHttp;
 import com.yunsen.enjoy.http.URLConstants;
+import com.yunsen.enjoy.location.MapLocationActivity;
 import com.yunsen.enjoy.model.CarDetails;
 import com.yunsen.enjoy.model.MyOrderData;
 import com.yunsen.enjoy.model.NoticeModel;
@@ -1357,4 +1358,16 @@ public class UIHelper {
         Intent intent = new Intent(ctx, AddShoppingActivity.class);
         ctx.startActivity(intent);
     }
+
+    /**
+     * 显示地图定位
+     *
+     * @param ctx
+     */
+    public static void showMapLocationActivity(Context ctx) {
+        Intent intent = new Intent(ctx, MapLocationActivity.class);
+        ctx.startActivity(intent);
+    }
+
+
 }
