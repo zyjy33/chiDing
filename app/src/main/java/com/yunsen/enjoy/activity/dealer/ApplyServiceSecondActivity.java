@@ -1,5 +1,6 @@
 package com.yunsen.enjoy.activity.dealer;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -19,17 +20,22 @@ import com.gghl.view.wheelcity.adapters.ArrayWheelAdapter;
 import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.activity.BaseFragmentActivity;
 import com.yunsen.enjoy.adapter.CountryAdapter;
+import com.yunsen.enjoy.common.Constants;
 import com.yunsen.enjoy.common.SpConstants;
 import com.yunsen.enjoy.http.HttpCallBack;
 import com.yunsen.enjoy.http.HttpProxy;
 import com.yunsen.enjoy.model.ServiceProject;
 import com.yunsen.enjoy.model.request.ApplyFacilitatorModel;
 import com.yunsen.enjoy.ui.UIHelper;
+import com.yunsen.enjoy.utils.DeviceUtil;
 import com.yunsen.enjoy.utils.ToastUtils;
 import com.yunsen.enjoy.widget.MyAlertDialog;
 import com.yunsen.enjoy.widget.NumberPickerDialog;
+import com.yunsen.enjoy.widget.dialog.ServiceTagCheckDialog;
+import com.yunsen.enjoy.widget.dialog.TimePickerViewDialog;
 import com.yunsen.enjoy.widget.interfaces.onLeftOnclickListener;
 import com.yunsen.enjoy.widget.interfaces.onRightOnclickListener;
+import com.yunsen.enjoy.widget.interfaces.onRightServiceProjectOnclickListener;
 
 import java.util.List;
 
@@ -74,6 +80,9 @@ public class ApplyServiceSecondActivity extends BaseFragmentActivity {
     private String mCitys;
     public String mCountry;
     private String[] mServiceProjectDatas;
+    private TimePickerViewDialog startPickerView;
+    private TimePickerViewDialog endPickerView;
+    private ServiceTagCheckDialog mServiceTagDialog;
 
     @Override
     public int getLayout() {
@@ -84,7 +93,7 @@ public class ApplyServiceSecondActivity extends BaseFragmentActivity {
     @Override
     protected void initView() {
         ButterKnife.bind(this);
-        actionBarTitle.setText("申请服务商1/2");
+        actionBarTitle.setText("申请商家1/2");
     }
 
     @Override
@@ -122,26 +131,38 @@ public class ApplyServiceSecondActivity extends BaseFragmentActivity {
 
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            if (requestCode == Constants.ADDRESS_REQUEST) {
+                String address = data.getStringExtra(Constants.ADDRESS_KEY);
+                facilitatorAddressEdt.setText(address);
+            }
+        }
+    }
 
-    @OnClick({R.id.action_back, R.id.facilitator_tag_tv, R.id.facilitator_start_tv, R.id.facilitator_end_tv, R.id.next_btn, R.id.facilitator_address_edt})
+    @OnClick({R.id.action_back, R.id.facilitator_tag_tv, R.id.facilitator_start_layout, R.id.facilitator_end_layout, R.id.next_btn, R.id.facilitator_address_layout})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.action_back:
                 finish();
                 break;
-            case R.id.facilitator_tag_tv:
+            case R.id.facilitator_tag_layout:
                 if (mServiceProjectDatas != null) {
                     showPickerDialog(mServiceProjectDatas);
                 } else {
                     requestData();
                 }
                 break;
-            case R.id.facilitator_address_edt:
-                showAddressPickerDialog();
+            case R.id.facilitator_address_layout:
+                UIHelper.showMapLocationActivity(this);
                 break;
-            case R.id.facilitator_start_tv:
+            case R.id.facilitator_start_layout:
+                showStartTimeDialog();
                 break;
-            case R.id.facilitator_end_tv:
+            case R.id.facilitator_end_layout:
+                showEndTimeDialog();
                 break;
             case R.id.next_btn:
                 intSMap();
@@ -202,28 +223,26 @@ public class ApplyServiceSecondActivity extends BaseFragmentActivity {
         String serviceFlag = facilitatorTagTv.getText().toString();
         Integer projectTag = (Integer) facilitatorProjectTv.getTag();
         String phoneNum = facilitatorPhoneEdt.getText().toString();
-        String address = facilitatorAddressEdt.getText().toString();
+//        String address = facilitatorAddressEdt.getText().toString();
         String gpsAddress = facilitatorGpsEdt.getText().toString();
         String startTime = facilitatorStartTv.getText().toString();
         String endTime = facilitatorEndTv.getText().toString();
         if (TextUtils.isEmpty(name)) {
-            ToastUtils.makeTextShort("服务商名称不能为空");
+            ToastUtils.makeTextShort("申请商家名称不能为空");
         } else if (TextUtils.isEmpty(phoneNum)) {
             ToastUtils.makeTextShort("联系电话不能为空");
-        } else if (TextUtils.isEmpty(address)) {
-            ToastUtils.makeTextShort("服务商城市不能为空");
+//        } else if (TextUtils.isEmpty(address)) {
+//            ToastUtils.makeTextShort("申请商家城市不能为空");
         } else if (TextUtils.isEmpty(gpsAddress)) {
             ToastUtils.makeTextShort("详细地址不能为空");
         } else if (TextUtils.isEmpty(startTime)) {
-
         } else if (TextUtils.isEmpty(endTime)) {
-
         } else {
             mRequstData.setName(name);
             mRequstData.setSeo_title(serviceFlag);
             mRequstData.setService_ids(String.valueOf(projectTag));
             mRequstData.setMobile(phoneNum);
-            mRequstData.setProvince(address);
+//            mRequstData.setProvince(address);
             mRequstData.setAddress(gpsAddress);
             mRequstData.setService_time(startTime + "-" + endTime);
         }
@@ -330,5 +349,105 @@ public class ApplyServiceSecondActivity extends BaseFragmentActivity {
         super.onDestroy();
         ButterKnife.unbind(this);
     }
+
+
+    private void showStartTimeDialog() {
+        if (startPickerView == null) {
+            startPickerView = new TimePickerViewDialog(this);
+            startPickerView.setLeftOnclickListener("取消", new onLeftOnclickListener() {
+                @Override
+                public void onLeftClick() {
+                    if (startPickerView.isShowing()) {
+                        startPickerView.cancel();
+                    }
+                }
+            });
+            startPickerView.setRightOnclickListener("确定", new onRightOnclickListener() {
+                @Override
+                public void onRightClick(int... index) {
+                    facilitatorStartTv.setText(startPickerView.getTime(index[0], index[1]));
+                    if (startPickerView.isShowing()) {
+                        startPickerView.cancel();
+                    }
+                }
+            });
+        }
+        if (!startPickerView.isShowing()) {
+            startPickerView.show();
+        }
+    }
+
+    private void showEndTimeDialog() {
+        if (endPickerView == null) {
+            endPickerView = new TimePickerViewDialog(this);
+            endPickerView.setLeftOnclickListener("取消", new onLeftOnclickListener() {
+                @Override
+                public void onLeftClick() {
+                    if (endPickerView.isShowing()) {
+                        endPickerView.cancel();
+                    }
+                }
+            });
+            endPickerView.setRightOnclickListener("确定", new onRightOnclickListener() {
+                @Override
+                public void onRightClick(int... index) {
+                    facilitatorEndTv.setText(endPickerView.getTime(index[0], index[1]));
+                    if (endPickerView.isShowing()) {
+                        endPickerView.cancel();
+                    }
+                }
+            });
+        }
+        if (!endPickerView.isShowing()) {
+            endPickerView.show();
+        }
+    }
+
+    /**
+     * 选择商家标签
+     *
+     * @param datas
+     */
+    private void showPickerDialog(List<ServiceProject> datas) {
+        if (datas == null) {
+            return;
+        }
+        if (mServiceTagDialog == null) {
+            mServiceTagDialog = new ServiceTagCheckDialog(this, datas);
+            mServiceTagDialog.setLeftOnclickListener("取消", new onLeftOnclickListener() {
+                @Override
+                public void onLeftClick() {
+                    if (mServiceTagDialog != null && mServiceTagDialog.isShowing()) {
+                        mServiceTagDialog.dismiss();
+                    }
+                }
+            });
+            mServiceTagDialog.setRightOnclickListener("确定", new onRightServiceProjectOnclickListener() {
+                @Override
+                public void onRightClick(List<ServiceProject> datas) {
+                    if (datas != null && datas.size() > 0) {
+                        String strSub = "";
+                        String strId = "";
+                        int i = 0;
+                        for (; i < datas.size() - 1; i++) {
+                            strSub += datas.get(i).getTitle() + ",";
+                            strId += datas.get(i).getId() + ",";
+                        }
+                        strSub += datas.get(i).getTitle();
+                        strId += datas.get(i).getId();
+                        facilitatorTagTv.setText(strSub);
+                        facilitatorProjectTv.setTag(strId);
+                    } else {
+                        facilitatorTagTv.setText("");
+                        facilitatorTagTv.setTag("");
+                    }
+                    mServiceTagDialog.dismiss();
+                }
+
+            });
+        }
+        mServiceTagDialog.show();
+    }
+
 
 }

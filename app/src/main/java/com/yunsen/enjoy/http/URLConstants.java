@@ -45,7 +45,7 @@ public class URLConstants {
      */
     public static final String CAR_BRAND_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/get_article_brand";
     /**
-     * 服务商
+     * 商家
      */
     public static final String SERVICE_PROVIDE = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/get_user_commpany";
 
@@ -119,12 +119,12 @@ public class URLConstants {
      */
     public static final String SHOP_COLLECT_LIST_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/get_user_company_collection";
     /**
-     * 详情服务商
+     * 详情商家
      */
     public static final String SERVICE_SHOP_INFO_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/get_user_commpany_content?id=";
     /**
      * id: 用户id
-     * 是否是服务商facilitator
+     * 是否是商家facilitator
      */
     public static final String IS_FACILITATOR_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/get_user_commpany_content?id=";
 
@@ -152,13 +152,13 @@ public class URLConstants {
      */
     public static final String VERMICELLI_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/get_user_fans_list";
     /**
-     * 申请服务商-
-     * 服务商订单统计数量
+     * 申请商家-
+     * 商家订单统计数量
      * https://szlxkg.com/tools/mobile_ajax.asmx/get_commpany_orders_total
      */
     public static final String SERVICE_ODER_NUM_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/get_commpany_orders_total";
     /**
-     * 服务商申请提交表单数据
+     * 商家申请提交表单数据
      * https://szlxkg.com/tools/mobile_ajax.asmx/add_user_commpany_2017
      */
     public static final String APPLY_SERVICE_FORM_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/add_application_agent";

@@ -116,7 +116,7 @@
                 android:layout_marginLeft="@dimen/app_margin"
                 android:layout_marginRight="@dimen/app_margin"
                 android:gravity="center_vertical"
-                android:text="服务商公告"
+                android:text="商家公告"
                 android:textColor="@color/orange_color"
                 android:textSize="18sp" />
 

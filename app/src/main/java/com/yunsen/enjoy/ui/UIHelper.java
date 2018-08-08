@@ -20,6 +20,7 @@ import com.yunsen.enjoy.activity.CarDetailsActivity;
 import com.yunsen.enjoy.activity.HouseDetailActivity;
 import com.yunsen.enjoy.activity.MainActivity;
 import com.yunsen.enjoy.activity.MoveActivity;
+import com.yunsen.enjoy.activity.PhotoBrowseActivity;
 import com.yunsen.enjoy.activity.SearchActivity;
 import com.yunsen.enjoy.activity.SelectCityNewActivity;
 import com.yunsen.enjoy.activity.ServiceShopInfoActivity;
@@ -101,6 +102,7 @@ import com.yunsen.enjoy.model.CarDetails;
 import com.yunsen.enjoy.model.MyOrderData;
 import com.yunsen.enjoy.model.NoticeModel;
 import com.yunsen.enjoy.model.OrderBean;
+import com.yunsen.enjoy.model.PhotoInfo;
 import com.yunsen.enjoy.model.request.ApplyCarModel;
 import com.yunsen.enjoy.model.request.ApplyFacilitatorModel;
 import com.yunsen.enjoy.utils.AccountUtils;
@@ -169,7 +171,7 @@ public class UIHelper {
 
 
     /**
-     * 判断是否是服务商，并跳转 登录，我是服务商，申请服务商页面
+     * 判断是否是商家，并跳转 登录，我是商家，申请商家页面
      *
      * @param ctx
      * @param isFacilitator
@@ -364,7 +366,7 @@ public class UIHelper {
     }
 
     /**
-     * 申请服务商
+     * 申请商家
      *
      * @param ctx
      */
@@ -596,7 +598,7 @@ public class UIHelper {
     }
 
     /**
-     * 服务商页面
+     * 商家页面
      *
      * @param ctx
      * @param id
@@ -608,7 +610,7 @@ public class UIHelper {
     }
 
     /**
-     * 申请服务商2
+     * 申请商家
      *
      * @param ctx
      */
@@ -618,7 +620,7 @@ public class UIHelper {
     }
 
     /**
-     * 申请服务商3
+     * 申请商家3
      *
      * @param ctx
      * @param mSMap
@@ -936,7 +938,7 @@ public class UIHelper {
 
 
     /**
-     * 服务商更多
+     * 商家更多
      *
      * @param ctx
      */
@@ -1362,10 +1364,24 @@ public class UIHelper {
     /**
      * 显示地图定位
      *
-     * @param ctx
+     * @param act
      */
-    public static void showMapLocationActivity(Context ctx) {
-        Intent intent = new Intent(ctx, MapLocationActivity.class);
+    public static void showMapLocationActivity(Activity act) {
+        Intent intent = new Intent(act, MapLocationActivity.class);
+        act.startActivityForResult(intent, Constants.ADDRESS_REQUEST);
+    }
+
+
+    /**
+     * @param ctx
+     * @param lists
+     */
+    public static void showPhotoBrowseActivity(Context ctx, ArrayList<PhotoInfo> lists, int postion) {
+        Intent intent = new Intent(ctx, PhotoBrowseActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putParcelableArrayList(Constants.PHOTO_BROWSE_KEY, lists);
+        bundle.putInt(Constants.PHOTO_BROWSE_INDEX_KEY, postion);
+        intent.putExtras(bundle);
         ctx.startActivity(intent);
     }
 

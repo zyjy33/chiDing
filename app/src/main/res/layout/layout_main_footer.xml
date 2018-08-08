@@ -30,6 +30,12 @@
             android:text="@string/main_navigation_im" />
 
         <RadioButton
+            android:id="@+id/foot_bar_apply"
+            style="@style/main_footer_bar_radio"
+            android:drawableTop="@drawable/shopping_icon_selecter"
+            android:text="@string/main_navigation_apply" />
+
+        <RadioButton
             android:id="@+id/main_footbar_user"
             style="@style/main_footer_bar_radio"
             android:drawableTop="@drawable/widget_bar_user_bg"

@@ -48,7 +48,7 @@ public class MyFacilitatorActivity extends BaseFragmentActivity {
     @Override
     protected void initView() {
         ButterKnife.bind(this);
-        actionBarTitle.setText("我是服务商");
+        actionBarTitle.setText("我是商家");
     }
 
     @Override

@@ -210,7 +210,7 @@ public class MineFragment extends BaseFragment {
     }
 
     /**
-     * 我是服务商的判断跳转
+     * 我是商家的判断跳转
      */
     private void goLoginOrIsFacilitator() {
         Intent intent = null;
@@ -299,14 +299,14 @@ public class MineFragment extends BaseFragment {
 //        if (SpConstants.WEI_XIN.equals(loginFlag) || SpConstants.QQ_LOGIN.equals(loginFlag)) {//微信登录 QQ登录
 //            if (AccountUtils.hasBoundPhone()) {
 //                getLeXiangUserInfo();//获取乐享用户信息
-//                requestIsFacilitator();//判断是否是服务商
+//                requestIsFacilitator();//判断是否是商家
 //            } else {
 //                setUserIconAndName(mUserName, headimgurl2, headimgurl);
 //            }
 //        } else {
 //            if (!TextUtils.isEmpty(user_name_phone)) {//手机登录
 //                getLeXiangUserInfo();//获取乐享用户信息
-//                requestIsFacilitator();//判断是否是服务商
+//                requestIsFacilitator();//判断是否是商家
 //            } else {
 //                hasLoginLayout.setVisibility(View.GONE);
 //                loginIcon.setVisibility(View.VISIBLE);
@@ -317,7 +317,7 @@ public class MineFragment extends BaseFragment {
     }
 
     /**
-     * 是否是服务商
+     * 是否是商家
      */
     private void requestIsFacilitator() {
         //facilitator

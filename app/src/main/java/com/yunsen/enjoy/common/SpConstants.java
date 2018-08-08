@@ -48,7 +48,7 @@ public class SpConstants {
     public static final String QQ_LOGIN = "android_qq";
     public static final String PAN_DUAN = "panduan";
     public static final String PAN_DUAN_TI_SHI = "panduantishi";
-    public static final String HAS_SERVICE_SHOP = "has_service_shop";//是否是服务商
+    public static final String HAS_SERVICE_SHOP = "has_service_shop";//是否是商家
     public static final String AREA = "area";
     public static final String ADDRESS = "address";
     public static final String EMAIL = "email";

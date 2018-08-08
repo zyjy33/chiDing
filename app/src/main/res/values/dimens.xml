@@ -40,4 +40,5 @@
     <dimen name="item_title_size">14sp</dimen>
     <dimen name="left_icon_size">20dp</dimen>
     <dimen name="edt_height">40dp</dimen>
+    <dimen name="dp_40">40dp</dimen>
 </resources>

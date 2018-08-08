@@ -261,7 +261,7 @@ public class HttpProxy {
     }
 
     /**
-     * 首页底部的服务商
+     * 首页底部的商家
      *
      * @param pageIndex
      * @param callBack
@@ -296,7 +296,7 @@ public class HttpProxy {
     }
 
     /**
-     * 服务商
+     * 商家
      *
      * @param pageIndex
      * @param city
@@ -810,7 +810,7 @@ public class HttpProxy {
     }
 
     /**
-     * 获取服务商的详细信息 and 判断是否是服务商
+     * 获取商家的详细信息 and 判断是否是商家
      *
      * @param serviceId
      * @param callBack
@@ -1084,8 +1084,8 @@ public class HttpProxy {
     }
 
     /**
-     * 申请服务商-
-     * 服务商订单统计数量
+     * 申请商家-
+     * 商家订单统计数量
      */
     public static void getServiceOrderCount(Activity act, ApplyFacilitatorModel data, HttpCallBack<RestApiResponse> callBack) {
 
@@ -1219,7 +1219,7 @@ public class HttpProxy {
     }
 
     /**
-     * 服务商申请提交表单数据
+     * 商家申请提交表单数据
      */
     public static void getApplyServiceForm(Activity act, ApplyFacilitatorModel data, final HttpCallBack<RestApiResponse> callBack) {
         SharedPreferences sp = act.getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, Context.MODE_PRIVATE);
@@ -1291,7 +1291,7 @@ public class HttpProxy {
     }
 
     /**
-     * 是否是服务商
+     * 是否是商家
      *
      * @param callBack
      */

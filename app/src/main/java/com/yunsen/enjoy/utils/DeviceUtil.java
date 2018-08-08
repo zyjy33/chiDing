@@ -12,6 +12,8 @@ import android.net.Uri;
 import android.telephony.TelephonyManager;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Display;
+import android.view.WindowManager;
 
 import com.yunsen.enjoy.activity.MainActivity;
 import com.yunsen.enjoy.activity.mine.PersonCenterActivity;
@@ -19,6 +21,7 @@ import com.yunsen.enjoy.activity.user.UserLoginActivity;
 import com.yunsen.enjoy.common.AppContext;
 
 import java.io.File;
+import java.lang.reflect.Method;
 
 /**
  * Created by tiansj on 14/12/30.
@@ -204,5 +207,50 @@ public class DeviceUtil {
         return sScreenHeight;
     }
 
+    /**
+     * 获取虚拟键盘的高度
+     *
+     * @return
+     */
+    public static int getBottomStatusHeight(Context context) {
+        int totlaHeight = getScreenHeight();
+        int contentHeight = getScreenHeight(context);
+        return totlaHeight - contentHeight;
+    }
+    /**
+     * 获取底部虚拟键盘的高度
+     *
+     * @param context
+     * @return
+     */
+    private static int getScreenHeight(Context context) {
+        WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        DisplayMetrics out = new DisplayMetrics();
+        wm.getDefaultDisplay().getMetrics(out);
+        return out.heightPixels;
+    }
+
+    /**
+     * 获取屏幕高度
+     *
+     * @return
+     */
+    public static int getScreenDPI(Context context) {
+        int dpi = 0;
+        WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        Display display = windowManager.getDefaultDisplay();
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        Class c;
+        try {
+            c = Class.forName("android.view.Display");
+            Method method = c.getMethod("getRealMetrics", DisplayMetrics.class);
+            method.invoke(display, displayMetrics);
+            dpi = displayMetrics.heightPixels;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return dpi;
+    }
 
 }

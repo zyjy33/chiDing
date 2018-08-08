@@ -54,7 +54,7 @@ public class ServiceShopInfoActivity extends BaseFragmentActivity {
     @Override
     protected void initView() {
         ButterKnife.bind(this);
-        actionBarTitle.setText("服务商详情");
+        actionBarTitle.setText("商家详情");
     }
 
     @Override

@@ -2,14 +2,23 @@ package com.yunsen.enjoy.location;
 
 import android.content.Intent;
 import android.graphics.BitmapFactory;
+import android.graphics.Rect;
 import android.location.LocationManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
+import android.view.View;
+import android.view.ViewTreeObserver;
+import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,8 +47,12 @@ import com.amap.api.services.poisearch.PoiSearch;
 import com.yanzhenjie.permission.Permission;
 import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.activity.BaseFragmentActivity;
+import com.yunsen.enjoy.common.Constants;
 import com.yunsen.enjoy.model.PoiAddressInfo;
 import com.yunsen.enjoy.utils.DeviceUtil;
+import com.yunsen.enjoy.utils.ToastUtils;
+import com.yunsen.enjoy.widget.AndroidAdjustResizeBugFix;
+import com.yunsen.enjoy.widget.recyclerview.MultiItemTypeAdapter;
 import com.zaaach.citypicker.CityPicker;
 import com.zaaach.citypicker.model.LocateState;
 import com.zaaach.citypicker.model.LocatedCity;
@@ -55,8 +68,7 @@ import butterknife.OnClick;
  * Created by Administrator on 2018/8/7/007.
  */
 
-public class MapLocationActivity extends BaseFragmentActivity implements AMapLocationListener, GeocodeSearch.OnGeocodeSearchListener, PoiSearch.OnPoiSearchListener {
-
+public class MapLocationActivity extends BaseFragmentActivity implements AMapLocationListener, GeocodeSearch.OnGeocodeSearchListener, PoiSearch.OnPoiSearchListener, MultiItemTypeAdapter.OnItemClickListener {
     @Bind(R.id.action_back)
     ImageView actionBack;
     @Bind(R.id.action_bar_title)
@@ -73,6 +85,12 @@ public class MapLocationActivity extends BaseFragmentActivity implements AMapLoc
     AMap aMap;
     @Bind(R.id.recycler_view)
     RecyclerView recyclerView;
+    @Bind(R.id.search_edt)
+    EditText searchEdt;
+    @Bind(R.id.search_btn)
+    Button searchBtn;
+    @Bind(R.id.submit_btn)
+    Button submitBtn;
     private LocationManager mLm;
     private AMapLocationClientOption mLocationOption;
     private AMapLocationClient mlocationClient;
@@ -88,6 +106,7 @@ public class MapLocationActivity extends BaseFragmentActivity implements AMapLoc
 
     @Override
     public int getLayout() {
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
         return R.layout.activity_map_location;
     }
 
@@ -95,8 +114,7 @@ public class MapLocationActivity extends BaseFragmentActivity implements AMapLoc
     protected void initView() {
         ButterKnife.bind(this);
         actionBarTitle.setText("地址定位");
-        mapView.getLayoutParams().height = DeviceUtil.getHeight(this) / 3 ;
-
+         mapView.getLayoutParams().height = DeviceUtil.getHeight(this) / 3;
     }
 
     @Override
@@ -112,12 +130,12 @@ public class MapLocationActivity extends BaseFragmentActivity implements AMapLoc
             aMap = mapView.getMap();
         }
         requestPermission(new String[]{Permission.ACCESS_COARSE_LOCATION, Permission.ACCESS_FINE_LOCATION}, 1);
-        upMarker(mLatLng);
+        upMarker(mLatLng, true);
 
         aMap.setOnMapClickListener(new AMap.OnMapClickListener() {
             @Override
             public void onMapClick(LatLng latLng) {
-                upMarker(latLng);
+                upMarker(latLng, true);
             }
         });
         aMap.setMyLocationEnabled(true);
@@ -137,7 +155,7 @@ public class MapLocationActivity extends BaseFragmentActivity implements AMapLoc
             @Override
             public void onMarkerDragEnd(Marker arg0) {
                 LatLng position = arg0.getPosition();
-                upMarker(position);
+                upMarker(position, true);
                 Log.e(TAG, "onMarkerDragEnd: ");
             }
 
@@ -159,7 +177,7 @@ public class MapLocationActivity extends BaseFragmentActivity implements AMapLoc
             @Override
             public boolean onMarkerClick(Marker marker) {
                 Log.e(TAG, "onMarkerClick: ");
-                upMarker(marker.getPosition());
+                upMarker(marker.getPosition(), true);
                 return false;
             }
         };
@@ -210,7 +228,6 @@ public class MapLocationActivity extends BaseFragmentActivity implements AMapLoc
         mlocationClient.startLocation();
     }
 
-    private static final String TAG = "MapLocationActivity";
 
     @Override
     public void onLocationChanged(AMapLocation amapLocation) {
@@ -223,7 +240,7 @@ public class MapLocationActivity extends BaseFragmentActivity implements AMapLoc
                 mLatLng = new LatLng(amapLocation.getLatitude(), amapLocation.getLongitude());
                 if (mLocationUpMarker) {
                     mLocationUpMarker = false;
-                    upMarker(mLatLng);
+                    upMarker(mLatLng, true);
                     mapView.invalidate();
                 }
                 Log.e(TAG, "onLocationChanged: amapLocation.getLongitude()=" + amapLocation.getLongitude() + "   amapLocation.getLatitude()=" + amapLocation.getLatitude());
@@ -237,7 +254,7 @@ public class MapLocationActivity extends BaseFragmentActivity implements AMapLoc
         }
     }
 
-    private void upMarker(LatLng latLng) {
+    private void upMarker(LatLng latLng, boolean needSearch) {
         if (mMarker != null) {
             mMarker.remove();
         }
@@ -255,7 +272,10 @@ public class MapLocationActivity extends BaseFragmentActivity implements AMapLoc
         //点的透明度
         // 将Marker设置为贴地显示，可以双指下拉地图查看效果
         mMarker = aMap.addMarker(mMarkerOption);
-        regeocodeSearch(latLng.latitude, latLng.longitude, 3000);
+        if (needSearch) {
+            regeocodeSearch(latLng.latitude, latLng.longitude, 3000);
+
+        }
     }
 
 
@@ -264,22 +284,31 @@ public class MapLocationActivity extends BaseFragmentActivity implements AMapLoc
      */
     private void seartchPoiStart(String key, String cityCode, Marker locationMarker) {
         PoiSearch.Query query = new PoiSearch.Query(key, "", cityCode);
-//keyWord表示搜索字符串，
-//第二个参数表示POI搜索类型，二者选填其一，选用POI搜索类型时建议填写类型代码，码表可以参考下方（而非文字）
-//cityCode表示POI搜索区域，可以是城市编码也可以是城市名称，也可以传空字符串，空字符串代表全国在全国范围内进行搜索
+        //keyWord表示搜索字符串，
+        //第二个参数表示POI搜索类型，二者选填其一，选用POI搜索类型时建议填写类型代码，码表可以参考下方（而非文字）
+        //cityCode表示POI搜索区域，可以是城市编码也可以是城市名称，也可以传空字符串，空字符串代表全国在全国范围内进行搜索
         query.setPageSize(10);// 设置每页最多返回多少条poiitem
         query.setPageNum(1);//设置查询页码
         PoiSearch poiSearch = new PoiSearch(this, query);
         poiSearch.setOnPoiSearchListener(this);
         poiSearch.searchPOIAsyn();
-        poiSearch.setBound(new PoiSearch.SearchBound(new LatLonPoint(locationMarker.getPosition().latitude,
-                locationMarker.getPosition().longitude), 1000));//设置周边搜索的中心点以及半径
+        if (locationMarker != null) {
+            poiSearch.setBound(new PoiSearch.SearchBound(new LatLonPoint(locationMarker.getPosition().latitude,
+                    locationMarker.getPosition().longitude), 1000));//设置周边搜索的中心点以及半径
+        }
+
     }
 
+    private static final String TAG = "MapLocationActivity";
+    private boolean mBackEnable = false;
+    private boolean mIsBtnBack = false;
+    private int rootBottom = Integer.MIN_VALUE;
+    public int mHeight;
+    public static int keyboardHeight = 0;
 
     @Override
     protected void initListener() {
-
+        mAdapter.setOnItemClickListener(this);
     }
 
     @Override
@@ -305,20 +334,32 @@ public class MapLocationActivity extends BaseFragmentActivity implements AMapLoc
 
     @Override
     protected void onDestroy() {
+//        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.JELLY_BEAN) {
+//            rootLayout.getViewTreeObserver().removeGlobalOnLayoutListener(mOnGlobalLayoutListener);
+//        } else {
+//            rootLayout.getViewTreeObserver().removeOnGlobalLayoutListener(mOnGlobalLayoutListener);
+//        }
         super.onDestroy();
         //在activity执行onDestroy时执行mMapView.onDestroy()，销毁地图
         mapView.onDestroy();
     }
 
-    @OnClick(R.id.action_back)
-    public void onViewClicked() {
-        finish();
-    }
-
 
     @Override
-    public void onPoiSearched(PoiResult poiResult, int i) {
-        Log.e(TAG, "onPoiSearched: " + i);
+    public void onPoiSearched(PoiResult poiResult, int rCode) {
+        if (rCode == 1000) {//成功
+            ArrayList<PoiItem> pois = poiResult.getPois();
+            ArrayList<PoiAddressInfo> lists = new ArrayList<>();
+            for (int i = 0; i < pois.size(); i++) {
+                PoiItem poiItem = pois.get(i);
+                lists.add(new PoiAddressInfo(poiItem.getTitle(), poiItem.getAdName(), poiItem.getSnippet(), poiItem.getLatLonPoint().getLatitude(), poiItem.getLatLonPoint().getLongitude()));
+            }
+            mAdapter.upBaseDatas(lists);
+
+        } else {//失败
+
+        }
+
     }
 
     @Override
@@ -391,7 +432,7 @@ public class MapLocationActivity extends BaseFragmentActivity implements AMapLoc
                     LatLonPoint latLonPoint = pois.get(i).getLatLonPoint();
                     double latitude = latLonPoint.getLatitude();
                     double longitude = latLonPoint.getLongitude();
-                    datas.add(new PoiAddressInfo(title, adName, snippet));
+                    datas.add(new PoiAddressInfo(title, adName, snippet, latitude, longitude));
                 }
                 mAdapter.upBaseDatas(datas);
             }
@@ -401,6 +442,46 @@ public class MapLocationActivity extends BaseFragmentActivity implements AMapLoc
     @Override
     public void onGeocodeSearched(GeocodeResult geocodeResult, int i) {
 
+    }
+
+
+    @OnClick({R.id.action_back, R.id.search_btn, R.id.submit_btn})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.action_back:
+                finish();
+                break;
+            case R.id.search_btn:
+                seartchPoiStart(searchEdt.getText().toString(), "", null);
+                break;
+            case R.id.submit_btn:
+                Intent data = new Intent();
+                String value = searchEdt.getText().toString();
+                if (TextUtils.isEmpty(value)) {
+                    ToastUtils.makeTextShort("请选择地址");
+                } else {
+                    data.putExtra(Constants.ADDRESS_KEY, value);
+                    setResult(RESULT_OK, data);
+                    finish();
+                }
+
+                break;
+        }
+    }
+
+    @Override
+    public void onItemClick(View view, RecyclerView.Adapter adapter, RecyclerView.ViewHolder holder, int position) {
+        if (position >= 0 && position < mDatas.size()) {
+            PoiAddressInfo addressInfo = mDatas.get(position);
+            searchEdt.setText(addressInfo.getTitle());
+            upMarker(new LatLng(addressInfo.getLatitude(), addressInfo.getLongitude()), false);
+        }
+
+    }
+
+    @Override
+    public boolean onItemLongClick(View view, RecyclerView.Adapter adapter, RecyclerView.ViewHolder holder, int position) {
+        return false;
     }
 
 

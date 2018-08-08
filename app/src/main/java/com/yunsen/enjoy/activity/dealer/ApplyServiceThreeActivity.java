@@ -102,7 +102,7 @@ public class ApplyServiceThreeActivity extends BaseFragmentActivity {
     protected void initView() {
         EventBus.getDefault().register(this);
         ButterKnife.bind(this);
-        actionBarTitle.setText("申请服务商2/2");
+        actionBarTitle.setText("申请商家2/2");
     }
 
     @Override
@@ -193,7 +193,7 @@ public class ApplyServiceThreeActivity extends BaseFragmentActivity {
         if (TextUtils.isEmpty(category)) {
             ToastUtils.makeTextShort("请选择行业类别");
         } else if (TextUtils.isEmpty(synonsis)) {
-            ToastUtils.makeTextShort("请填写服务商简介");
+            ToastUtils.makeTextShort("请填写商家简介");
         } else if (TextUtils.isEmpty(advatage)) {
             ToastUtils.makeTextShort("请填写特色优势");
         } else if (TextUtils.isEmpty(workNumber)) {
@@ -203,7 +203,7 @@ public class ApplyServiceThreeActivity extends BaseFragmentActivity {
         } else if (TextUtils.isEmpty(refereeNum)) {
             ToastUtils.makeTextShort("请填写推荐人号码");
         } else if ((mImgPullFinish & ONE_IMG) != ONE_IMG) {
-            ToastUtils.makeTextShort("请上传服务商Logo");
+            ToastUtils.makeTextShort("请上传商家Logo");
         } else if ((mImgPullFinish & TWO_IMG) != TWO_IMG) {
             ToastUtils.makeTextShort("请上传营业执照");
         } else if ((mImgPullFinish & TWO_IMG) != TWO_IMG) {

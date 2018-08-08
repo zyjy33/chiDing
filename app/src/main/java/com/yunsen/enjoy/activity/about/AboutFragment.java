@@ -149,9 +149,10 @@ public class AboutFragment extends BaseFragment {
 //                    actionBarTitle.setText(title);
                 }
             }
+
         });
         //盖亚Homehttp://183.62.138.31:6060/mobile/default.html
-        webView.loadUrl("https://www.baidu.com");
+        webView.loadUrl("http://www.baidu.com");
     }
 
     @Override

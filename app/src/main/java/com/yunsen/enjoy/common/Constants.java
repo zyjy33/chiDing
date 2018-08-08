@@ -39,7 +39,9 @@ public class Constants {
     public static final String WEB_NO_CHANGE_TITLE = "web_no_change_title";
     public static final String GOODS_LIST_TYPE = "goods_list_type";
     public static final String GOODS_LIST_TITLE = "goods_list_title";
-    public static final String GOODS_TITLE_KEY = "GOODS_TITLE_KEY";
+    public static final String GOODS_TITLE_KEY = "goods_title_key";
+    public static final String PHOTO_BROWSE_KEY = "photo_browse_key";
+    public static final String PHOTO_BROWSE_INDEX_KEY = "photo_browse_index_key";
 //    public static final String APP_SECRET = "";
 //appId=wxe60c28541b0fa8a2&body=zyjytest&device_info=1000&key=ca30ef7495cdd92ee94e1190f78a8735&mch_id=1502153101&nonce_str=ibuaiVcKdpRxkhJA
 
@@ -107,6 +109,7 @@ public class Constants {
     public static final int ADD_ADDRESS_ACT_REQUEST = 12;//支付页面添加地址
     public static final int PHONE_LOGIN_REQUEST = 14;// 手机登录
     public static final int BIND_BANK_CARD_REQUEST = 15;//绑定银行的页面
+    public static final int ADDRESS_REQUEST = 16;//选择地址
 
 
     /*******************************************************************
@@ -200,7 +203,7 @@ public class Constants {
      */
     public static final String MY_ASSETS_INDEX_KEY = "status";
     /**
-     * 注册成为服务商
+     * 注册成为商家
      */
     public static final String APPLY_FACILITATOR_KEY = "apply_facilitator_key";
     public static final String BUNDLE = "bundle";

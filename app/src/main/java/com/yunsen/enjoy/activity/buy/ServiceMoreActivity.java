@@ -86,7 +86,7 @@ public class ServiceMoreActivity extends BaseFragmentActivity implements MultiIt
     @Override
     protected void initView() {
         ButterKnife.bind(this);
-        actionBarTitle.setText("服务商");
+        actionBarTitle.setText("商家");
         serviceMoreRecycler.setLayoutManager(new LinearLayoutManager(this));
     }
 

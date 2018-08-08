@@ -35,7 +35,7 @@
                     android:layout_marginRight="20dp"
                     android:background="@drawable/round_gray_bg"
                     android:gravity="center"
-                    android:text="99张"
+                    android:text="10张"
                     android:textColor="@color/white"
                     android:textSize="12sp" />
             </FrameLayout>

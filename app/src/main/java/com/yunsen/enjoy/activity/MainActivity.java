@@ -18,6 +18,7 @@ import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.activity.about.AboutFragment;
 import com.yunsen.enjoy.common.Constants;
 import com.yunsen.enjoy.common.wsmanager.WsManager;
+import com.yunsen.enjoy.fragment.ApplyServiceFragment;
 import com.yunsen.enjoy.fragment.BuyFragment;
 import com.yunsen.enjoy.fragment.CarFragment;
 import com.yunsen.enjoy.fragment.DiscoverFragment;
@@ -78,7 +79,7 @@ public class MainActivity extends BaseFragmentActivity {
     }
 
     private void initMainData(Bundle savedInstanceState) {
-        fragmentTags = new ArrayList<>(Arrays.asList("HomeFragment", "AboutFragment", "MineFragment"));
+        fragmentTags = new ArrayList<>(Arrays.asList("HomeFragment", "AboutFragment", "ApplyServiceFragment", "MineFragment"));
         currIndex = 0;
         if (savedInstanceState != null) {
             currIndex = savedInstanceState.getInt(CURR_INDEX);
@@ -108,6 +109,9 @@ public class MainActivity extends BaseFragmentActivity {
                         indexId = R.id.foot_bar_im;
                         break;
                     case 2:
+                        indexId = R.id.foot_bar_apply;
+                        break;
+                    case 3:
                         indexId = R.id.main_footbar_user;
                         break;
                 }
@@ -128,8 +132,11 @@ public class MainActivity extends BaseFragmentActivity {
                     case R.id.foot_bar_im:
                         currIndex = 1;
                         break;
-                    case R.id.main_footbar_user:
+                    case R.id.foot_bar_apply:
                         currIndex = 2;
+                        break;
+                    case R.id.main_footbar_user:
+                        currIndex = 3;
                         break;
                     default:
                         break;
@@ -169,6 +176,8 @@ public class MainActivity extends BaseFragmentActivity {
             case 1:
                 return new AboutFragment();
             case 2:
+                return new ApplyServiceFragment();
+            case 3:
                 mMineFragment = new MineFragment();
                 return mMineFragment;
             default:
@@ -194,7 +203,7 @@ public class MainActivity extends BaseFragmentActivity {
         if (index < 0) {
             index = 0;
         }
-        if (index > 2) {
+        if (index > 3) {
             index = 0;
         }
         switch (index) {
@@ -205,6 +214,9 @@ public class MainActivity extends BaseFragmentActivity {
                 group.check(R.id.foot_bar_im);
                 break;
             case 2:
+                group.check(R.id.foot_bar_apply);
+                break;
+            case 3:
                 group.check(R.id.main_footbar_user);
                 break;
 

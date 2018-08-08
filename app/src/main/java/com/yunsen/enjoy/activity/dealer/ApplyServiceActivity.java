@@ -16,7 +16,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
- * 申请服务商（我是服务商）
+ * 申请商家（我是商家）
  */
 public class ApplyServiceActivity extends BaseFragmentActivity {
 

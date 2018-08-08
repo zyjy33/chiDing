@@ -19,7 +19,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
-        android:text="没有更多服务商了..."
+        android:text="没有更多商家了..."
         android:visibility="gone" />
 
 

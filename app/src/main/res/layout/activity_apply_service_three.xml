@@ -60,7 +60,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/item_height"
                 android:layout_marginLeft="@dimen/app_margin"
-                android:text="服务商简介" />
+                android:text="商家简介" />
 
             <EditText
                 android:id="@+id/facilitator_synopsis_edt"
@@ -70,7 +70,7 @@
                 android:layout_marginRight="@dimen/app_margin"
                 android:background="@null"
                 android:gravity="top|left"
-                android:hint="请输入服务商简介"
+                android:hint="请输入商家简介"
                 android:scrollbars="vertical"
                 android:textColor="@color/title_color"
                 android:textSize="13sp" />
@@ -95,7 +95,7 @@
                 android:layout_marginRight="@dimen/app_margin"
                 android:background="@null"
                 android:gravity="top|left"
-                android:hint="请输入服务商优势"
+                android:hint="请输入商家优势"
                 android:scrollbars="vertical"
                 android:textColor="@color/title_color"
                 android:textSize="13sp" />
@@ -140,14 +140,14 @@
                 android:layout_height="@dimen/item_height"
                 android:layout_marginLeft="@dimen/app_margin"
                 android:layout_marginRight="@dimen/app_margin"
-                android:text="服务商Logo" />
+                android:text="商家Logo" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/app_margin"
                 android:layout_marginRight="@dimen/app_margin"
-                android:text="请上传代表服务商形象的logo，用于平台中展示"
+                android:text="请上传代表商家形象的logo，用于平台中展示"
                 android:textColor="@color/color_888"
                 android:textSize="13sp" />
 
@@ -170,7 +170,7 @@
                 android:layout_height="@dimen/item_height"
                 android:layout_marginLeft="@dimen/app_margin"
                 android:layout_marginRight="@dimen/app_margin"
-                android:text="服务商资质" />
+                android:text="商家资质" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -286,7 +286,7 @@
                         android:id="@+id/join_protocol_tv"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="《消费银行服务商加盟协议》"
+                        android:text="《消费银行商家加盟协议》"
                         android:textColor="@color/orange_color"
                         android:textSize="15sp" />
                 </LinearLayout>

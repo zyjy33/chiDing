@@ -1,16 +1,14 @@
 package com.yunsen.enjoy.fragment;
 
-import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 
 import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
 import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.adapter.PhotoImgAdapter;
-import com.yunsen.enjoy.model.UsedFunction;
+import com.yunsen.enjoy.model.PhotoInfo;
+import com.yunsen.enjoy.ui.UIHelper;
 import com.yunsen.enjoy.widget.recyclerview.MultiItemTypeAdapter;
 
 import java.util.ArrayList;
@@ -27,7 +25,7 @@ public class PhotoFragment extends BaseFragment implements MultiItemTypeAdapter.
     RecyclerView recyclerView;
     @Bind(R.id.refreshLayout)
     TwinklingRefreshLayout refreshLayout;
-    private ArrayList<UsedFunction> mDatas;
+    private ArrayList<PhotoInfo> mDatas;
     private PhotoImgAdapter mAdapter;
 
     @Override
@@ -40,8 +38,11 @@ public class PhotoFragment extends BaseFragment implements MultiItemTypeAdapter.
         ButterKnife.bind(this, rootView);
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
         mDatas = new ArrayList<>();
-        for (int i = 0; i < 20; i++) {
-            mDatas.add(new UsedFunction(R.mipmap.ic_launcher, "图片" + i));
+        for (int i = 0; i <10; i++) {
+            PhotoInfo info = new PhotoInfo("", "图片" + i);
+            info.setResId(R.mipmap.ic_launcher);
+            mDatas.add(info);
+
         }
         mAdapter = new PhotoImgAdapter(getActivity(), R.layout.photo_and_tv_item, mDatas);
         recyclerView.setAdapter(mAdapter);
@@ -70,7 +71,7 @@ public class PhotoFragment extends BaseFragment implements MultiItemTypeAdapter.
 
     @Override
     public void onItemClick(View view, RecyclerView.Adapter adapter, RecyclerView.ViewHolder holder, int position) {
-
+        UIHelper.showPhotoBrowseActivity(getActivity(), mDatas, position);
     }
 
     @Override

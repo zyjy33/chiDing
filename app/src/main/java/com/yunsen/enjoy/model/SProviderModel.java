@@ -19,7 +19,7 @@ public  class SProviderModel {
      * user_id : 4782
      * recommend_id : 0
      * recommend_name : null
-     * name : 深圳南山源兴科技大厦服务商
+     * name : 深圳南山源兴科技大厦商家
      * content : null
      * contact : 马先生
      * tel :
