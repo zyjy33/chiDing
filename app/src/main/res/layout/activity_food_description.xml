@@ -23,8 +23,7 @@
                     android:id="@+id/look_img_img"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:scaleType="centerCrop"
-            />
+                    android:scaleType="centerCrop" />
 
                 <TextView
                     android:id="@+id/look_img_tv"
@@ -85,6 +84,7 @@
                 </LinearLayout>
 
                 <TextView
+                    android:id="@+id/pay_money_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/app_margin"

@@ -29,6 +29,7 @@ import com.yunsen.enjoy.activity.buy.ApplyBuyFirstActivity;
 import com.yunsen.enjoy.activity.buy.ApplyBuyThreeActivity;
 import com.yunsen.enjoy.activity.buy.ApplyShoppingActivity;
 import com.yunsen.enjoy.activity.buy.CarServiceActivity;
+import com.yunsen.enjoy.activity.buy.ComplaintActivity;
 import com.yunsen.enjoy.activity.buy.ExchangePointActivity;
 import com.yunsen.enjoy.activity.buy.FoodDescriptionActivity;
 import com.yunsen.enjoy.activity.buy.GoodsDescriptionActivity;
@@ -85,6 +86,7 @@ import com.yunsen.enjoy.activity.order.MyOrderActivity;
 import com.yunsen.enjoy.activity.order.MyOrderXqActivity;
 import com.yunsen.enjoy.activity.pay.MonneyChongZhiActivity;
 import com.yunsen.enjoy.activity.pay.MyOrderZFActivity;
+import com.yunsen.enjoy.activity.pay.PayActivity;
 import com.yunsen.enjoy.activity.pay.TishiCarArchivesActivity;
 import com.yunsen.enjoy.activity.user.AgentHadActivity;
 import com.yunsen.enjoy.activity.user.DBFengXiangActivity;
@@ -1382,6 +1384,22 @@ public class UIHelper {
         bundle.putParcelableArrayList(Constants.PHOTO_BROWSE_KEY, lists);
         bundle.putInt(Constants.PHOTO_BROWSE_INDEX_KEY, postion);
         intent.putExtras(bundle);
+        ctx.startActivity(intent);
+    }
+
+    /**
+     * @param ctx 付款
+     */
+    public static void showPayActivity(Context ctx) {
+        Intent intent = new Intent(ctx, PayActivity.class);
+        ctx.startActivity(intent);
+    }
+
+    /**
+     * @param ctx 投诉
+     */
+    public static void showComplaintActivity(Context ctx) {
+        Intent intent = new Intent(ctx, ComplaintActivity.class);
         ctx.startActivity(intent);
     }
 

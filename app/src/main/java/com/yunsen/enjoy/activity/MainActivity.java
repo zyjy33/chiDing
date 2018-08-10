@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.activity.about.AboutFragment;
+import com.yunsen.enjoy.common.AppManager;
 import com.yunsen.enjoy.common.Constants;
 import com.yunsen.enjoy.common.wsmanager.WsManager;
 import com.yunsen.enjoy.fragment.ApplyServiceFragment;
@@ -25,11 +26,17 @@ import com.yunsen.enjoy.fragment.DiscoverFragment;
 import com.yunsen.enjoy.fragment.MainPagerFragment;
 import com.yunsen.enjoy.fragment.MineFragment;
 import com.yunsen.enjoy.fragment.NoticeFragment;
+import com.yunsen.enjoy.http.HttpCallBack;
+import com.yunsen.enjoy.http.HttpProxy;
+import com.yunsen.enjoy.http.down.AppUpManager;
+import com.yunsen.enjoy.model.PgyAppVersion;
 import com.yunsen.enjoy.ui.UIHelper;
 import com.yunsen.enjoy.utils.AccountUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+
+import okhttp3.Request;
 
 public class MainActivity extends BaseFragmentActivity {
 
@@ -92,6 +99,11 @@ public class MainActivity extends BaseFragmentActivity {
         if (fragment != null) {
             fragmentManager.beginTransaction().hide(fragment).commit();
         }
+    }
+
+    @Override
+    public void requestData() {
+        AppUpManager.getInstance().startCheckUpdate(this, false);
     }
 
     @Override

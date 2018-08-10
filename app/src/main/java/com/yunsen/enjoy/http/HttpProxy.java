@@ -1961,7 +1961,7 @@ public class HttpProxy {
         FormBody.Builder formBodyBuilder = new FormBody.Builder();
         formBodyBuilder.add("buildBuildVersion", "0");
         formBodyBuilder.add("buildVersion", DeviceUtil.getAppVersionName(AppContext.getInstance()));
-        formBodyBuilder.add("appKey", "5a0c6c62e0f0ff846df79017846e1401");
+        formBodyBuilder.add("appKey", "c90cf5a4751868b82447bef97d5c19b6");
         formBodyBuilder.add("_api_key", "ed2ae2909295d84464ed5a57eee0ca5d");
         FormBody formBody = formBodyBuilder.build();
         final Request request = new Request.Builder().url(url).post(formBody).build();

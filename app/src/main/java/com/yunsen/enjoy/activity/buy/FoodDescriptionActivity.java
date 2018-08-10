@@ -2,7 +2,6 @@ package com.yunsen.enjoy.activity.buy;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
@@ -16,22 +15,14 @@ import com.yunsen.enjoy.activity.BaseFragmentActivity;
 import com.yunsen.enjoy.adapter.GoodsListAdapter;
 import com.yunsen.enjoy.common.Constants;
 import com.yunsen.enjoy.http.HttpCallBack;
-import com.yunsen.enjoy.http.HttpClient;
 import com.yunsen.enjoy.http.HttpProxy;
-import com.yunsen.enjoy.http.HttpResponseHandler;
-import com.yunsen.enjoy.http.URLConstants;
-import com.yunsen.enjoy.model.CarDetails;
 import com.yunsen.enjoy.model.SProviderModel;
-import com.yunsen.enjoy.model.response.CarDetailsResponse;
 import com.yunsen.enjoy.ui.UIHelper;
-import com.yunsen.enjoy.ui.recyclerview.HeaderAndFooterRecyclerViewAdapter;
 import com.yunsen.enjoy.ui.recyclerview.NoScrollLinearLayoutManager;
-import com.yunsen.enjoy.utils.ToastUtils;
 import com.yunsen.enjoy.widget.BaseScrollView;
 import com.yunsen.enjoy.widget.recyclerview.MultiItemTypeAdapter;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import butterknife.Bind;
@@ -58,6 +49,8 @@ public class FoodDescriptionActivity extends BaseFragmentActivity implements Mul
     TextView actionBackComplaint;
     @Bind(R.id.look_img_tv)
     TextView lookImgTv;
+    @Bind(R.id.pay_money_tv)
+    TextView payMoneyTv;
     @Bind(R.id.action_bar_layout)
     LinearLayout actionBarLayout;
     @Bind(R.id.look_img_img)
@@ -161,7 +154,7 @@ public class FoodDescriptionActivity extends BaseFragmentActivity implements Mul
     }
 
     @OnClick({R.id.action_back, R.id.action_bar_share, R.id.action_back_complaint,
-            R.id.look_img_tv, R.id.look_img_img})
+            R.id.look_img_tv, R.id.look_img_img, R.id.pay_money_tv})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.action_back:
@@ -171,11 +164,14 @@ public class FoodDescriptionActivity extends BaseFragmentActivity implements Mul
                 UIHelper.showShareGoodsActivity(this, "测试标题", "测试描述", "测试路径", "测试图片路径");
                 break;
             case R.id.action_back_complaint:
-                ToastUtils.makeTextShort("投诉");
+                UIHelper.showComplaintActivity(this);
                 break;
             case R.id.look_img_img:
             case R.id.look_img_tv: //查看商家相册
                 UIHelper.showShoppingPhotoActivity(this);
+                break;
+            case R.id.pay_money_tv:
+                UIHelper.showPayActivity(this);
                 break;
         }
     }

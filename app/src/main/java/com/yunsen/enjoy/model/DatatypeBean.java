@@ -5,13 +5,26 @@ package com.yunsen.enjoy.model;
  */
 
 
-public  class DatatypeBean {
+public class DatatypeBean {
     private int article_id;
     private int channel_id;
     private int datatype_id;
     private String datatype_title;
     private String datatype_list;
     private String update_time;
+    private boolean isChecked = false;
+
+    public boolean isChecked() {
+        return isChecked;
+    }
+
+    public void setChecked(boolean checked) {
+        isChecked = checked;
+    }
+
+    public DatatypeBean(String datatype_title) {
+        this.datatype_title = datatype_title;
+    }
 
     public int getArticle_id() {
         return article_id;

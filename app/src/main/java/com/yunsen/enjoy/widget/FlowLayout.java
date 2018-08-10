@@ -1,8 +1,10 @@
 package com.yunsen.enjoy.widget;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.StateListDrawable;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.View;
@@ -11,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.orhanobut.logger.Logger;
+import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.model.DatatypeBean;
 import com.yunsen.enjoy.utils.DeviceUtil;
 
@@ -74,7 +77,7 @@ public class FlowLayout extends ViewGroup {
         //1.获取FlowLayout的宽度
         int width = MeasureSpec.getSize(widthMeasureSpec);
         //2.获取用于实际比较的宽度，就是除去2边的padding的宽度
-        int noPaddingWidth = width - getPaddingLeft() - getPaddingRight();
+        int noPaddingWidth = width - getPaddingLeft() - getPaddingRight() - 20;
 
         //3.遍历所有的子View，拿子View的宽和noPaddingWidth进行比较
         Line line = new Line();//准备Line对象
@@ -254,30 +257,26 @@ public class FlowLayout extends ViewGroup {
             gradientDrawable.setShape(GradientDrawable.RECTANGLE);
             int dp5 = DeviceUtil.dp2px(getContext(), 5);
             gradientDrawable.setCornerRadius(dp5);
-            gradientDrawable.setColor(Color.parseColor("#8997a8"));
-
-            //            GradientDrawable gradientDrawable2 = new GradientDrawable();
-            //            gradientDrawable2.setShape(GradientDrawable.RECTANGLE);
-            //
-            //            gradientDrawable2.setCornerRadius(dp5);
-            //            gradientDrawable2.setColor(Color.YELLOW);
-
-            textView.setTextColor(Color.WHITE);
+            gradientDrawable.setColor(Color.parseColor("#6f0102"));
+            GradientDrawable gradientDrawable2 = new GradientDrawable();
+            gradientDrawable2.setShape(GradientDrawable.RECTANGLE);
+            gradientDrawable2.setCornerRadius(dp5);
+            gradientDrawable2.setColor(Color.parseColor("#ffffff"));
+            ColorStateList csl= getResources().getColorStateList(R.color.collect_tv_select_e);
+            textView.setTextColor(csl);
             textView.setTextSize(12);
-            textView.setPadding(10, 5, 10, 5);
+            textView.setPadding(10, 10, 10, 10);
             textView.setGravity(Gravity.CENTER);
 
             //设置点击效果
-            //            StateListDrawable stateListDrawable = new StateListDrawable();
-            //            stateListDrawable.addState(new int[]{android.R.attr.state_pressed}, gradientDrawable);
-            //            stateListDrawable.addState(new int[]{}, gradientDrawable2);
-            //            textView.setBackgroundDrawable(stateListDrawable);
-
-            textView.setBackgroundDrawable(gradientDrawable);
+            StateListDrawable stateListDrawable = new StateListDrawable();
+            stateListDrawable.addState(new int[]{android.R.attr.state_selected}, gradientDrawable);
+            stateListDrawable.addState(new int[]{}, gradientDrawable2);
+            textView.setBackgroundDrawable(stateListDrawable);
             textView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(getContext(), textView.getText().toString(), Toast.LENGTH_SHORT).show();
+                    v.setSelected(!v.isSelected());
                 }
             });
 
