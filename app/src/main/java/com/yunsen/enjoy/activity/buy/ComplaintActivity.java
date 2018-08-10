@@ -58,8 +58,6 @@ public class ComplaintActivity extends BaseFragmentActivity {
         datas.add(new DatatypeBean("卫生添加差"));
         datas.add(new DatatypeBean("其他"));
         flowLayout.setDatas(datas);//超值
-
-
     }
 
     @Override
