@@ -459,4 +459,9 @@ public class GoodsListActivity extends BaseFragmentActivity implements View.OnCl
     public boolean onItemLongClick(View view, RecyclerView.Adapter adapter, RecyclerView.ViewHolder holder, int position) {
         return false;
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
 }

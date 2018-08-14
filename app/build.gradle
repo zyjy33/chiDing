@@ -55,6 +55,8 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             buildConfigField "String", "ROOT_URL", "\"http://mobile.ddek3.com\""
+            buildConfigField "String", "PGY_VERSION", "\"8\""
+
         }
         debug {
             debuggable true
@@ -62,6 +64,7 @@ android {
             minifyEnabled false//是否混淆
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             buildConfigField "String", "ROOT_URL", "\"http://mobile.ddek3.com\""
+            buildConfigField "String", "PGY_VERSION", "\"8\""
         }
     }
 

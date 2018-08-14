@@ -11,6 +11,7 @@ import android.util.Log;
 
 import com.alibaba.fastjson.JSON;
 import com.orhanobut.logger.Logger;
+import com.yunsen.enjoy.BuildConfig;
 import com.yunsen.enjoy.common.AppContext;
 import com.yunsen.enjoy.common.Constants;
 import com.yunsen.enjoy.common.SpConstants;
@@ -305,10 +306,10 @@ public class HttpProxy {
     public static void getServiceMoreProvider(int pageIndex, String city, final HttpCallBack<List<SProviderModel>> callBack) {
         HashMap<String, String> param = new HashMap<>();
         param.put("trade_id", "0");
-        if(!TextUtils.isEmpty(city)){
+        if (!TextUtils.isEmpty(city)) {
             param.put("page_size", "4");
 
-        }else {
+        } else {
             param.put("page_size", "10");
         }
         param.put("page_index", "" + pageIndex);
@@ -1959,8 +1960,8 @@ public class HttpProxy {
         final Handler mainHandler = new Handler(Looper.getMainLooper());
         String url = "https://www.pgyer.com/apiv2/app/check";
         FormBody.Builder formBodyBuilder = new FormBody.Builder();
-        formBodyBuilder.add("buildBuildVersion", "0");
-        formBodyBuilder.add("buildVersion", DeviceUtil.getAppVersionName(AppContext.getInstance()));
+        formBodyBuilder.add("buildBuildVersion", BuildConfig.PGY_VERSION);
+        formBodyBuilder.add("buildVersion", String.valueOf(BuildConfig.VERSION_CODE));
         formBodyBuilder.add("appKey", "c90cf5a4751868b82447bef97d5c19b6");
         formBodyBuilder.add("_api_key", "ed2ae2909295d84464ed5a57eee0ca5d");
         FormBody formBody = formBodyBuilder.build();

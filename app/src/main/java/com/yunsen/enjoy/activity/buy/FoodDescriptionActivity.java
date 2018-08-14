@@ -39,9 +39,9 @@ public class FoodDescriptionActivity extends BaseFragmentActivity implements Mul
     RecyclerView recyclerView;
     @Bind(R.id.scroll_view)
     BaseScrollView scrollView;
-    @Bind(R.id.action_back)
+    @Bind(R.id.action_back_1)
     ImageView actionBack;
-    @Bind(R.id.action_bar_title)
+    @Bind(R.id.action_bar_title_1)
     TextView actionBarTitle;
     @Bind(R.id.action_bar_share)
     ImageView actionBarShare;
@@ -51,7 +51,7 @@ public class FoodDescriptionActivity extends BaseFragmentActivity implements Mul
     TextView lookImgTv;
     @Bind(R.id.pay_money_tv)
     TextView payMoneyTv;
-    @Bind(R.id.action_bar_layout)
+    @Bind(R.id.action_bar_layout_1)
     LinearLayout actionBarLayout;
     @Bind(R.id.look_img_img)
     ImageView lookImgImg;
@@ -69,7 +69,7 @@ public class FoodDescriptionActivity extends BaseFragmentActivity implements Mul
     @Override
     protected void initView() {
         ButterKnife.bind(this);
-        actionBarLayout.getBackground().setAlpha(30);
+        actionBarLayout.getBackground().mutate().setAlpha(30);
     }
 
     @Override
@@ -153,11 +153,11 @@ public class FoodDescriptionActivity extends BaseFragmentActivity implements Mul
                 .into(lookImgImg);
     }
 
-    @OnClick({R.id.action_back, R.id.action_bar_share, R.id.action_back_complaint,
+    @OnClick({R.id.action_back_1, R.id.action_bar_share, R.id.action_back_complaint,
             R.id.look_img_tv, R.id.look_img_img, R.id.pay_money_tv})
     public void onViewClicked(View view) {
         switch (view.getId()) {
-            case R.id.action_back:
+            case R.id.action_back_1:
                 finish();
                 break;
             case R.id.action_bar_share:
@@ -201,7 +201,7 @@ public class FoodDescriptionActivity extends BaseFragmentActivity implements Mul
             scrollY = 30;
         }
 
-        actionBarLayout.getBackground().setAlpha(scrollY);
+        actionBarLayout.getBackground().mutate().setAlpha(scrollY);
         int btnAlpha = 255 - scrollY;
         if (btnAlpha < 0) {
             btnAlpha = 0;
@@ -209,8 +209,17 @@ public class FoodDescriptionActivity extends BaseFragmentActivity implements Mul
         if (btnAlpha > 180) {
             btnAlpha = 180;
         }
-        actionBack.getBackground().setAlpha(btnAlpha);
-        actionBarShare.getBackground().setAlpha(btnAlpha);
-        actionBackComplaint.getBackground().setAlpha(btnAlpha);
+        actionBack.getBackground().mutate().setAlpha(btnAlpha);
+        actionBarShare.getBackground().mutate().setAlpha(btnAlpha);
+        actionBackComplaint.getBackground().mutate().setAlpha(btnAlpha);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        actionBarLayout.getBackground().mutate().setAlpha(255);
+        actionBack.getBackground().mutate().setAlpha(255);
+        actionBackComplaint.getBackground().mutate().setAlpha(255);
+
     }
 }

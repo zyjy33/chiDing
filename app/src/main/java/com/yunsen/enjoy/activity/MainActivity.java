@@ -267,6 +267,6 @@ public class MainActivity extends BaseFragmentActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        WsManager.getInstance().disconnect();
+//        WsManager.getInstance().disconnect();
     }
 }

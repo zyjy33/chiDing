@@ -25,13 +25,18 @@ longuserset_login 保存第三方的用户信息
 
 扩展:
 
-#1: ObjectId: 2.5.29.14 Criticality=false
-SubjectKeyIdentifier [
-KeyIdentifier [
-0000: C0 FC 67 13 E1 D9 AC EF   D8 1D F6 9C EF B4 96 21  ..g............!
-0010: A9 99 9B 2C                                        ...,
-]
-]
 
+微信开放平台
+账号:  ddek333@163.com
+密码:  ddek123456
+
+
+支付宝:
+账号:ddek333@163.com
+密码:Ddek1979
+支付密码:Ddek0104
+Android :
+应用签名：0aaeb1ff52691da535950b7d4e8f62ea
+包名：com.yunsen.chiding
 
 
