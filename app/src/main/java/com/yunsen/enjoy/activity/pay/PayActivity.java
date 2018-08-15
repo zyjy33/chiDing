@@ -1,15 +1,33 @@
 package com.yunsen.enjoy.activity.pay;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.yunsen.enjoy.R;
+import com.yunsen.enjoy.activity.ApplyAgentActivity;
 import com.yunsen.enjoy.activity.BaseFragmentActivity;
+import com.yunsen.enjoy.activity.mine.BecomeVipActivity;
 import com.yunsen.enjoy.common.Constants;
+import com.yunsen.enjoy.common.PayMoneyProxy;
+import com.yunsen.enjoy.model.event.EventConstants;
+import com.yunsen.enjoy.model.event.UpUiEvent;
+import com.yunsen.enjoy.thirdparty.PayProxy;
+import com.yunsen.enjoy.thirdparty.alipay.PayResult;
+import com.yunsen.enjoy.utils.AccountUtils;
+
+import org.greenrobot.eventbus.EventBus;
+
+import java.lang.ref.WeakReference;
+import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -48,7 +66,10 @@ public class PayActivity extends BaseFragmentActivity {
     LinearLayout payTypeLayout4;
     @Bind(R.id.pay_type_layout_root)
     LinearLayout payTypeLayoutRoot;
-    private int mPayType=Constants.WEI_XIN_PAY_TYPE;
+    @Bind(R.id.submit_btn)
+    Button submitBtn;
+    private int mPayType = Constants.WEI_XIN_PAY_TYPE;
+    private MyHandler mMyHandler;
 
     @Override
     public int getLayout() {
@@ -65,7 +86,7 @@ public class PayActivity extends BaseFragmentActivity {
 
     @Override
     protected void initData(Bundle savedInstanceState) {
-
+        mMyHandler =new MyHandler(this);
     }
 
     @Override
@@ -73,7 +94,8 @@ public class PayActivity extends BaseFragmentActivity {
 
     }
 
-    @OnClick({R.id.action_back, R.id.pay_type_layout, R.id.pay_type_layout_2, R.id.pay_type_layout_3})
+    @OnClick({R.id.action_back, R.id.pay_type_layout, R.id.pay_type_layout_2, R.id.pay_type_layout_3,
+            R.id.submit_btn})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.action_back:
@@ -100,6 +122,58 @@ public class PayActivity extends BaseFragmentActivity {
                 payTypeImg4.setSelected(false);
                 mPayType = Constants.BALANCE_PAY_TYPE;
                 break;
+            case R.id.submit_btn:
+                switch (mPayType) {
+                    case Constants.ALIPAY_TYPE:
+                        PayMoneyProxy.getInstance().aliayPay(this, AccountUtils.getUser_id(),AccountUtils.getUserName(),
+                                "0.01","No1999",mMyHandler );
+                        break;
+                    case Constants.WEI_XIN_PAY_TYPE:
+                        break;
+                    case Constants.BALANCE_PAY_TYPE:
+                        break;
+                }
+                break;
+        }
+    }
+
+    private static class MyHandler extends Handler {
+        WeakReference<PayActivity> weakReference;
+
+        public MyHandler(PayActivity act) {
+            this.weakReference = new WeakReference<PayActivity>(act);
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            PayActivity act = weakReference.get();
+            if (!act.isFinishing()) {
+                switch (msg.what) {
+                    case PayProxy.SDK_PAY_FLAG: //支付完成
+
+                        PayResult payResult = new PayResult((Map<String, String>) msg.obj);
+                        /**
+                         对于支付结果，请商户依赖服务端的异步通知结果。同步通知结果，仅作为支付结束的通知。
+                         */
+                        String resultInfo = payResult.getResult();// 同步返回需要验证的信息
+                        String resultStatus = payResult.getResultStatus();
+                        // 判断resultStatus 为9000则代表支付成功
+                        if (TextUtils.equals(resultStatus, "9000")) {
+                            // 该笔订单是否真实支付成功，需要依赖服务端的异步通知。
+                            Toast.makeText(act, "支付成功", Toast.LENGTH_SHORT).show();
+                            EventBus.getDefault().postSticky(new UpUiEvent(EventConstants.APP_LOGIN));
+                            act.finish();
+                        } else {
+                            // 该笔订单真实的支付结果，需要依赖服务端的异步通知。
+                            Toast.makeText(act, "支付失败", Toast.LENGTH_SHORT).show();
+                        }
+                        break;
+                    case PayProxy.PAY_FAIL:
+
+                        break;
+                }
+            }
         }
     }
 }
