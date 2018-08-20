@@ -1311,7 +1311,7 @@ public class HttpProxy {
 
             @Override
             public void onFailure(Request request, Exception e) {
-                callBack.onSuccess(false);
+                callBack.onError(request,e);
                 super.onFailure(request, e);
             }
         });

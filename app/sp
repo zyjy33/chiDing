@@ -1,14 +1,9 @@
 longuserset 保存的用户信息
 longuserset_login 保存第三方的用户信息
 
-
- keyAlias "gaiya"
- keyPassword "gaiya123."
- storePassword "gaiya123."
-
-         keyAlias "food"
-             keyPassword "goodfood"
-             storePassword "goodfood"
+        keyAlias "food"
+        keyPassword "goodfood"
+        storePassword "goodfood"
 
 
 发布者: CN=云森科技, OU=有限公司, L=深圳
@@ -26,15 +21,14 @@ longuserset_login 保存第三方的用户信息
 扩展:
 
 
-微信开放平台
-账号:  ddek333@163.com
-密码:  ddek123456
+
 
 
 支付宝:
 账号:ddek333@163.com
 密码:Ddek1979
 支付密码:Ddek0104
+
 Android :
 应用签名：0aaeb1ff52691da535950b7d4e8f62ea
 包名：com.yunsen.chiding
@@ -49,7 +43,15 @@ MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAnk5O806QEmUXZcjRR6Ep8L6kruTeQmRDHLXj
 支付宝应用私钥:
 MIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQCeTk7zTpASZRdlyNFHoSnwvqSu5N5CZEMcteNdBvfiBDAT/GyGwaf5ak80RnV/+wgwzpz7fSh1x4K6bad8yLpVPhO03EJBqGNghMf0w4eL1dC1Uqpy/X4rz4E0pzUzPl8VpkDVvR2ECbn/CQUM43gArjGH21LcaSEwHIxS2i9GIIDi6PWvtQsLZz0Pgj2mNVknyerH7jzmb7a+irZryXVEgC9IzGYK/GdWK9nyjBXr4+oaGOmNm78Hx35xjmEyz6DC9o3ljGG0IOX2qDMkcpxJ0QrhIqPywzy7e2qhjjDlbDc91nSIEVnHzI8lf5PU2oDtA66q7wqTIEOtNk9ZiWsvAgMBAAECggEAXfQ8B0tpVoGJEW/ORaTxL2D2fJZ5Ew5OhoutFVk9ZXb20eXOw2vMNctSlsP6mKp0ggMeSGRPzxdKDztlXDoF3PGq4HyZFj7KPE6SHkKt/+A2rmcRoo2whG/zTzyt5mvuIvs5H6HOEr9zFFpWFQAsCLtZyjfxRb9fYx6Oad30kLlqs0hacHv/U9gmNhARboTrQzJWR57rG5HL8lMsJr+3LhTQnz3ggSX62zoZqRT3UKWNlGmQOvZ67Y+QJxIFPR5hhtrkyFbSHHpHDsScI8wmHVUz5rA/Im4YJRBjBAOw48hzFocTfjZplAuRnInCkyirYvcMLw7CKYUm0DNZYVW0gQKBgQDPi6BfxazA4HBxkMLT5BTdDFpPXfol56TmBzWuaFoe6/UbVokiSAYD7bCNgEcA8T3Mz9uxMEVMETDieN7WP05btTqpmsrK0EgtxyWp7N6BfMlaOfkKCjg1IWQZzOjumxySrG36Vge4UEOKw/QPZdN+JkpG04Z9iJE1hHX5RJykSwKBgQDDQ8ggcHdjpy0sEql1xcVUkFeI63I6oAlsVPtR+oLVJjuvdRAxVuAW8pxwH9LtWNA/qNzVjq6oOMHMyjs0FDs/9ufwRpKoxTnk4ZyUiO0F/j0td9pEYcTg7wRpp2zIS9RIpGbU71A9dlfNQJ1R6Ck+uXCKBp51tsrDClst0udeLQKBgQDKJixhvC8EelbrNl2dduUfXL3F2jogm1xQtKsDoh5NSfQl2YaeflpljyjM2inOcCqKh9Zq4iJM8d2UaLhbI7QVvRJTSjLFklMLS5KSzOT4aGvSVu8LaWLP1SMjwiMK7MfK0OoZz5ubWYo/6ZaZPMvfbjogfDzdnpwY7VjfHoYXuwKBgFnoe91z64UXFNWWQjDYP2QQkj2ZK5+S0MPw3UeB8XvzfsfrPul49vWaAC4geR6QJlMpjYVHjWQnvhRtiZURO7bYGTOpSx4qsd2RhGdgJML9rW2iIf4ahmyLoZyEWrJfN/+6sx6Yknm6Y/M+LTHplBQtjoP/SDcrU3E684DF+4KBAoGBAIusilXganjY7ekGlbIBmE68CuOscb0Ii3PukrFIqAxriNQTsoV8A+Ti5NHMEX7cDYQP0c9KMwAV6Hz57Bma8a0tsa74Y2bwl7xqo99Bq/zCdzhrbiZmDLX1o7KTJtTLys87gdc4FEFgHGjf4Y6Jb9LSunKDiIzXEAdkf08OU976
 
-
 合作伙伴:
-
 MD5密钥: do628dfk6kwp12vlwi33n46bmdektxk4
+
+微信开放平台
+账号:  ddek333@163.com
+密码:  ddek123456
+
+AppID: wxb4a350e3cbbc4b9a
+AppSecret:  b7e6ba967014ade71c37abf142158fb0
+
+蒲公英密码
+yunsentack

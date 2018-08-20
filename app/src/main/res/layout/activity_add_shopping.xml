@@ -209,12 +209,17 @@
 
                 <Switch
                     android:id="@+id/stop_car_switch"
-                    android:layout_width="120dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="30dp"
                     android:layout_marginLeft="@dimen/app_margin"
                     android:layout_marginRight="@dimen/app_margin"
-                    android:thumb="@drawable/my_thumb"
-                    android:track="@drawable/switch_setting_selector" />
+                    android:switchMinWidth="20dp"
+                    android:textColor="@color/transparent"
+                    android:textOff=""
+                    android:textOn=""
+                    android:textSize="12sp"
+                    android:thumb="@drawable/track"
+                    android:track="@drawable/switch_setting_selector"/>
 
 
             </LinearLayout>
@@ -248,12 +253,17 @@
 
                 <Switch
                     android:id="@+id/wifi_switch"
-                    android:layout_width="120dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="30dp"
                     android:layout_marginLeft="@dimen/app_margin"
                     android:layout_marginRight="@dimen/app_margin"
-                    android:thumb="@drawable/my_thumb"
-                    android:track="@drawable/switch_setting_selector" />
+                    android:switchMinWidth="20dp"
+                    android:textColor="@color/transparent"
+                    android:textOff=""
+                    android:textOn=""
+                    android:textSize="12sp"
+                    android:thumb="@drawable/track"
+                    android:track="@drawable/switch_setting_selector"/>
 
             </LinearLayout>
 

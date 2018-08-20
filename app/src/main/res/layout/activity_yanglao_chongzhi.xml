@@ -81,10 +81,24 @@
                     android:hint="请输入充值金额"
                     android:inputType="number"
                     android:padding="5dp"
+                    android:text="100"
                     android:textColor="@color/black"
                     android:textColorHint="@color/all_c1c1c1"
-                    android:textSize="14sp" />
+                    android:textSize="14sp"
+                    android:visibility="gone" />
             </LinearLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            </android.support.v7.widget.RecyclerView>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:background="@color/color_f5f7fa" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -96,35 +110,35 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/app_margin"
-                    android:text="一次充满"
+                    android:text="充值每满"
                     android:textColor="@color/color_666"
                     android:textSize="12sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="10"
+                    android:text="100"
                     android:textColor="@color/color_theme"
                     android:textSize="12sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="元,赠送消费卷比例"
+                    android:text="元,赠送消费卷"
                     android:textColor="@color/color_666"
                     android:textSize="12sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="43"
+                    android:text="30"
                     android:textColor="@color/color_theme"
                     android:textSize="12sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="%"
+                    android:text="元"
                     android:textColor="@color/color_666"
                     android:textSize="12sp" />
             </LinearLayout>
@@ -133,7 +147,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/app_margin"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="gone">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -172,18 +187,6 @@
                     android:textSize="12sp" />
             </LinearLayout>
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/recycler_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:visibility="gone">
-
-            </android.support.v7.widget.RecyclerView>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="10dp"
-                android:background="@color/color_f5f7fa" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -205,7 +208,7 @@
                 <TextView
                     android:id="@+id/give_coin_tv"
                     style="@style/ApplyService2Edt"
-                    android:text="+0.00"
+                    android:text="+30.00"
                     android:textColor="@color/color_666" />
             </LinearLayout>
 

@@ -51,7 +51,7 @@ public class ComplaintActivity extends BaseFragmentActivity {
     @Override
     protected void initData(Bundle savedInstanceState) {
         ArrayList<DatatypeBean> datas = new ArrayList<>();
-        datas.add(new DatatypeBean("吃币被拒绝消费"));
+        datas.add(new DatatypeBean("消费卷被拒绝消费"));
         datas.add(new DatatypeBean("店铺地址不正确"));
         datas.add(new DatatypeBean("服务态度差"));
         datas.add(new DatatypeBean("菜品不卫生"));

@@ -124,7 +124,7 @@ public class DBFengXiangActivity extends BaseFragmentActivity implements OnClick
             case Constants.SHARE_APP_INFO: // 分享app
                 qrCodeImg.setVisibility(View.VISIBLE);
                 mShareUrl = URLConstants.REALM_URL + "/appshare/" + mUserId + ".html";
-                final String path = getCacheDir().toString() + "enjoy";
+                final String path = getCacheDir().toString() + "ddek";
 
                 new AsyncTask<String, Nullable, Boolean>() {
 

@@ -54,7 +54,7 @@ public class PartsShopActivity extends BaseFragmentActivity {
     @Override
     protected void initView() {
         ButterKnife.bind(this);
-        actionBarTitle.setText("配件商城");
+        actionBarTitle.setText("商家商城");
         mPartsShopFragments = new ArrayList<>();
     }
 

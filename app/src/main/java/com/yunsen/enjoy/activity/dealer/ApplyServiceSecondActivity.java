@@ -11,6 +11,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import com.gghl.view.wheelcity.AddressData;
@@ -49,6 +50,7 @@ import okhttp3.Request;
  */
 
 public class ApplyServiceSecondActivity extends BaseFragmentActivity {
+    private static final String TAG = "ApplyServiceSecondActiv";
 
     @Bind(R.id.action_back)
     ImageView actionBack;
@@ -74,6 +76,10 @@ public class ApplyServiceSecondActivity extends BaseFragmentActivity {
     TextView facilitatorEndTv;
     @Bind(R.id.next_btn)
     Button nextBtn;
+    @Bind(R.id.wifi_switch)
+    Switch wifiSwitch;
+    @Bind(R.id.stop_car_switch)
+    Switch stopCarSwitch;
     private ApplyFacilitatorModel mRequstData;
     private String mAddressTxt;
     private String mProvinces;
@@ -142,7 +148,8 @@ public class ApplyServiceSecondActivity extends BaseFragmentActivity {
         }
     }
 
-    @OnClick({R.id.action_back, R.id.facilitator_tag_tv, R.id.facilitator_start_layout, R.id.facilitator_end_layout, R.id.next_btn, R.id.facilitator_address_layout})
+    @OnClick({R.id.action_back, R.id.facilitator_start_layout, R.id.facilitator_end_layout, R.id.next_btn,
+            R.id.facilitator_address_layout, R.id.facilitator_tag_layout})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.action_back:
@@ -191,7 +198,6 @@ public class ApplyServiceSecondActivity extends BaseFragmentActivity {
                     facilitatorTagTv.setText(mServiceProjectDatas[index[0]]);
                     facilitatorProjectTv.setTag(index[0]);
                     facilitatorProjectTv.setText("已选择");
-                    requestData();
                     picker.dismiss();
                 }
             }
@@ -238,6 +244,9 @@ public class ApplyServiceSecondActivity extends BaseFragmentActivity {
         } else if (TextUtils.isEmpty(startTime)) {
         } else if (TextUtils.isEmpty(endTime)) {
         } else {
+            // TODO: 2018/8/20/020
+            boolean hasWifi = wifiSwitch.isChecked();
+            boolean canStopCar = stopCarSwitch.isChecked();
             mRequstData.setName(name);
             mRequstData.setSeo_title(serviceFlag);
             mRequstData.setService_ids(String.valueOf(projectTag));
@@ -245,12 +254,10 @@ public class ApplyServiceSecondActivity extends BaseFragmentActivity {
 //            mRequstData.setProvince(address);
             mRequstData.setAddress(gpsAddress);
             mRequstData.setService_time(startTime + "-" + endTime);
+            UIHelper.showApplyServiceThreeActivity(this, mRequstData);
         }
-        UIHelper.showApplyServiceThreeActivity(this, mRequstData);
-
     }
 
-    private static final String TAG = "ApplyServiceSecondActiv";
 
     /**
      * 选择城市

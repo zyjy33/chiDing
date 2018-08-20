@@ -346,9 +346,9 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
             case R.id.qrcode_img:
                 ToastUtils.makeTextShort("二维码");
                 break;
-            case R.id.money_discount_tv: //吃币优惠
-            case R.id.top_money_discount_tv: //吃币优惠
-                ToastUtils.makeTextShort("吃币优惠");
+            case R.id.money_discount_tv: //消费卷优惠
+            case R.id.top_money_discount_tv: //消费卷优惠
+                ToastUtils.makeTextShort("消费卷优惠");
                 break;
             case R.id.top_vip_discount_tv: //会员优惠
             case R.id.vip_discount_tv: //会员优惠

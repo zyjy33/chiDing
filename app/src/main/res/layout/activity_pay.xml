@@ -43,14 +43,14 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="可消费吃币"
+                    android:text="可消费消费卷"
                     android:textColor="@color/color_666"
                     android:textSize="13sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="¥11.11"
+                    android:text="11.11"
                     android:textColor="@color/color_theme"
                     android:textSize="13sp" />
 
@@ -85,6 +85,7 @@
                     android:textSize="14sp" />
 
                 <EditText
+                    android:id="@+id/pay_money_edt"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingBottom="8dp"
@@ -93,9 +94,11 @@
                     android:paddingTop="8dp"
                     android:layout_marginLeft="@dimen/app_margin"
                     android:layout_marginRight="@dimen/app_margin"
+                    android:drawablePadding="5dp"
                     android:background="@color/color_f5f7fa"
                     android:drawableLeft="@mipmap/red_rmb"
                     android:hint="请输入消费金额"
+                    android:inputType="numberDecimal"
                     android:textColor="@color/title_color"
                     android:textSize="13sp" />
 
@@ -107,11 +110,12 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="我有吃币:¥21.0"
+                        android:text="我有消费卷:21.0"
                         android:textColor="@color/color_666"
                         android:textSize="14sp" />
 
                     <TextView
+                        android:id="@+id/recharge_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/app_margin"

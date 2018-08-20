@@ -7,6 +7,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -22,6 +23,7 @@ import com.yunsen.enjoy.model.event.EventConstants;
 import com.yunsen.enjoy.model.event.UpUiEvent;
 import com.yunsen.enjoy.thirdparty.PayProxy;
 import com.yunsen.enjoy.thirdparty.alipay.PayResult;
+import com.yunsen.enjoy.ui.UIHelper;
 import com.yunsen.enjoy.utils.AccountUtils;
 
 import org.greenrobot.eventbus.EventBus;
@@ -68,6 +70,8 @@ public class PayActivity extends BaseFragmentActivity {
     LinearLayout payTypeLayoutRoot;
     @Bind(R.id.submit_btn)
     Button submitBtn;
+    @Bind(R.id.pay_money_edt)
+    EditText payMoneyEdt;
     private int mPayType = Constants.WEI_XIN_PAY_TYPE;
     private MyHandler mMyHandler;
 
@@ -86,7 +90,7 @@ public class PayActivity extends BaseFragmentActivity {
 
     @Override
     protected void initData(Bundle savedInstanceState) {
-        mMyHandler =new MyHandler(this);
+        mMyHandler = new MyHandler(this);
     }
 
     @Override
@@ -95,7 +99,7 @@ public class PayActivity extends BaseFragmentActivity {
     }
 
     @OnClick({R.id.action_back, R.id.pay_type_layout, R.id.pay_type_layout_2, R.id.pay_type_layout_3,
-            R.id.submit_btn})
+            R.id.submit_btn, R.id.recharge_tv})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.action_back:
@@ -123,16 +127,24 @@ public class PayActivity extends BaseFragmentActivity {
                 mPayType = Constants.BALANCE_PAY_TYPE;
                 break;
             case R.id.submit_btn:
+                String priceStr = payMoneyEdt.getText().toString();
+                double payMoney = 0.0;
+                if (!TextUtils.isEmpty(priceStr)) {
+                    payMoney = Double.parseDouble(priceStr);
+                }
                 switch (mPayType) {
                     case Constants.ALIPAY_TYPE:
-                        PayMoneyProxy.getInstance().aliayPay(this, AccountUtils.getUser_id(),AccountUtils.getUserName(),
-                                "0.01","No1999",mMyHandler );
+                        PayMoneyProxy.getInstance().aliayPay(this, AccountUtils.getUser_id(), AccountUtils.getUserName(),
+                                priceStr, "No1999", mMyHandler);
                         break;
                     case Constants.WEI_XIN_PAY_TYPE:
                         break;
                     case Constants.BALANCE_PAY_TYPE:
                         break;
                 }
+                break;
+            case R.id.recharge_tv:
+                UIHelper.showMonneyChongZhiActivity(this);
                 break;
         }
     }

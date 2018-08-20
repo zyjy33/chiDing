@@ -73,7 +73,7 @@
                     android:layout_marginRight="0dp"
                     android:drawablePadding="10dp"
                     android:drawableRight="@drawable/down_more_selected"
-                    android:hint="汽车"
+                    android:hint="分类"
                     android:text="商品" />
             </LinearLayout>
 
@@ -85,6 +85,7 @@
 
 
             <LinearLayout
+                android:visibility="gone"
                 android:id="@+id/facilitator_project_layout"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/item_height"

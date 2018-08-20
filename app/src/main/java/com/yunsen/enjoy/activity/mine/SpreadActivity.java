@@ -4,8 +4,11 @@ import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.yunsen.enjoy.R;
@@ -32,13 +35,14 @@ public class SpreadActivity extends BaseFragmentActivity {
     @Bind(R.id.action_bar_title)
     TextView actionBarTitle;
     @Bind(R.id.action_bar_right)
-    TextView actionBarRight;
+    ImageView actionBarRight;
     @Bind(R.id.tab_layout)
     TabLayout tabLayout;
     @Bind(R.id.view_pager)
     ViewPager viewPager;
     private SpreadFragment oneFragment;
     private SpreadFragment twoFragment;
+    private PopupWindow popupWindow;
 
     @Override
     public int getLayout() {
@@ -48,7 +52,8 @@ public class SpreadActivity extends BaseFragmentActivity {
     @Override
     protected void initView() {
         ButterKnife.bind(this);
-
+        actionBarRight.setVisibility(View.VISIBLE);
+        actionBarRight.setImageResource(R.drawable.share_app_seletor);
     }
 
     @Override
@@ -83,8 +88,50 @@ public class SpreadActivity extends BaseFragmentActivity {
                 finish();
                 break;
             case R.id.action_bar_right:
-                UIHelper.showSpreadActivity2(this);
+//                UIHelper.showSpreadActivity2(this);
+                showSharePopupWindow();
                 break;
         }
+    }
+
+    private void showSharePopupWindow() {
+        // 加载popupWindow的布局文件
+        LayoutInflater layoutInflater;
+        layoutInflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+        View contentView = layoutInflater.inflate(R.layout.share_app_layout, null, false);
+        View qrCodeView = contentView.findViewById(R.id.qr_code_layout);
+        View shareLayout = contentView.findViewById(R.id.share_layout);
+        popupWindow = new PopupWindow(contentView, WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT);
+        popupWindow.setBackgroundDrawable(getResources().getDrawable(R.color.share_layout_bg));
+// 设置背景颜色变暗
+        WindowManager.LayoutParams lp = getWindow().getAttributes();
+        lp.alpha = 0.7f;
+        getWindow().setAttributes(lp);
+        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                WindowManager.LayoutParams lp = getWindow().getAttributes();
+                lp.alpha = 1f;
+                getWindow().setAttributes(lp);
+            }
+        });
+        qrCodeView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                ToastUtils.makeTextShort("面对面");
+                UIHelper.showExtensionActivity(SpreadActivity.this);
+                popupWindow.dismiss();
+            }
+        });
+        shareLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                UIHelper.showShareAppInfoActivity(SpreadActivity.this, "");
+                popupWindow.dismiss();
+            }
+        });
+
+        popupWindow.setOutsideTouchable(true);
+        popupWindow.showAsDropDown(actionBarRight, -10, 0);
     }
 }

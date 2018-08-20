@@ -60,13 +60,13 @@ public class ExtensionActivity extends BaseFragmentActivity {
     @Override
     protected void initData(Bundle savedInstanceState) {
         mShareUrl = URLConstants.REALM_URL + "/appshare/" + mUserId + ".html";
-        final String path = getCacheDir().toString() + "enjoy";
+        final String path = getCacheDir().toString() + "ddek";
         new AsyncTask<String, Nullable, Boolean>() {
 
             @Override
             protected Boolean doInBackground(String... str) {
                 boolean flag = false;
-                Bitmap icon = BitmapFactory.decodeResource(getResources(), R.mipmap.app_icon_1);
+                Bitmap icon = BitmapFactory.decodeResource(getResources(), R.mipmap.app_icon);
                 flag = BitmapUtil.createQRImage(mShareUrl, 450, 450, icon, str[0]);
                 return flag;
             }

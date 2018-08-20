@@ -129,38 +129,38 @@ public class MonneyChongZhiActivity extends AppCompatActivity implements OnClick
         yu_pay_c1 = (CheckBox) findViewById(R.id.yu_pay_c1);
         yu_pay_c2 = (CheckBox) findViewById(R.id.yu_pay_c2);
         chongzhi_edit.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
-
+        payMoneyTv.setText("¥100");
         initData();
 
-        chongzhi_edit.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                String strMoney = chongzhi_edit.getText().toString();
-                if (TextUtils.isEmpty(strMoney)) {
-                    strMoney = "0";
-                }
-                mInputMoney = Double.parseDouble(strMoney);
-                if (mInputMoney >= 3000) {
-                    mGiveCoin = mInputMoney * 0.5;
-                } else if (mInputMoney >= 10) {
-                    mGiveCoin = mInputMoney * 0.43;
-                } else {
-                    mGiveCoin = 0;
-                }
-                giveCoinTv.setText("+" + String.valueOf(mGiveCoin));
-                payMoneyTv.setText("¥" + mInputMoney);
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
+//        chongzhi_edit.addTextChangedListener(new TextWatcher() {
+//            @Override
+//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+//
+//            }
+//
+//            @Override
+//            public void onTextChanged(CharSequence s, int start, int before, int count) {
+//                String strMoney = chongzhi_edit.getText().toString();
+//                if (TextUtils.isEmpty(strMoney)) {
+//                    strMoney = "0";
+//                }
+//                mInputMoney = Double.parseDouble(strMoney);
+//                if (mInputMoney >= 3000) {
+//                    mGiveCoin = mInputMoney * 0.5;
+//                } else if (mInputMoney >= 10) {
+//                    mGiveCoin = mInputMoney * 0.43;
+//                } else {
+//                    mGiveCoin = 0;
+//                }
+//                giveCoinTv.setText("+" + String.valueOf(mGiveCoin));
+//                payMoneyTv.setText("¥" + mInputMoney);
+//            }
+//
+//            @Override
+//            public void afterTextChanged(Editable s) {
+//
+//            }
+//        });
 
         /**
          * 微信支付
@@ -282,15 +282,15 @@ public class MonneyChongZhiActivity extends AppCompatActivity implements OnClick
     }
 
     private void initData() {
-//        recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
-//        ArrayList<RechargeModel> datas = new ArrayList<>();
-//        datas.add(new RechargeModel("1000", true));
-//        datas.add(new RechargeModel("2000", false));
-//        datas.add(new RechargeModel("3000", false));
-//        datas.add(new RechargeModel("4000", false));
-//        RechargeMoneyAdapter adapter = new RechargeMoneyAdapter(this, R.layout.recharge_item, datas);
-//        recyclerView.setAdapter(adapter);
-//        adapter.setOnItemClickListener(this);
+        recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
+        ArrayList<RechargeModel> datas = new ArrayList<>();
+        datas.add(new RechargeModel("100", true));
+        datas.add(new RechargeModel("300", false));
+        datas.add(new RechargeModel("500", false));
+        datas.add(new RechargeModel("1000", false));
+        RechargeMoneyAdapter adapter = new RechargeMoneyAdapter(this, R.layout.recharge_item, datas);
+        recyclerView.setAdapter(adapter);
+        adapter.setOnItemClickListener(this);
     }
 
     @Override
@@ -692,7 +692,11 @@ public class MonneyChongZhiActivity extends AppCompatActivity implements OnClick
             List<RechargeModel> datas = ((RechargeMoneyAdapter) adapter).getDatas();
             if (datas != null && datas.size() > position) {
                 RechargeModel model = datas.get(position);
-                chongzhi_edit.setText(model.getMoney());
+                String money = model.getMoney();
+                chongzhi_edit.setText(money);
+                int coin = Integer.parseInt(money) / 100 * 30;
+                payMoneyTv.setText("¥"+ money);
+                giveCoinTv.setText("+"+ coin+".00");
                 ((RechargeMoneyAdapter) adapter).setSelected(position);
             }
         }
