@@ -28,7 +28,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="累计奖励消费卷0.00"
+            android:text="累计奖励消费券0.00"
             android:textColor="@color/color_666" />
     </LinearLayout>
 

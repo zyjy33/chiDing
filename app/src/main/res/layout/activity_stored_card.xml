@@ -45,7 +45,7 @@
         android:layout_marginRight="@dimen/app_margin"
         android:layout_marginTop="10dp"
         android:gravity="center"
-        android:text="储值卡余额（元）"
+        android:text="消费券余额（元）"
         android:textColor="@color/color_888"
         android:textSize="14sp" />
 

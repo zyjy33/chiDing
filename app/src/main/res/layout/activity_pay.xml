@@ -5,17 +5,18 @@
     android:orientation="vertical">
 
     <include layout="@layout/back_action_bar" />
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true">
 
         <LinearLayout
-            android:focusableInTouchMode="true"
-            android:focusable="true"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/color_f5f7fa"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
             android:orientation="vertical">
 
             <ImageView
@@ -38,12 +39,13 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="20dp"
                 android:gravity="center"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="invisible">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="可消费消费卷"
+                    android:text="可消费消费券"
                     android:textColor="@color/color_666"
                     android:textSize="13sp" />
 
@@ -88,17 +90,17 @@
                     android:id="@+id/pay_money_edt"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/app_margin"
+                    android:layout_marginRight="@dimen/app_margin"
+                    android:background="@color/color_f5f7fa"
+                    android:drawableLeft="@mipmap/red_rmb"
+                    android:drawablePadding="5dp"
+                    android:hint="询问服务员后输入"
+                    android:inputType="numberDecimal"
                     android:paddingBottom="8dp"
                     android:paddingLeft="5dp"
                     android:paddingRight="5dp"
                     android:paddingTop="8dp"
-                    android:layout_marginLeft="@dimen/app_margin"
-                    android:layout_marginRight="@dimen/app_margin"
-                    android:drawablePadding="5dp"
-                    android:background="@color/color_f5f7fa"
-                    android:drawableLeft="@mipmap/red_rmb"
-                    android:hint="请输入消费金额"
-                    android:inputType="numberDecimal"
                     android:textColor="@color/title_color"
                     android:textSize="13sp" />
 
@@ -108,9 +110,10 @@
                     android:layout_margin="@dimen/app_margin">
 
                     <TextView
+                        android:id="@+id/my_card_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="我有消费卷:21.0"
+                        android:text="我有消费券:21.0"
                         android:textColor="@color/color_666"
                         android:textSize="14sp" />
 
@@ -135,7 +138,7 @@
                 android:layout_marginRight="@dimen/app_margin"
                 android:layout_marginTop="40dp"
                 android:background="@drawable/button_bg"
-                android:text="确 定"
+                android:text="确认买单 "
                 android:textColor="@color/white"
                 android:textSize="16sp" />
 
@@ -146,7 +149,7 @@
                 android:layout_marginRight="@dimen/app_margin"
                 android:paddingBottom="@dimen/app_margin"
                 android:paddingTop="@dimen/app_margin"
-                android:text="消费卷使用说明"
+                android:text="消费券使用说明"
                 android:textColor="@color/title_color"
                 android:textSize="14sp" />
 
@@ -159,7 +162,7 @@
                 android:layout_marginTop="8dp"
                 android:drawableLeft="@mipmap/black_spot"
                 android:drawablePadding="5dp"
-                android:text="用户每笔充值记录,都单独记录在我的通吃卷列表中退款只能对整个充值订单进行操作"
+                android:text="用户每笔充值记录,都单独记录在我的通吃券列表中退款只能对整个充值订单进行操作"
                 android:textColor="@color/color_666"
                 android:textSize="12sp" />
 
@@ -171,20 +174,20 @@
                 android:layout_marginTop="8dp"
                 android:drawableLeft="@mipmap/black_spot"
                 android:drawablePadding="5dp"
-                android:text="充值:优先使用充值金额(消费卷),再使用赠送金额(消费卷)"
+                android:text="充值:优先使用充值金额(消费券),再使用赠送金额(消费券)"
                 android:textColor="@color/color_666"
                 android:textSize="12sp" />
 
             <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginBottom="30dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/app_margin"
                 android:layout_marginRight="@dimen/app_margin"
                 android:layout_marginTop="8dp"
                 android:drawableLeft="@mipmap/black_spot"
                 android:drawablePadding="5dp"
-                android:text="退款:只能退款充值金额且退款操作后如果充值金额为0赠送卷会自动删除(详情见消费卷退款说明"
+                android:text="退款:只能退款充值金额且退款操作后如果充值金额为0赠送券会自动删除(详情见消费券退款说明"
                 android:textColor="@color/color_666"
                 android:textSize="12sp" />
         </LinearLayout>

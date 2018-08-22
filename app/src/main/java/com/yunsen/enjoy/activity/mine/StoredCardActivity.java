@@ -61,7 +61,7 @@ public class StoredCardActivity extends BaseFragmentActivity {
                 finish();
                 break;
             case R.id.recharge_btn:
-                UIHelper.showMonneyChongZhiActivity(this);
+                UIHelper.showMonneyChongZhiActivity(this,"16");
                 break;
             case R.id.consume_tv:
                 UIHelper.showMoneyRecordActivity(this, Constants.CONSUMPTION_RECORD);

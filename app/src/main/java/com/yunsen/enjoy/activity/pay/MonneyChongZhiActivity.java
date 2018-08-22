@@ -1,5 +1,6 @@
 package com.yunsen.enjoy.activity.pay;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
@@ -48,6 +49,7 @@ import com.yunsen.enjoy.thirdparty.PayProxy;
 import com.yunsen.enjoy.thirdparty.alipay.OrderInfoUtil2_0;
 import com.yunsen.enjoy.thirdparty.alipay.PayResult;
 import com.yunsen.enjoy.thirdparty.alipay.SignUtils;
+import com.yunsen.enjoy.ui.UIHelper;
 import com.yunsen.enjoy.widget.DialogProgress;
 import com.yunsen.enjoy.widget.recyclerview.MultiItemTypeAdapter;
 
@@ -62,7 +64,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 余额充值
+ * 消费券充值
  *
  * @author Administrator
  */
@@ -77,7 +79,7 @@ public class MonneyChongZhiActivity extends AppCompatActivity implements OnClick
     private SharedPreferences spPreferences;
     String user_name, user_id, pwd;
     String payment_id; //2 3 5微信
-    public static String recharge_no, notify_url, return_url;
+    public String recharge_no, notify_url, return_url;
     private ImageView iv_fanhui;
     private DialogProgress progress;
     String pety;
@@ -88,6 +90,7 @@ public class MonneyChongZhiActivity extends AppCompatActivity implements OnClick
     private TextView payMoneyTv;
     private double mInputMoney;
     private double mGiveCoin;
+    private String mFundId;
 
     @Override
     protected void onResume() {
@@ -105,11 +108,13 @@ public class MonneyChongZhiActivity extends AppCompatActivity implements OnClick
         iv_fanhui = (ImageView) findViewById(R.id.action_back);
         iv_fanhui.setOnClickListener(this);
         textView1 = (TextView) findViewById(R.id.action_bar_title);
-        textView1.setText("消费卷充值");
+        textView1.setText("消费券充值");
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         giveCoinTv = (TextView) findViewById(R.id.give_coin_tv);
         payMoneyTv = (TextView) findViewById(R.id.pay_money_tv);
 
+        Intent intent = getIntent();
+        mFundId = intent.getStringExtra(Constants.FUND_ID);
 
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         api = WXAPIFactory.createWXAPI(MonneyChongZhiActivity.this, null);
@@ -399,7 +404,7 @@ public class MonneyChongZhiActivity extends AppCompatActivity implements OnClick
             pety = payment_id;
             AsyncHttp.get(URLConstants.REALM_NAME_LL
                             + "/add_amount_recharge?user_id=" + user_id + "&user_name=" + user_name + "" +
-                            "&amount=" + amount + "&fund_id=1&payment_id=" + payment_id + "&rebate_item_id=0",
+                            "&amount=" + amount + "&fund_id=" + mFundId + "&payment_id=" + payment_id + "&rebate_item_id=0",
                     new AsyncHttpResponseHandler() {
                         @Override
                         public void onSuccess(int arg0, String arg1) {
@@ -416,7 +421,8 @@ public class MonneyChongZhiActivity extends AppCompatActivity implements OnClick
                                     recharge_no = data.recharge_no;
                                     progress.CloseProgress();
                                     if (pety.equals("2")) {
-                                        loadYue(recharge_no);
+//                                        loadYue(recharge_no);
+                                        UIHelper.showTishiCarArchivesActivity(MonneyChongZhiActivity.this, recharge_no);
                                     } else if (pety.equals("3")) {
                                         loadzhidu(recharge_no);
                                     }
@@ -460,14 +466,12 @@ public class MonneyChongZhiActivity extends AppCompatActivity implements OnClick
                             super.onSuccess(arg0, arg1);
                             try {
                                 JSONObject object = new JSONObject(arg1);
-                                System.out.println("2=================================" + arg1);
                                 String status = object.getString("status");
                                 String info = object.getString("info");
                                 if (status.equals("y")) {
                                     JSONObject obj = object.getJSONObject("data");
                                     PayProxy.NOTIFY_URL = notify_url = obj.getString("notify_url");
                                     return_url = obj.getString("return_url");
-                                    System.out.println("return_url=================================" + return_url);
                                     progress.CloseProgress();
                                     handler.sendEmptyMessage(1);
                                 } else {
@@ -494,7 +498,6 @@ public class MonneyChongZhiActivity extends AppCompatActivity implements OnClick
      */
     private void loadYue(String recharge_no) {
         try {
-
             AsyncHttp.get(URLConstants.REALM_NAME_LL
                             + "/payment_balance?user_id=" + user_id + "&user_name=" + user_name + "" +
                             "&order_no=" + recharge_no + "&paypassword=" + pwd + "",
@@ -541,7 +544,7 @@ public class MonneyChongZhiActivity extends AppCompatActivity implements OnClick
 
             AsyncHttp.get(URLConstants.REALM_NAME_LL
                             + "/add_amount_recharge?user_id=" + user_id + "&user_name=" + user_name + "" +
-                            "&amount=" + amount + "&fund_id=1&payment_id=" + payment_id + "&rebate_item_id=0",
+                            "&amount=" + amount + "&fund_id="+mFundId+"&payment_id=" + payment_id + "&rebate_item_id=0",
                     new AsyncHttpResponseHandler() {
                         @Override
                         public void onSuccess(int arg0, String arg1) {
@@ -556,15 +559,12 @@ public class MonneyChongZhiActivity extends AppCompatActivity implements OnClick
                                     AdvertDao1 data = new AdvertDao1();
                                     data.recharge_no = obj.getString("recharge_no");
                                     recharge_no = data.recharge_no;
-                                    System.out.println("0=================================" + data.recharge_no);
                                     progress.CloseProgress();
                                     loadweixinzf3(recharge_no);
                                 } else {
                                     progress.CloseProgress();
                                     Toast.makeText(MonneyChongZhiActivity.this, info, Toast.LENGTH_SHORT).show();
                                 }
-
-
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
@@ -694,9 +694,9 @@ public class MonneyChongZhiActivity extends AppCompatActivity implements OnClick
                 RechargeModel model = datas.get(position);
                 String money = model.getMoney();
                 chongzhi_edit.setText(money);
-                int coin = Integer.parseInt(money) / 100 * 30;
-                payMoneyTv.setText("¥"+ money);
-                giveCoinTv.setText("+"+ coin+".00");
+                Double coin = Double.parseDouble(money) / 100 * 30;
+                payMoneyTv.setText("¥" + money);
+                giveCoinTv.setText("+" + coin);
                 ((RechargeMoneyAdapter) adapter).setSelected(position);
             }
         }

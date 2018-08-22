@@ -22,6 +22,7 @@ import com.yunsen.enjoy.http.HttpCallBack;
 import com.yunsen.enjoy.http.HttpProxy;
 import com.yunsen.enjoy.http.RestApiResponse;
 import com.yunsen.enjoy.model.TradeData;
+import com.yunsen.enjoy.model.event.EventConstants;
 import com.yunsen.enjoy.model.event.PullImageEvent;
 import com.yunsen.enjoy.model.request.ApplyFacilitatorModel;
 import com.yunsen.enjoy.ui.UIHelper;
@@ -224,8 +225,8 @@ public class ApplyServiceThreeActivity extends BaseFragmentActivity {
             @Override
             public void onSuccess(RestApiResponse responseData) {
                 Log.e(TAG, "onSuccess: " + responseData.getInfo());
+                EventBus.getDefault().postSticky(EventConstants.APP_LOGIN);
                 UIHelper.showMainActivity(ApplyServiceThreeActivity.this);
-                finish();
             }
 
             @Override

@@ -87,6 +87,7 @@ import com.yunsen.enjoy.activity.order.MyOrderXqActivity;
 import com.yunsen.enjoy.activity.pay.MonneyChongZhiActivity;
 import com.yunsen.enjoy.activity.pay.MyOrderZFActivity;
 import com.yunsen.enjoy.activity.pay.PayActivity;
+import com.yunsen.enjoy.activity.pay.PayFinishActivity;
 import com.yunsen.enjoy.activity.pay.TishiCarArchivesActivity;
 import com.yunsen.enjoy.activity.user.AgentHadActivity;
 import com.yunsen.enjoy.activity.user.DBFengXiangActivity;
@@ -95,6 +96,7 @@ import com.yunsen.enjoy.activity.user.TishiWxBangDingActivity;
 import com.yunsen.enjoy.activity.user.UserLoginActivity;
 import com.yunsen.enjoy.activity.user.UserRegisterActivity;
 import com.yunsen.enjoy.common.Constants;
+import com.yunsen.enjoy.common.SpConstants;
 import com.yunsen.enjoy.fragment.buy.SelectBrandActivity;
 import com.yunsen.enjoy.fragment.buy.SeniorFilterActivity;
 import com.yunsen.enjoy.http.AsyncHttp;
@@ -1139,10 +1141,11 @@ public class UIHelper {
     /**
      * 充值
      *
-     * @param ctx
+     * @param ctx 1 充值余额 16 充值消费券
      */
-    public static void showMonneyChongZhiActivity(Context ctx) {
+    public static void showMonneyChongZhiActivity(Context ctx, String fundId) {
         Intent intent = new Intent(ctx, MonneyChongZhiActivity.class);
+        intent.putExtra(Constants.FUND_ID, fundId);
         ctx.startActivity(intent);
     }
 
@@ -1162,7 +1165,7 @@ public class UIHelper {
     }
 
     /**
-     * 商品余额支付
+     * 商品消费券支付
      *
      * @param act
      * @param orderNo
@@ -1175,7 +1178,7 @@ public class UIHelper {
     }
 
     /**
-     * 储值卡支付
+     * 消费券支付
      *
      * @param act
      * @param orderNo
@@ -1390,8 +1393,10 @@ public class UIHelper {
     /**
      * @param ctx 付款
      */
-    public static void showPayActivity(Context ctx) {
+    public static void showPayActivity(Context ctx, String companyId, String companyName) {
         Intent intent = new Intent(ctx, PayActivity.class);
+        intent.putExtra(Constants.COMPANY_ID, companyId);
+        intent.putExtra(Constants.COMPANY_NAME, companyName);
         ctx.startActivity(intent);
     }
 
@@ -1400,6 +1405,17 @@ public class UIHelper {
      */
     public static void showComplaintActivity(Context ctx) {
         Intent intent = new Intent(ctx, ComplaintActivity.class);
+        ctx.startActivity(intent);
+    }
+
+    /**
+     * 付款成功
+     *
+     * @param ctx
+     */
+    public static void showPayFinishActivity(Context ctx, String payMoney) {
+        Intent intent = new Intent(ctx, PayFinishActivity.class);
+        intent.putExtra(Constants.PAY_MONEY, payMoney);
         ctx.startActivity(intent);
     }
 

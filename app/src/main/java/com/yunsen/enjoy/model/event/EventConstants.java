@@ -28,4 +28,5 @@ public class EventConstants {
     public static final int UP_NOTICE_UI = 10; //收到消息
     public static final int LOAD_FINISH = 11;
     public static final int NO_MORE = 12;
+//    public static final int BECOME_SERVICE = 13; //成为商家
 }

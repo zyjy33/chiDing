@@ -3,7 +3,9 @@ package com.yunsen.enjoy.adapter;
 import android.content.Context;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
+import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -12,9 +14,12 @@ import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.model.CarDetails;
 import com.yunsen.enjoy.model.DefaultSpecItemBean;
 import com.yunsen.enjoy.model.SProviderModel;
+import com.yunsen.enjoy.utils.GlobalStatic;
+import com.yunsen.enjoy.utils.Utils;
 import com.yunsen.enjoy.widget.recyclerview.CommonAdapter;
 import com.yunsen.enjoy.widget.recyclerview.base.ViewHolder;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -32,15 +37,15 @@ public class GoodsListAdapter extends CommonAdapter<SProviderModel> {
         holder.setText(R.id.goods_list_title_tv, data.getName());
         String address = data.getProvince() + data.getCity() + data.getArea() + data.getAddress();
         holder.setText(R.id.goods_list_address_tv, address);
-//        String text = "可用消费卷" + 88 + "元";
-        String text = mContext.getResources().getString(R.string.available_volume, 88.62);
+//        String text = "可用消费券" + 88 + "元";
+        String text = mContext.getResources().getString(R.string.available_volume, "88.88");
         TextView textView = (TextView) holder.getView(R.id.goods_list_coin_tv);
         //ForegroundColorSpan 为文字前景色，BackgroundColorSpan为文字背景色
         ForegroundColorSpan redSpan = new ForegroundColorSpan(mContext.getResources().getColor(R.color.color_theme));
         ForegroundColorSpan graySpan = new ForegroundColorSpan(mContext.getResources().getColor(R.color.color_888));
         //这里注意一定要先给textview赋值
         SpannableStringBuilder builder = new SpannableStringBuilder(text);
-        int startEnd = text.indexOf("卷");
+        int startEnd = text.indexOf("券");
         int End = text.indexOf("元");
         //为不同位置字符串设置不同颜色
         builder.setSpan(graySpan, 0, startEnd + 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -54,5 +59,17 @@ public class GoodsListAdapter extends CommonAdapter<SProviderModel> {
                 .load(data.getImg_url())
                 .placeholder(R.mipmap.default_img)
                 .into(imageView);
+        double lat = data.getLat();
+        double lng = data.getLng();
+        if (lat != 0 && lng != 0 && GlobalStatic.latitude != 0.0 && GlobalStatic.longitude != 0.0 && !("0,0".equals(lat) || "0.0".equals(lng))) {
+            double algorithm = Utils.algorithm(GlobalStatic.longitude, GlobalStatic.latitude, Double.valueOf(lng), Double.valueOf(lat)) / 1000;
+            BigDecimal b = new BigDecimal(algorithm);
+            double df = b.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+            holder.setText(R.id.goods_list_distance_tv, df + "km");
+        } else {
+//            view.setVisibility(View.GONE);
+            holder.setText(R.id.goods_list_distance_tv, "0.0 km");
+        }
+
     }
 }

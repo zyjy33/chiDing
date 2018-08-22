@@ -19,7 +19,7 @@ public class WalletCashNewBean {
      * consumer_id : 153
      * consumer_name : 13249089599
      * expenses_id : 其他
-     * fund : 储值卡
+     * fund : 消费券
      * platform : 移动端
      * payment : 余额
      * remark : 用户在线充值

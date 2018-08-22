@@ -83,7 +83,7 @@ public class BecomeVipActivity extends BaseFragmentActivity {
     @Override
     protected void initView() {
         ButterKnife.bind(this);
-        actionBarTitle.setText("储值卡");
+        actionBarTitle.setText("消费券");
     }
 
     @Override

@@ -12,6 +12,7 @@ import android.support.annotation.RequiresApi;
 import android.support.v4.content.FileProvider;
 import android.util.Log;
 
+import com.yunsen.enjoy.BuildConfig;
 import com.yunsen.enjoy.common.Constants;
 
 import java.io.File;
@@ -64,7 +65,7 @@ public class ApkInstallService extends Service {
                 //兼容7.0
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                     intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                    Uri contentUri = FileProvider.getUriForFile(this, "com.yunsen.gaea.fileprovider", apkFile);
+                    Uri contentUri = FileProvider.getUriForFile(this, BuildConfig.APPLICATION_ID + ".fileprovider", apkFile);
                     intent.setDataAndType(contentUri, "application/vnd.android.package-archive");
                     //兼容8.0
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {

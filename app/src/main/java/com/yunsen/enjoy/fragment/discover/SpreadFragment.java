@@ -45,7 +45,7 @@ import okhttp3.Request;
 public class SpreadFragment extends BaseFragment implements MultiItemTypeAdapter.OnItemClickListener {
     @Bind(R.id.flow_layout)
     FlowLayout flowLayout;
-    @Bind(R.id.recycler_spread)
+    @Bind(R.id.recycler_view)
     RecyclerView recyclerSpread;
     private String mId;
     private String mParentId;

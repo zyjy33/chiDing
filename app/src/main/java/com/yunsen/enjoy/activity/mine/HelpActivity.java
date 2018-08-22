@@ -77,7 +77,7 @@ public class HelpActivity extends BaseFragmentActivity {
                 requestPermission(Permission.CALL_PHONE, Constants.CALL_PHONE);
                 break;
             case R.id.one_layout:
-                UIHelper.showWebActivity(this, "http://www.baidu.com", "消费卷使用说明");
+                UIHelper.showWebActivity(this, "http://www.baidu.com", "消费券使用说明");
             case R.id.two_layout:
                 UIHelper.showWebActivity(this, "http://www.baidu.com", "退款说明");
                 break;
@@ -88,7 +88,7 @@ public class HelpActivity extends BaseFragmentActivity {
                 UIHelper.showWebActivity(this, "http://www.baidu.com", "恶意刷单处罚");
                 break;
             case R.id.five_layout:
-                UIHelper.showWebActivity(this, "http://www.baidu.com", "什么事消费卷,如何做到折扣!");
+                UIHelper.showWebActivity(this, "http://www.baidu.com", "什么事消费券,如何做到折扣!");
                 break;
         }
     }

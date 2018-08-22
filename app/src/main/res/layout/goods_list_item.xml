@@ -62,12 +62,13 @@
                 android:textSize="12sp" />
 
             <TextView
+                android:visibility="gone"
                 android:drawableLeft="@mipmap/chibi"
                 android:drawablePadding="5dp"
                 android:id="@+id/goods_list_coin_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="可用消费卷"
+                android:text="可用消费券"
                 android:textColor="@color/color_666"
                 android:textSize="12sp" />
 
@@ -98,7 +99,7 @@
                     android:id="@+id/goods_list_distance_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="1.88km"
+                    android:text="0.0km"
                     android:textColor="@color/color_666"
                     android:textSize="12sp" />
             </LinearLayout>

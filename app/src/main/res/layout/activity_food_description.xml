@@ -65,12 +65,13 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:visibility="gone">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="可消费消费卷:"
+                            android:text="可消费消费券:"
                             android:textColor="@color/color_888"
                             android:textSize="13sp" />
 
@@ -120,6 +121,7 @@
                     android:textSize="13sp" />
 
                 <TextView
+                    android:id="@+id/service_time_tv"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -128,16 +130,17 @@
                     android:textSize="13sp" />
 
                 <TextView
+                    android:id="@+id/collect_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/app_margin"
-                    android:background="@drawable/food_button_bg"
+                    android:background="@drawable/recharge_tv_bg_select"
                     android:paddingBottom="5dp"
                     android:paddingLeft="20dp"
                     android:paddingRight="20dp"
                     android:paddingTop="5dp"
                     android:text="收藏"
-                    android:textColor="@color/color_666"
+                    android:textColor="@drawable/text_select"
                     android:textSize="14sp" />
             </LinearLayout>
 
@@ -173,9 +176,10 @@
                     android:textSize="13sp" />
 
                 <TextView
+                    android:id="@+id/distance_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="1.88Km"
+                    android:text="0.00Km"
                     android:textColor="@color/color_888"
                     android:textSize="11sp" />
 
@@ -186,6 +190,7 @@
                     android:background="@color/color_f5f7fa" />
 
                 <ImageView
+                    android:id="@+id/phone_img"
                     android:layout_width="35dp"
                     android:layout_height="35dp"
                     android:padding="5dp"
@@ -300,7 +305,7 @@
 
                 <TextView
                     style="@style/shop_description_title"
-                    android:text="以下产品可使用消费卷:"
+                    android:text="以下产品可使用消费券:"
                     android:visibility="gone" />
 
                 <TextView

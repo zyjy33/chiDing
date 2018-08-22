@@ -1,5 +1,6 @@
 package com.yunsen.enjoy.activity.pay;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -19,21 +20,31 @@ import com.yunsen.enjoy.activity.BaseFragmentActivity;
 import com.yunsen.enjoy.activity.mine.BecomeVipActivity;
 import com.yunsen.enjoy.common.Constants;
 import com.yunsen.enjoy.common.PayMoneyProxy;
+import com.yunsen.enjoy.common.SpConstants;
+import com.yunsen.enjoy.http.HttpCallBack;
+import com.yunsen.enjoy.http.HttpProxy;
+import com.yunsen.enjoy.model.CarDetails;
+import com.yunsen.enjoy.model.MyOrderInfo;
+import com.yunsen.enjoy.model.UserInfo;
 import com.yunsen.enjoy.model.event.EventConstants;
 import com.yunsen.enjoy.model.event.UpUiEvent;
+import com.yunsen.enjoy.model.request.WatchCarModel;
 import com.yunsen.enjoy.thirdparty.PayProxy;
 import com.yunsen.enjoy.thirdparty.alipay.PayResult;
 import com.yunsen.enjoy.ui.UIHelper;
 import com.yunsen.enjoy.utils.AccountUtils;
+import com.yunsen.enjoy.utils.ToastUtils;
 
 import org.greenrobot.eventbus.EventBus;
 
 import java.lang.ref.WeakReference;
+import java.util.List;
 import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import okhttp3.Request;
 
 /**
  * Created by Administrator on 2018/8/9/009.
@@ -72,8 +83,11 @@ public class PayActivity extends BaseFragmentActivity {
     Button submitBtn;
     @Bind(R.id.pay_money_edt)
     EditText payMoneyEdt;
+    @Bind(R.id.my_card_tv)
+    TextView myCardTv;
     private int mPayType = Constants.WEI_XIN_PAY_TYPE;
     private MyHandler mMyHandler;
+    private WatchCarModel mRequestData;
 
     @Override
     public int getLayout() {
@@ -85,17 +99,63 @@ public class PayActivity extends BaseFragmentActivity {
     protected void initView() {
         ButterKnife.bind(this);
         actionBarTitle.setText("付款给商家");
-        payTypeImg.setSelected(true);
+        payTypeImg3.setSelected(true);
+        mPayType = Constants.BALANCE_PAY_TYPE;
+        payTypeLayout.setVisibility(View.GONE);
+        payTypeLayout2.setVisibility(View.GONE);
+        Intent intent = getIntent();
+        String companyId = intent.getStringExtra(Constants.COMPANY_ID);
+        String companyName = intent.getStringExtra(Constants.COMPANY_NAME);
+
+        mRequestData = new WatchCarModel();
+        mRequestData.setGoods_id("9221");
+        mRequestData.setArticle_id("16944");
+        mRequestData.setPayment_id("9");
+        mRequestData.setIs_invoice("0");
+        mRequestData.setUser_id(AccountUtils.getUser_id());
+        mRequestData.setUser_name(AccountUtils.getUserName());
+        mRequestData.setCompany_id(companyId);
+        mRequestData.setCompany_name(companyName);
+        //没有用的参数
+        mRequestData.setCity("无");
+        mRequestData.setArea("无");
+        mRequestData.setAddress("无");
+        mRequestData.setProvince("无");
+        mRequestData.setAccept_name("无");
+        mRequestData.setMobile("000");
+
     }
 
     @Override
     protected void initData(Bundle savedInstanceState) {
+        String cardStr = getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, MODE_PRIVATE).getString(SpConstants.CARD, "0");
+        myCardTv.setText("我有消费券:" + cardStr);
         mMyHandler = new MyHandler(this);
     }
 
     @Override
     protected void initListener() {
 
+    }
+
+    @Override
+    protected void onActivityResult(final int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == 1 && requestCode == Constants.BALANCE_PAY_REQUEST) {
+//            HttpProxy.getUserInfoNoSave(AccountUtils.getUserName(), new HttpCallBack<UserInfo>() {
+//                @Override
+//                public void onSuccess(UserInfo responseData) {
+//                    myCardTv.setText("我有消费券:" + responseData.getCard());
+//                }
+//
+//                @Override
+//                public void onError(Request request, Exception e) {
+//
+//                }
+//            });
+            UIHelper.showPayFinishActivity(this,payMoneyEdt.getText().toString());
+            finish();
+        }
     }
 
     @OnClick({R.id.action_back, R.id.pay_type_layout, R.id.pay_type_layout_2, R.id.pay_type_layout_3,
@@ -127,24 +187,41 @@ public class PayActivity extends BaseFragmentActivity {
                 mPayType = Constants.BALANCE_PAY_TYPE;
                 break;
             case R.id.submit_btn:
-                String priceStr = payMoneyEdt.getText().toString();
+                String payMoneyStr = payMoneyEdt.getText().toString();
                 double payMoney = 0.0;
-                if (!TextUtils.isEmpty(priceStr)) {
-                    payMoney = Double.parseDouble(priceStr);
+                if (!TextUtils.isEmpty(payMoneyStr)) {
+                    payMoney = Double.parseDouble(payMoneyStr);
+                }
+                if (payMoney <= 0) {
+                    ToastUtils.makeTextShort("消费金额不能小于等于0");
+                    return;
                 }
                 switch (mPayType) {
                     case Constants.ALIPAY_TYPE:
                         PayMoneyProxy.getInstance().aliayPay(this, AccountUtils.getUser_id(), AccountUtils.getUserName(),
-                                priceStr, "No1999", mMyHandler);
+                                payMoneyStr, "No1999", mMyHandler);
                         break;
                     case Constants.WEI_XIN_PAY_TYPE:
                         break;
                     case Constants.BALANCE_PAY_TYPE:
+                        mRequestData.setExpress_id("7");
+                        mRequestData.setAmount(payMoneyStr);
+                        HttpProxy.gotoShopPay(mRequestData, new HttpCallBack<MyOrderInfo>() {
+                            @Override
+                            public void onSuccess(MyOrderInfo responseData) {
+                                PayMoneyProxy.getInstance().cardPay(PayActivity.this, responseData.getTrade_no());
+                            }
+
+                            @Override
+                            public void onError(Request request, Exception e) {
+
+                            }
+                        });
                         break;
                 }
                 break;
             case R.id.recharge_tv:
-                UIHelper.showMonneyChongZhiActivity(this);
+                UIHelper.showMonneyChongZhiActivity(this, "16");
                 break;
         }
     }

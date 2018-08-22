@@ -138,7 +138,7 @@ public class TishiCarArchivesActivity extends Activity implements OnClickListene
                             tv_yue.setText("提示");
                         } else {
                             if (isCard) {
-                                tv_yue.setText("您的剩余储值卡为¥" + cardMoney);
+                                tv_yue.setText("您的剩余消费券为¥" + cardMoney);
                             }else {
                                 tv_yue.setText("您剩余的余额为¥" + amount);
                             }

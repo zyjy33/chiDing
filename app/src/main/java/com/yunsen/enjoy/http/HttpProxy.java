@@ -35,6 +35,7 @@ import com.yunsen.enjoy.model.GoodsData;
 import com.yunsen.enjoy.model.GoogsListResponse;
 import com.yunsen.enjoy.model.HeightFilterBean;
 import com.yunsen.enjoy.model.MonthAmountBean;
+import com.yunsen.enjoy.model.MyOrderInfo;
 import com.yunsen.enjoy.model.NoticeModel;
 import com.yunsen.enjoy.model.NoticeResponse;
 import com.yunsen.enjoy.model.NoticeTokeBean;
@@ -49,6 +50,7 @@ import com.yunsen.enjoy.model.SProviderModel;
 import com.yunsen.enjoy.model.ServiceProject;
 import com.yunsen.enjoy.model.ServiceProvideResponse;
 import com.yunsen.enjoy.model.ShopCarCount;
+import com.yunsen.enjoy.model.TeamInfoBean;
 import com.yunsen.enjoy.model.TradeData;
 import com.yunsen.enjoy.model.UserInfo;
 import com.yunsen.enjoy.model.WXAccessTokenEntity;
@@ -79,6 +81,7 @@ import com.yunsen.enjoy.model.response.ClassifyResponse;
 import com.yunsen.enjoy.model.response.DefaultAddressResponse;
 import com.yunsen.enjoy.model.response.HeightFilterResponse;
 import com.yunsen.enjoy.model.response.MonthAmountResponse;
+import com.yunsen.enjoy.model.response.MyOrderResponse;
 import com.yunsen.enjoy.model.response.NoticeTokenResponse;
 import com.yunsen.enjoy.model.response.OneNoticeListResponse;
 import com.yunsen.enjoy.model.response.OrderResponse;
@@ -91,6 +94,7 @@ import com.yunsen.enjoy.model.response.ServiceProjectListResponse;
 import com.yunsen.enjoy.model.response.ServiceShopInfoResponse;
 import com.yunsen.enjoy.model.response.ShopCarAccountResponse;
 import com.yunsen.enjoy.model.response.StringResponse;
+import com.yunsen.enjoy.model.response.TeamInfoResponse;
 import com.yunsen.enjoy.model.response.TradeListResponse;
 import com.yunsen.enjoy.model.response.UserInfoResponse;
 import com.yunsen.enjoy.model.response.WalletCashNewResponse;
@@ -1041,21 +1045,23 @@ public class HttpProxy {
     /**
      * 朋友圈
      */
-    public static void getFriendRing() {
+    public static void getFriendRing(String pageIndex, final HttpCallBack<TeamInfoBean> callBack) {
         HashMap<String, String> param = new HashMap<>();
-        param.put("user_id", "");
-        param.put("page_size", "5");
-        param.put("page_index", "1");
+        param.put("user_id", AccountUtils.getUser_id());
+        param.put("page_size", "10");
+        param.put("page_index", pageIndex);
         param.put("strwhere", "");
         param.put("orderby", "id desc");
-        HttpClient.get(URLConstants.FRIEND_RING_URL, param, new HttpResponseHandler<AccountBalanceResponse>() {
+        HttpClient.get(URLConstants.FRIEND_RING_URL, param, new HttpResponseHandler<TeamInfoResponse>() {
             @Override
-            public void onSuccess(AccountBalanceResponse response) {
+            public void onSuccess(TeamInfoResponse response) {
                 super.onSuccess(response);
+                callBack.onSuccess(response.getData());
             }
 
             @Override
             public void onFailure(Request request, Exception e) {
+                callBack.onError(request, e);
                 Logger.e(TAG, "onFailure: " + e.getMessage());
             }
         });
@@ -1311,7 +1317,7 @@ public class HttpProxy {
 
             @Override
             public void onFailure(Request request, Exception e) {
-                callBack.onError(request,e);
+                callBack.onError(request, e);
                 super.onFailure(request, e);
             }
         });
@@ -2676,6 +2682,95 @@ public class HttpProxy {
                 } else {
                     callBack.onError(null, new Exception("data is empty!"));
                 }
+            }
+
+            @Override
+            public void onFailure(Request request, Exception e) {
+                callBack.onError(request, e);
+                super.onFailure(request, e);
+            }
+        });
+    }
+
+    /**
+     * 到店支付
+     */
+    public static void gotoShopPay(final WatchCarModel requestData, final HttpCallBack<MyOrderInfo> callBack) {
+        Map<String, Object> map = EntityToMap.ConvertObjToMap(requestData);
+        HttpClient.get(URLConstants.ADD_SHOPPING_BESPEAK, map, new HttpResponseHandler<MyOrderResponse>() {
+            @Override
+            public void onSuccess(MyOrderResponse response) {
+                callBack.onSuccess(response.getData());
+            }
+
+            @Override
+            public void onFailure(Request request, Exception e) {
+                callBack.onError(request, e);
+                super.onFailure(request, e);
+            }
+        });
+    }
+
+    /**
+     * 是否已关注商家
+     *
+     * @param companyId
+     * @param callBack
+     */
+    public static void getFavoriteCompanyExists(String companyId, final HttpCallBack<String> callBack) {
+        HashMap<String, Object> param = new HashMap<>();
+        param.put(SpConstants.USER_ID, AccountUtils.getUser_id());
+        param.put(SpConstants.COMPANY_ID, companyId);
+        HttpClient.get(URLConstants.FAVORITE_COMPANY_EXISTS, param, new HttpResponseHandler<RestApiResponse>() {
+            @Override
+            public void onSuccess(RestApiResponse response) {
+                callBack.onSuccess(response.getInfo());
+            }
+
+            @Override
+            public void onFailure(Request request, Exception e) {
+                callBack.onError(request, e);
+                super.onFailure(request, e);
+            }
+        });
+    }
+
+    /**
+     * 关注商家
+     * @param companyId
+     * @param callBack
+     */
+    public static void getFavoriteCompanyAdd(String companyId, final HttpCallBack<String> callBack) {
+        HashMap<String, Object> param = new HashMap<>();
+        param.put(SpConstants.USER_ID, AccountUtils.getUser_id());
+        param.put(SpConstants.COMPANY_ID, companyId);
+        HttpClient.get(URLConstants.FAVORITE_COMPANY_ADD, param, new HttpResponseHandler<RestApiResponse>() {
+            @Override
+            public void onSuccess(RestApiResponse response) {
+                callBack.onSuccess(response.getInfo());
+            }
+
+            @Override
+            public void onFailure(Request request, Exception e) {
+                callBack.onError(request, e);
+                super.onFailure(request, e);
+            }
+        });
+    }
+
+    /**
+     * 取消关注
+     * @param companyId
+     * @param callBack
+     */
+    public static void getFavoriteCompanyChannel(String companyId, final HttpCallBack<String> callBack) {
+        HashMap<String, Object> param = new HashMap<>();
+        param.put(SpConstants.USER_ID, AccountUtils.getUser_id());
+        param.put(SpConstants.COMPANY_ID, companyId);
+        HttpClient.get(URLConstants.FAVORITE_COMPANY_CHANNEL, param, new HttpResponseHandler<RestApiResponse>() {
+            @Override
+            public void onSuccess(RestApiResponse response) {
+                callBack.onSuccess(response.getInfo());
             }
 
             @Override

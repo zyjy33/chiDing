@@ -59,7 +59,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/actionsheet_bottom_selector"
             android:gravity="center"
-            android:text="储值卡支付"
+            android:text="消费券支付"
             android:textColor="#FD4A2E"
             android:textSize="16sp" />
 

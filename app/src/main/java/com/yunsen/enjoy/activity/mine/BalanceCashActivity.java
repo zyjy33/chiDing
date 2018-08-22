@@ -120,7 +120,7 @@ public class BalanceCashActivity extends BaseFragmentActivity {
                 }
                 break;
             case R.id.recharge_btn:
-                UIHelper.showMonneyChongZhiActivity(this);
+                UIHelper.showMonneyChongZhiActivity(this,"1");
                 break;
         }
     }

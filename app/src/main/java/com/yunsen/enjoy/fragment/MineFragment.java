@@ -242,7 +242,7 @@ public class MineFragment extends BaseFragment {
         HttpProxy.getUserInfo(AccountUtils.getUserName(), new HttpCallBack<UserInfo>() {
             @Override
             public void onSuccess(UserInfo data) {
-                balanceTv.setText(String.valueOf(data.getAmount()));
+                balanceTv.setText(String.valueOf(data.getCard()));
                 memberIdTv.setText("会员号:" + data.getUser_code());
                 String nickName = data.getNick_name();
                 if (TextUtils.isEmpty(nickName)) {
@@ -493,7 +493,7 @@ public class MineFragment extends BaseFragment {
                     UIHelper.showPersonCenterActivity(getActivity());
                     break;
                 case R.id.recharge_layout:
-                    UIHelper.showMonneyChongZhiActivity(getActivity());
+                    UIHelper.showMonneyChongZhiActivity(getActivity(),"16");
                     break;
                 case R.id.my_account_layout:
                     UIHelper.showMyAccountOrderActivity(getActivity());

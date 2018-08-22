@@ -92,8 +92,8 @@ public  class SProviderModel {
     private String province;
     private String city;
     private String area;
-    private int lng;
-    private int lat;
+    private double lng;
+    private double lat;
     private String address;
     private String advantage;
     private String idcard;
@@ -120,6 +120,42 @@ public  class SProviderModel {
     private String update_time;
     private String add_time;
     private List<?> article;
+    /**
+     * shop_name :
+     * shop_style :
+     * is_system : 0
+     * agency_id : 0
+     * store_id : 0
+     * shops_id : 0
+     * company_layer : 0
+     * company_list : null
+     * recommend_name : null
+     * content : 测试服务商简介..
+     * nature : 私营
+     * post_code : null
+     * email : null
+     * street : null
+     * is_lock : 0
+     * is_red : 0
+     * service_time : 09：00-21：00
+     * settle_time : 1
+     * service : []
+     */
+
+    private String shop_name;
+    private String shop_style;
+    private int is_system;
+    private int agency_id;
+    private int store_id;
+    private int shops_id;
+    private int company_layer;
+    private Object company_list;
+    private Object street;
+    private int is_lock;
+    private int is_red;
+    private String service_time;
+    private int settle_time;
+    private List<?> service;
 
     public int getId() {
         return id;
@@ -333,19 +369,19 @@ public  class SProviderModel {
         this.area = area;
     }
 
-    public int getLng() {
+    public double getLng() {
         return lng;
     }
 
-    public void setLng(int lng) {
+    public void setLng(double lng) {
         this.lng = lng;
     }
 
-    public int getLat() {
+    public double getLat() {
         return lat;
     }
 
-    public void setLat(int lat) {
+    public void setLat(double lat) {
         this.lat = lat;
     }
 
@@ -547,5 +583,117 @@ public  class SProviderModel {
 
     public void setArticle(List<?> article) {
         this.article = article;
+    }
+
+    public String getShop_name() {
+        return shop_name;
+    }
+
+    public void setShop_name(String shop_name) {
+        this.shop_name = shop_name;
+    }
+
+    public String getShop_style() {
+        return shop_style;
+    }
+
+    public void setShop_style(String shop_style) {
+        this.shop_style = shop_style;
+    }
+
+    public int getIs_system() {
+        return is_system;
+    }
+
+    public void setIs_system(int is_system) {
+        this.is_system = is_system;
+    }
+
+    public int getAgency_id() {
+        return agency_id;
+    }
+
+    public void setAgency_id(int agency_id) {
+        this.agency_id = agency_id;
+    }
+
+    public int getStore_id() {
+        return store_id;
+    }
+
+    public void setStore_id(int store_id) {
+        this.store_id = store_id;
+    }
+
+    public int getShops_id() {
+        return shops_id;
+    }
+
+    public void setShops_id(int shops_id) {
+        this.shops_id = shops_id;
+    }
+
+    public int getCompany_layer() {
+        return company_layer;
+    }
+
+    public void setCompany_layer(int company_layer) {
+        this.company_layer = company_layer;
+    }
+
+    public Object getCompany_list() {
+        return company_list;
+    }
+
+    public void setCompany_list(Object company_list) {
+        this.company_list = company_list;
+    }
+
+    public Object getStreet() {
+        return street;
+    }
+
+    public void setStreet(Object street) {
+        this.street = street;
+    }
+
+    public int getIs_lock() {
+        return is_lock;
+    }
+
+    public void setIs_lock(int is_lock) {
+        this.is_lock = is_lock;
+    }
+
+    public int getIs_red() {
+        return is_red;
+    }
+
+    public void setIs_red(int is_red) {
+        this.is_red = is_red;
+    }
+
+    public String getService_time() {
+        return service_time;
+    }
+
+    public void setService_time(String service_time) {
+        this.service_time = service_time;
+    }
+
+    public int getSettle_time() {
+        return settle_time;
+    }
+
+    public void setSettle_time(int settle_time) {
+        this.settle_time = settle_time;
+    }
+
+    public List<?> getService() {
+        return service;
+    }
+
+    public void setService(List<?> service) {
+        this.service = service;
     }
 }

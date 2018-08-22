@@ -10,18 +10,24 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.yanzhenjie.permission.Permission;
 import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.activity.BaseFragmentActivity;
 import com.yunsen.enjoy.adapter.GoodsListAdapter;
 import com.yunsen.enjoy.common.Constants;
+import com.yunsen.enjoy.http.DataException;
 import com.yunsen.enjoy.http.HttpCallBack;
 import com.yunsen.enjoy.http.HttpProxy;
 import com.yunsen.enjoy.model.SProviderModel;
 import com.yunsen.enjoy.ui.UIHelper;
 import com.yunsen.enjoy.ui.recyclerview.NoScrollLinearLayoutManager;
+import com.yunsen.enjoy.utils.GlobalStatic;
+import com.yunsen.enjoy.utils.ToastUtils;
+import com.yunsen.enjoy.utils.Utils;
 import com.yunsen.enjoy.widget.BaseScrollView;
 import com.yunsen.enjoy.widget.recyclerview.MultiItemTypeAdapter;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,11 +61,21 @@ public class FoodDescriptionActivity extends BaseFragmentActivity implements Mul
     LinearLayout actionBarLayout;
     @Bind(R.id.look_img_img)
     ImageView lookImgImg;
+    @Bind(R.id.collect_tv)
+    TextView collectTv;
+    @Bind(R.id.distance_tv)
+    TextView distanceTv;
+    @Bind(R.id.service_time_tv)
+    TextView serviceTimeTv;
 
     private GoodsListAdapter mAdapter;
     private ArrayList<SProviderModel> mDatas;
     private int mPageIndex = 1;
     private String mGoodsId;
+    private SProviderModel mData;
+    private boolean mIsCollect;
+    private int mCompanyUserId = 0;
+    private boolean mHasFinish;
 
     @Override
     public int getLayout() {
@@ -76,7 +92,6 @@ public class FoodDescriptionActivity extends BaseFragmentActivity implements Mul
     protected void initData(Bundle savedInstanceState) {
         Intent intent = getIntent();
         mGoodsId = intent.getStringExtra(Constants.GOODS_ID_KEY);
-
         NoScrollLinearLayoutManager layout = new NoScrollLinearLayoutManager(this);
         layout.setScrollEnabled(false);
         recyclerView.setLayoutManager(layout);
@@ -120,10 +135,14 @@ public class FoodDescriptionActivity extends BaseFragmentActivity implements Mul
 //            }
 //        });
 
+
         HttpProxy.getServiceShopInfo(mGoodsId, new HttpCallBack<SProviderModel>() {
 
             @Override
             public void onSuccess(SProviderModel responseData) {
+                mData = responseData;
+                mCompanyUserId = responseData.getUser_id();
+                isFavorite();
                 upView(responseData);
             }
 
@@ -138,6 +157,7 @@ public class FoodDescriptionActivity extends BaseFragmentActivity implements Mul
             @Override
             public void onSuccess(List<SProviderModel> responseData) {
                 mAdapter.addBaseDatas(responseData);
+
             }
 
             @Override
@@ -147,14 +167,97 @@ public class FoodDescriptionActivity extends BaseFragmentActivity implements Mul
         });
     }
 
+    /**
+     * 是否已经收藏
+     */
+    private void isFavorite() {
+        HttpProxy.getFavoriteCompanyExists(String.valueOf(mCompanyUserId), new HttpCallBack<String>() {
+            @Override
+            public void onSuccess(String responseData) {
+                //关注
+                collectTv.setText("已收藏");
+                collectTv.setSelected(true);
+                mIsCollect = true;
+                mHasFinish = true;
+            }
+
+            @Override
+            public void onError(Request request, Exception e) {
+                if (e instanceof DataException) {
+                    //未关注
+                    collectTv.setText("收藏");
+                    collectTv.setSelected(false);
+                    mIsCollect = false;
+                }
+                mHasFinish = true;
+            }
+        });
+
+    }
+
     private void upView(SProviderModel data) {
         Glide.with(this)
                 .load(data.getImg_url())
                 .into(lookImgImg);
+
+        double lat = data.getLat();
+        double lng = data.getLng();
+        if (lat != 0 && lng != 0 && GlobalStatic.latitude != 0.0 && GlobalStatic.longitude != 0.0 && !("0,0".equals(lat) || "0.0".equals(lng))) {
+            double algorithm = Utils.algorithm(GlobalStatic.longitude, GlobalStatic.latitude, Double.valueOf(lng), Double.valueOf(lat)) / 1000;
+            BigDecimal b = new BigDecimal(algorithm);
+            double df = b.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+            distanceTv.setText(df + "km");
+        } else {
+//            view.setVisibility(View.GONE);
+            distanceTv.setText("0.00 km");
+        }
+        serviceTimeTv.setText(data.getService_time());
     }
 
+    private void addFavorite() {
+        if (!mHasFinish) {
+            return;
+        }
+        HttpProxy.getFavoriteCompanyAdd(mGoodsId, new HttpCallBack<String>() {
+            @Override
+            public void onSuccess(String responseData) {
+                ToastUtils.makeTextShort("关注成功");
+                collectTv.setText("已收藏");
+                collectTv.setSelected(true);
+                mIsCollect = true;
+            }
+
+            @Override
+            public void onError(Request request, Exception e) {
+
+            }
+        });
+    }
+
+    private void removeFavorite() {
+        if (!mHasFinish) {
+            return;
+        }
+        HttpProxy.getFavoriteCompanyChannel(mGoodsId, new HttpCallBack<String>() {
+            @Override
+            public void onSuccess(String responseData) {
+                ToastUtils.makeTextShort("取消关注");
+                collectTv.setText("收藏");
+                collectTv.setSelected(false);
+                mIsCollect = false;
+            }
+
+            @Override
+            public void onError(Request request, Exception e) {
+
+            }
+        });
+    }
+
+
     @OnClick({R.id.action_back_1, R.id.action_bar_share, R.id.action_back_complaint,
-            R.id.look_img_tv, R.id.look_img_img, R.id.pay_money_tv})
+            R.id.look_img_tv, R.id.look_img_img, R.id.pay_money_tv, R.id.collect_tv,
+            R.id.phone_img})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.action_back_1:
@@ -171,8 +274,30 @@ public class FoodDescriptionActivity extends BaseFragmentActivity implements Mul
                 UIHelper.showShoppingPhotoActivity(this);
                 break;
             case R.id.pay_money_tv:
-                UIHelper.showPayActivity(this);
+                if (mData != null) {
+                    UIHelper.showPayActivity(this, String.valueOf(mData.getId()), mData.getName());
+                } else {
+                    ToastUtils.makeTextShort("网络慢，请稍后。。。 ");
+                }
                 break;
+            case R.id.collect_tv:
+                if (mIsCollect) {
+                    removeFavorite();
+                } else {
+                    addFavorite();
+                }
+                break;
+            case R.id.phone_img:
+                requestPermission(Permission.CALL_PHONE, Constants.CALL_PHONE);
+                break;
+        }
+    }
+
+    @Override
+    protected void onRequestPermissionSuccess(int requestCode) {
+        super.onRequestPermissionSuccess(requestCode);
+        if (requestCode == Constants.CALL_PHONE && mData != null) {
+            UIHelper.showPhoneNumberActivity(this, mData.getMobile());
         }
     }
 
@@ -220,6 +345,6 @@ public class FoodDescriptionActivity extends BaseFragmentActivity implements Mul
         actionBarLayout.getBackground().mutate().setAlpha(255);
         actionBack.getBackground().mutate().setAlpha(255);
         actionBackComplaint.getBackground().mutate().setAlpha(255);
-
     }
+
 }

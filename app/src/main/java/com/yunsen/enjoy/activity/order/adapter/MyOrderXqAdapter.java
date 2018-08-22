@@ -167,13 +167,13 @@ public class MyOrderXqAdapter extends BaseAdapter {
             holder.payTypeLayout.setVisibility(View.GONE);
 //            holder.shoppingMethodLayout.setVisibility(View.GONE);
         } else {
-            String payTypeStr = "余额";
+            String payTypeStr = "消费券";
             switch (myOrderData.getPayment_id()) {
                 case Constants.BALANCE_PAY_TYPE:
-                    payTypeStr = "余额";
+                    payTypeStr = "消费券";
                                                                                                                                                                                                                                                                                                 break;
                 case Constants.CARD_PAY_TYPE:
-                    payTypeStr = "储值卡";
+                    payTypeStr = "消费券";
                     break;
                 case Constants.WEI_XIN_PAY_TYPE:
                     payTypeStr = "微信";

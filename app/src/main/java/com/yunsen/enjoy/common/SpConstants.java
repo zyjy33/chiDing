@@ -93,4 +93,5 @@ public class SpConstants {
 
     public static final String APP_VERSION_NAME = "app_version_name";
     public static final String CARD = "card";
+    public static final String CITY_CODE = "city_code";
 }

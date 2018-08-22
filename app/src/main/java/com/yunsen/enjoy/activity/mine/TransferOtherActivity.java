@@ -76,7 +76,7 @@ public class TransferOtherActivity extends BaseFragmentActivity {
                 if (TextUtils.isEmpty(acount)) {
                     ToastUtils.makeTextShort("请输入转赠账户");
                 } else if (TextUtils.isEmpty(coin)) {
-                    ToastUtils.makeTextShort("请输入转赠消费卷金额");
+                    ToastUtils.makeTextShort("请输入转赠消费券金额");
                 } else {
                     showEnterDialog(acount, coin);
                 }

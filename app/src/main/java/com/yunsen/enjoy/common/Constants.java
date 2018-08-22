@@ -43,6 +43,10 @@ public class Constants {
     public static final String GOODS_TITLE_KEY = "goods_title_key";
     public static final String PHOTO_BROWSE_KEY = "photo_browse_key";
     public static final String PHOTO_BROWSE_INDEX_KEY = "photo_browse_index_key";
+    public static final String COMPANY_ID = "company_id";
+    public static final String COMPANY_NAME = "company_name";
+    public static final String AMOUNT = "amount";
+    public static final String FUND_ID = "fund_id";
 //    public static final String APP_SECRET = "";
 //appId=wxe60c28541b0fa8a2&body=zyjytest&device_info=1000&key=ca30ef7495cdd92ee94e1190f78a8735&mch_id=1502153101&nonce_str=ibuaiVcKdpRxkhJA
 
@@ -53,7 +57,7 @@ public class Constants {
     public static final int BALANCE_PAY_TYPE = 2; //余额
     public static final int ALIPAY_TYPE = 3;  //z支付宝
     public static final int WEI_XIN_PAY_TYPE = 5;//微信
-    public static final int CARD_PAY_TYPE = 9;//储值卡支付
+    public static final int CARD_PAY_TYPE = 9;//消费券支付
     /**
      * 买车界面
      */
@@ -111,6 +115,7 @@ public class Constants {
     public static final int PHONE_LOGIN_REQUEST = 14;// 手机登录
     public static final int BIND_BANK_CARD_REQUEST = 15;//绑定银行的页面
     public static final int ADDRESS_REQUEST = 16;//选择地址
+    public static final int LOCATION_ADDRESS_REQUEST = 17;//开启gps请求码
 
 
     /*******************************************************************

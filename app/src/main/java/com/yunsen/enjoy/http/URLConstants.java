@@ -107,6 +107,18 @@ public class URLConstants {
      */
     public static final String ADD_COLLECT_URL = URLConstants.REALM_NAME_LL + "/user_favorite";
     /**
+     * favorite_company_exists 是否已关注商家
+     */
+    public static final String FAVORITE_COMPANY_EXISTS = URLConstants.REALM_NAME_LL + "/favorite_company_exists";
+    /**
+     * 关注商家
+     */
+    public static final String FAVORITE_COMPANY_ADD = URLConstants.REALM_NAME_LL + "/favorite_company_add";
+    /**
+     * 取消关注商家
+     */
+    public static final String FAVORITE_COMPANY_CHANNEL = URLConstants.REALM_NAME_LL + "/favorite_company_channel";
+    /**
      * 删除用户关注
      */
     public static final String DELECT_COLLECT_URL = URLConstants.REALM_NAME_LL + "/user_favorite_delete";
@@ -371,11 +383,11 @@ public class URLConstants {
     public static final String ADD_AMOUNT_RECHARGE_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/add_amount_recharge";
     /**
      * http://mobile.gaiachn.com/tools/mobile_ajax.asmx/payment_balance
-     * 余额支付
+     * 消费券支付
      */
     public static final String PAYMENT_BALANCE_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/payment_balance";
     /**
-     * 余额支付http://mobile.gaiachn.com/api/payment/balance/index.aspx
+     * 消费券支付http://mobile.gaiachn.com/api/payment/balance/index.aspx
      */
     public static final String PAYMENT_BALANCE_URL_2 = BuildConfig.ROOT_URL + "/api/payment/balance/index.aspx";
 
@@ -406,6 +418,10 @@ public class URLConstants {
      * 交换产品的接口
      */
     public static final String CHANGE_GOODS_LIST = BuildConfig.ROOT_URL + "/toolS/mobile_ajax.asmx/get_article_page_size_list_2018";
+    /**
+     * 到店支付
+     */
+    public static final String ADD_SHOPPING_BESPEAK = BuildConfig.ROOT_URL + "/toolS/mobile_ajax.asmx/add_shopping_bespeak";
 
     public static final String REALM_NAME_WEB = BuildConfig.ROOT_URL;
     public static final String REALM_NAME_HTTP = BuildConfig.ROOT_URL;

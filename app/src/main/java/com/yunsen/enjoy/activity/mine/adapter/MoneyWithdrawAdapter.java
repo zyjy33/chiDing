@@ -28,7 +28,7 @@ public class MoneyWithdrawAdapter extends CommonAdapter<WithdrawLogData> {
 
         holder.setText(R.id.money_widthdraw_time, data.getUpdate_time());
         holder.setText(R.id.money_widthdraw_money, "+" + String.valueOf(data.getWithdraw_price()));
-        holder.setText(R.id.money_widthdraw_balance, "余额：" + String.valueOf(data.getLast_balance()));
+        holder.setText(R.id.money_widthdraw_balance, "消费券：" + String.valueOf(data.getLast_balance()));
         bankName = data.getBank_name();
         String bankCard = data.getBank_card();
         if (bankCard != null & bankCard.length() > 4) {

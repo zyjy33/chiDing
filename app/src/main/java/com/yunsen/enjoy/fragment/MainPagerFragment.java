@@ -325,8 +325,8 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
             List<SProviderModel> datas = ((GoodsListAdapter) adapter).getDatas();
             int pos = position - 1;
             if (pos >= 0 && pos < datas.size()) {
-                int id = datas.get(pos).getId();
-                UIHelper.showFoodDescriptionActivity(getActivity(), String.valueOf(id), datas.get(pos).getName());
+                SProviderModel model = datas.get(pos);
+                UIHelper.showFoodDescriptionActivity(getActivity(), String.valueOf(model.getUser_id()), model.getName());
             }
         }
     }
@@ -346,9 +346,9 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
             case R.id.qrcode_img:
                 ToastUtils.makeTextShort("二维码");
                 break;
-            case R.id.money_discount_tv: //消费卷优惠
-            case R.id.top_money_discount_tv: //消费卷优惠
-                ToastUtils.makeTextShort("消费卷优惠");
+            case R.id.money_discount_tv: //消费券优惠
+            case R.id.top_money_discount_tv: //消费券优惠
+                ToastUtils.makeTextShort("消费券优惠");
                 break;
             case R.id.top_vip_discount_tv: //会员优惠
             case R.id.vip_discount_tv: //会员优惠

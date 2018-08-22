@@ -170,5 +170,14 @@ public class PayMoneyProxy {
         UIHelper.showTishiCarArchivesActivity(act, orderNo);
     }
 
+    /**
+     * x消费券
+     * @param act
+     * @param orderNo
+     */
+      public void cardPay(Activity act, String orderNo) {
+        UIHelper.showTishiCardPayActivity(act, orderNo);
+    }
+
 
 }

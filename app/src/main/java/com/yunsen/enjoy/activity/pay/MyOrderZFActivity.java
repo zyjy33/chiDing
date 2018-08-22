@@ -468,7 +468,7 @@ public class MyOrderZFActivity extends AppCompatActivity implements OnClickListe
                         finish();
                         break;
                     case Constants.CARD_PAY_TYPE:
-                        // 储值卡支付
+                        // 消费券支付
                         orderxq = getIntent().getStringExtra("5");
                         Intent intent2 = new Intent(MyOrderZFActivity.this, TishiCarArchivesActivity.class);
                         // intent.putExtra("order_type",order_type);

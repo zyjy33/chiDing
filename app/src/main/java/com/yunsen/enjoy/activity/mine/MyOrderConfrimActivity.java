@@ -91,7 +91,7 @@ public class MyOrderConfrimActivity extends BaseFragmentActivity implements OnCl
     TextView tv_size, tv_zhifu;
     private String ZhiFuFangShi, express_id;
     private String jubi;
-    String type = "5"; // 5 微信支付, 3 支付宝支付  ,2 余额支付  9 储值卡
+    String type = "5"; // 5 微信支付, 3 支付宝支付  ,2 余额支付  9 消费券
     String notify_url;
     int kou_hongbao;
     private IWXAPI api;
@@ -609,7 +609,7 @@ public class MyOrderConfrimActivity extends BaseFragmentActivity implements OnCl
                 yu_pay_c1.setChecked(false);
                 yu_pay_c2.setChecked(false);
                 storedCardPay.setChecked(true);
-                // 储值卡
+                // 消费券
                 type = "9";
             }
         });
@@ -1017,7 +1017,7 @@ public class MyOrderConfrimActivity extends BaseFragmentActivity implements OnCl
                             intent.putExtra("order_no", recharge_no);
                             intent.putExtra("yue", "yue");
                             startActivityForResult(intent, Constants.PAY_MONEY_ACT_REQUEST);
-                        } else if ("9".equals(type)) { //储值卡
+                        } else if ("9".equals(type)) { //消费券
                             mHasPay = true;
                             Intent intent = new Intent(MyOrderConfrimActivity.this, TishiCarArchivesActivity.class);
                             intent.putExtra("order_no", recharge_no);

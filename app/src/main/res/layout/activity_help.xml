@@ -104,7 +104,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="5dp"
-                    android:text="消费卷使用说明"
+                    android:text="消费券使用说明"
                     android:textColor="@color/color_5e6570"
                     android:textSize="@dimen/item_title_size" />
 
@@ -242,7 +242,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="5dp"
-                    android:text="什么事消费卷,如何做到折扣!"
+                    android:text="什么事消费券,如何做到折扣!"
                     android:textColor="@color/color_5e6570"
                     android:textSize="@dimen/item_title_size" />
 

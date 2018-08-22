@@ -101,7 +101,7 @@
                 android:layout_marginRight="@dimen/app_margin"
                 android:paddingBottom="5dp"
                 android:paddingTop="5dp"
-                android:text="消费卷特惠"
+                android:text="消费券特惠"
                 android:textColor="@color/orange_color" />
 
             <TextView
