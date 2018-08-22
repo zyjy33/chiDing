@@ -42,7 +42,7 @@ public class SpConstants {
     public static final String USER_IMG = "user_img";
     public static final String OK = "ok";//图片保存OK
     public static final String AMOUNT = "amount";//账户余额
-    public static final String RESERVE = "reserve";//冻结资金
+    public static final String RESERVE = "reserve";//备用金
     public static final String LOGIN_FLAG = "login_flag";
     public static final String WEI_XIN = "android_wei_xin";
     public static final String QQ_LOGIN = "android_qq";
@@ -94,4 +94,5 @@ public class SpConstants {
     public static final String APP_VERSION_NAME = "app_version_name";
     public static final String CARD = "card";
     public static final String CITY_CODE = "city_code";
+    public static final String PROMOTION = "promotion"; //营销金
 }

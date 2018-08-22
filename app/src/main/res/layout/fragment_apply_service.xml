@@ -179,7 +179,38 @@
                 android:orientation="vertical">
 
                 <Button
+                    android:visibility="gone"
+                    android:id="@+id/setting_shopping_money"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginRight="30dp"
+                    android:layout_marginTop="30dp"
+                    android:autoSizeMaxTextSize="30dp"
+                    android:background="@drawable/button_bg"
+                    android:text="释放消费卷"
+                    android:textColor="@color/white"
+                    android:textSize="16sp" />
+
+                <Button
                     android:id="@+id/next_btn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginRight="30dp"
+                    android:layout_marginTop="30dp"
+                    android:autoSizeMaxTextSize="30dp"
+                    android:background="@drawable/button_bg"
+                    android:text="立即入驻"
+                    android:textColor="@color/white"
+                    android:textSize="16sp" />
+
+                <Button
+                    android:visibility="gone"
+                    android:id="@+id/goto_shopping"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom"
@@ -189,7 +220,7 @@
                     android:layout_marginTop="@dimen/app_margin"
                     android:autoSizeMaxTextSize="30dp"
                     android:background="@drawable/button_bg"
-                    android:text="立即入驻"
+                    android:text="进入购物车"
                     android:textColor="@color/white"
                     android:textSize="16sp" />
 

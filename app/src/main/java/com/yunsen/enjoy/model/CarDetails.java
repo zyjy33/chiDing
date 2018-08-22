@@ -222,7 +222,7 @@ public class CarDetails {
      * update_time : 2018-04-19 17:59:32
      */
 
-    private List<DatatypeBean> datatype;
+    private List<?> datatype;
     private List<?> author;
     private List<?> activity_award;
     private List<?> activity_item;
@@ -883,11 +883,11 @@ public class CarDetails {
         this.category = category;
     }
 
-    public List<DatatypeBean> getDatatype() {
+    public List<?> getDatatype() {
         return datatype;
     }
 
-    public void setDatatype(List<DatatypeBean> datatype) {
+    public void setDatatype(List<?> datatype) {
         this.datatype = datatype;
     }
 

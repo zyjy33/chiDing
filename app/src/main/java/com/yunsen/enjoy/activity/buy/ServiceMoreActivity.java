@@ -92,13 +92,13 @@ public class ServiceMoreActivity extends BaseFragmentActivity implements MultiIt
 
     @Override
     protected void initData(Bundle savedInstanceState) {
-        mData = new ArrayList<>();
-        mAdapter = new StoreRecyclerAdapter(this, R.layout.shop_item, mData);
-        HeaderAndFooterRecyclerViewAdapter footerRecyclerViewAdapter = new HeaderAndFooterRecyclerViewAdapter(mAdapter);
-        serviceMoreRecycler.setAdapter(footerRecyclerViewAdapter);
-        loadMoreLayout = new LoadMoreLayout(this);
-        RecyclerViewUtils.setFooterView(serviceMoreRecycler, loadMoreLayout);
-        loadMoreLayout.goneView();
+//        mData = new ArrayList<>();
+//        mAdapter = new StoreRecyclerAdapter(this, R.layout.shop_item, mData);
+//        HeaderAndFooterRecyclerViewAdapter footerRecyclerViewAdapter = new HeaderAndFooterRecyclerViewAdapter(mAdapter);
+//        serviceMoreRecycler.setAdapter(footerRecyclerViewAdapter);
+//        loadMoreLayout = new LoadMoreLayout(this);
+//        RecyclerViewUtils.setFooterView(serviceMoreRecycler, loadMoreLayout);
+//        loadMoreLayout.goneView();
     }
 
     @Override
@@ -110,32 +110,32 @@ public class ServiceMoreActivity extends BaseFragmentActivity implements MultiIt
 
     @Override
     public void requestData() {
-        HttpProxy.getServiceMoreProvider(mPageIndex, null, new HttpCallBack<List<SProviderModel>>() {
-            @Override
-            public void onSuccess(List<SProviderModel> responseData) {
-                noDataErrorLayout.setVisibility(View.GONE);
-                if (mIsLoadMore) {
-                    mHasMore = mAdapter.addDatas(responseData);
-                } else {
-                    mAdapter.upDatas(responseData);
-                }
-                if (mHasMore) {
-                    onScrollListener.onRefreshComplete();
-                } else {
-                    loadMoreLayout.showLoadNoMore(null);
-                }
-                swipeRefreshLayout.setRefreshing(false);
-            }
-
-            @Override
-            public void onError(Request request, Exception e) {
-                loadMoreLayout.showLoadNoMore(null);
-                swipeRefreshLayout.setRefreshing(false);
-                if (mData.size() == 0) {
-                    noDataErrorLayout.setVisibility(View.VISIBLE);
-                }
-            }
-        });
+//        HttpProxy.getServiceMoreProvider(mPageIndex, null, new HttpCallBack<List<SProviderModel>>() {
+//            @Override
+//            public void onSuccess(List<SProviderModel> responseData) {
+//                noDataErrorLayout.setVisibility(View.GONE);
+//                if (mIsLoadMore) {
+//                    mHasMore = mAdapter.addDatas(responseData);
+//                } else {
+//                    mAdapter.upDatas(responseData);
+//                }
+//                if (mHasMore) {
+//                    onScrollListener.onRefreshComplete();
+//                } else {
+//                    loadMoreLayout.showLoadNoMore(null);
+//                }
+//                swipeRefreshLayout.setRefreshing(false);
+//            }
+//
+//            @Override
+//            public void onError(Request request, Exception e) {
+//                loadMoreLayout.showLoadNoMore(null);
+//                swipeRefreshLayout.setRefreshing(false);
+//                if (mData.size() == 0) {
+//                    noDataErrorLayout.setVisibility(View.VISIBLE);
+//                }
+//            }
+//        });
     }
 
     @OnClick(R.id.action_back)

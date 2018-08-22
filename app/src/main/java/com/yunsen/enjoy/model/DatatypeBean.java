@@ -14,6 +14,9 @@ public class DatatypeBean {
     private String update_time;
     private boolean isChecked = false;
 
+    public DatatypeBean() {
+    }
+
     public boolean isChecked() {
         return isChecked;
     }

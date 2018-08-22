@@ -463,6 +463,11 @@
         <activity
             android:name=".activity.pay.PayFinishActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.pay.SettingShopMoneyActivity"
+            android:configChanges="orientation|keyboard|keyboardHidden|navigation"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|stateAlwaysHidden"  />
     </application>
 
 </manifest>

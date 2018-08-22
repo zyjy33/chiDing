@@ -422,6 +422,24 @@ public class URLConstants {
      * 到店支付
      */
     public static final String ADD_SHOPPING_BESPEAK = BuildConfig.ROOT_URL + "/toolS/mobile_ajax.asmx/add_shopping_bespeak";
+    /**
+     * 获取购物车列表
+     */
+    public static final String MY_SHOPPING_CART_LIST = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/get_shopping_cart";
+    /**
+     * http://mobile.zams.cn/tools/mobile_ajax.asmx/cart_goods_update
+     * 更新物品数量
+     */
+    public static final String UP_SHOPPING_CART_GOODS = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/cart_goods_update";
+    /**
+     * 多个商品加入购物单
+     */
+    public static final String ADD_SHOPPING_BUYS = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/add_shopping_buys";
+    /**
+     * 收藏的商家列表
+     */
+    public static final String GET_FAVORITE_COMPANY_LIST = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/get_favorite_company_list";
+
 
     public static final String REALM_NAME_WEB = BuildConfig.ROOT_URL;
     public static final String REALM_NAME_HTTP = BuildConfig.ROOT_URL;

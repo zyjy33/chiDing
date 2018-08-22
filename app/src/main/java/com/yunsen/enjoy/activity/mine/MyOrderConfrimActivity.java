@@ -91,7 +91,7 @@ public class MyOrderConfrimActivity extends BaseFragmentActivity implements OnCl
     TextView tv_size, tv_zhifu;
     private String ZhiFuFangShi, express_id;
     private String jubi;
-    String type = "5"; // 5 微信支付, 3 支付宝支付  ,2 余额支付  9 消费券
+    String type = "5"; // 5 微信支付, 3 支付宝支付  ,2 余额支付  9 消费券  12  采购金
     String notify_url;
     int kou_hongbao;
     private IWXAPI api;
@@ -194,6 +194,15 @@ public class MyOrderConfrimActivity extends BaseFragmentActivity implements OnCl
         yu_pay_c1 = (CheckBox) findViewById(R.id.yu_pay_c1);
         yu_pay_c2 = (CheckBox) findViewById(R.id.yu_pay_c2);
         storedCardPay = (CheckBox) findViewById(R.id.stored_card_pay);
+        ((TextView) findViewById(R.id.action_bar_title)).setText("订单结算");
+
+
+        yu_pay_c0.setChecked(false);
+        yu_pay_c1.setChecked(false);
+        yu_pay_c2.setChecked(false);
+        storedCardPay.setChecked(true);
+        // 消费券
+        type = String.valueOf(Constants.STOCK_UP);
     }
 
     @Override
@@ -211,7 +220,7 @@ public class MyOrderConfrimActivity extends BaseFragmentActivity implements OnCl
     protected void initListener() {
         ImageView imageView = (ImageView) findViewById(R.id.iv_tupian);
         imageView.setImageResource(R.drawable.xiantiap);
-        ImageView iv_fanhui = (ImageView) findViewById(R.id.iv_fanhui);
+        ImageView iv_fanhui = (ImageView) findViewById(R.id.action_back);
         iv_fanhui.setOnClickListener(this);
     }
 
@@ -576,20 +585,7 @@ public class MyOrderConfrimActivity extends BaseFragmentActivity implements OnCl
                 type = "5";
             }
         });
-//        /**
-//         * 支付宝支付
-//         */
-//        yu_pay_c1.setOnClickListener(new OnClickListener() {
-//            @Override
-//            public void onClick(View arg0) {
-//                yu_pay_c0.setChecked(false);
-//                yu_pay_c1.setChecked(true);
-//                yu_pay_c2.setChecked(false);
-//                System.out.println("type======支付宝支付========" + type);
-//                // 支付宝
-//                type = "3";
-//            }
-//        });
+
         yu_pay1.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View arg0) {
@@ -610,7 +606,7 @@ public class MyOrderConfrimActivity extends BaseFragmentActivity implements OnCl
                 yu_pay_c2.setChecked(false);
                 storedCardPay.setChecked(true);
                 // 消费券
-                type = "9";
+                type = String.valueOf(Constants.STOCK_UP);
             }
         });
 
@@ -1017,12 +1013,13 @@ public class MyOrderConfrimActivity extends BaseFragmentActivity implements OnCl
                             intent.putExtra("order_no", recharge_no);
                             intent.putExtra("yue", "yue");
                             startActivityForResult(intent, Constants.PAY_MONEY_ACT_REQUEST);
-                        } else if ("9".equals(type)) { //消费券
+                        } else if (String.valueOf(Constants.STOCK_UP).equals(type)) { //采购金
                             mHasPay = true;
                             Intent intent = new Intent(MyOrderConfrimActivity.this, TishiCarArchivesActivity.class);
                             intent.putExtra("order_no", recharge_no);
                             intent.putExtra("yue", "yue");
-                            intent.putExtra(Constants.IS_CARD_MONEY, true);
+//                            intent.putExtra(Constants.IS_CARD_MONEY, true);
+                            intent.putExtra(Constants.IS_STOCK_UP, true);
                             startActivityForResult(intent, Constants.PAY_MONEY_ACT_REQUEST);
                         }
                     } else {
@@ -1151,7 +1148,7 @@ public class MyOrderConfrimActivity extends BaseFragmentActivity implements OnCl
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.iv_fanhui:
+            case R.id.action_back:
                 finish();
                 break;
             case R.id.yu_pay2:

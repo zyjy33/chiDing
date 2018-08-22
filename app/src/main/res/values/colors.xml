@@ -54,6 +54,7 @@
     <color name="color_fe0000">#fe0000</color>
     <color name="color_da4922">#da4922</color>
     <color name="city_search_bg">#fff2f2f2</color>
+    <color name="green">#028e02</color>
 
     <color name="city_item_divider_color">#ffdddddc</color>
     <color name="city_item_text_color">#1b1b1b</color>

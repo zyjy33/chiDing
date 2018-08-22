@@ -127,11 +127,16 @@ public class TishiCarArchivesActivity extends Activity implements OnClickListene
                     if (status.equals("y")) {
                         JSONObject obj = object.getJSONObject("data");
                         amount = obj.getString("amount");
+                        String reserve = obj.getString("reserve");
                         String cardMoney = obj.getString("card");
                         String point = obj.getString("point");
-                        String jubi = getIntent().getStringExtra("jubi");
-                        String title = getIntent().getStringExtra("title");
-                        boolean isCard = getIntent().getBooleanExtra(Constants.IS_CARD_MONEY, false);
+                        Intent intent = getIntent();
+                        String jubi = intent.getStringExtra("jubi");
+                        String title = intent.getStringExtra("title");
+                        boolean isCard = intent.getBooleanExtra(Constants.IS_CARD_MONEY, false);
+                        boolean isStockUp = intent.getBooleanExtra(Constants.IS_STOCK_UP, false);
+                        boolean isSettingMoney = intent.getBooleanExtra(Constants.IS_SETTING_MONEY, false);
+                        String settingMoney = intent.getStringExtra(Constants.SETTING_MONEY);
 
                         tv_yue = (TextView) findViewById(R.id.tv_yue);
                         if (title != null) {
@@ -139,7 +144,11 @@ public class TishiCarArchivesActivity extends Activity implements OnClickListene
                         } else {
                             if (isCard) {
                                 tv_yue.setText("您的剩余消费券为¥" + cardMoney);
-                            }else {
+                            } else if (isStockUp) {
+                                tv_yue.setText("您的剩余配货金¥" + reserve);
+                            } else if (isSettingMoney) {
+                                tv_yue.setText("您的设置的预售金额金为¥" + settingMoney);
+                            } else {
                                 tv_yue.setText("您剩余的余额为¥" + amount);
                             }
                         }
@@ -217,7 +226,11 @@ public class TishiCarArchivesActivity extends Activity implements OnClickListene
                                 String info = object.getString("info");
                                 if (status.equals("y")) {
                                     progress.CloseProgress();
-                                    ToastUtils.makeTextShort("支付成功");
+                                    if (getIntent().getBooleanExtra(Constants.IS_SETTING_MONEY, false)) {
+                                        ToastUtils.makeTextShort("设置预售金成功");
+                                    } else {
+                                        ToastUtils.makeTextShort(info);
+                                    }
                                     EventBus.getDefault().postSticky(new UpUiEvent(EventConstants.APP_LOGIN));
                                     setResult(1);
                                     finish();

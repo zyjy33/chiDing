@@ -216,7 +216,6 @@ public class WebActivity extends BaseFragmentActivity {
             webRootView.removeView(webView);
             webView = null;
         }
-        ButterKnife.unbind(this);
     }
 
 

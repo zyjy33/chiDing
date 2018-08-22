@@ -24,7 +24,7 @@ import com.yunsen.enjoy.utils.SpUtils;
 import com.yunsen.enjoy.utils.ToastUtils;
 import com.yunsen.enjoy.widget.DatePickerViewDialog;
 import com.yunsen.enjoy.widget.interfaces.onLeftOnclickListener;
-import com.yunsen.enjoy.widget.interfaces.onRightOnclickListener;
+import com.yunsen.enjoy.widget.interfaces.OnRightOnclickListener;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -215,7 +215,7 @@ public class WatchCarActivity extends BaseFragmentActivity {
                     }
                 }
             });
-            pickerView.setRightOnclickListener("确定", new onRightOnclickListener() {
+            pickerView.setRightOnclickListener("确定", new OnRightOnclickListener() {
                 @Override
                 public void onRightClick(int... index) {
                     watchTimeTv.setText(pickerView.getDate(index[0], index[1], index[2]));

@@ -17,6 +17,7 @@ import com.yunsen.enjoy.fragment.home.StoreRecyclerAdapter;
 import com.yunsen.enjoy.http.HttpCallBack;
 import com.yunsen.enjoy.http.HttpProxy;
 import com.yunsen.enjoy.model.SProviderModel;
+import com.yunsen.enjoy.model.ShopCollectionBean;
 import com.yunsen.enjoy.ui.UIHelper;
 import com.yunsen.enjoy.ui.recyclerview.EndlessRecyclerOnScrollListener;
 import com.yunsen.enjoy.ui.recyclerview.HeaderAndFooterRecyclerViewAdapter;
@@ -46,7 +47,7 @@ public class ShopCollectionFragment extends BaseFragment implements MultiItemTyp
     @Bind(R.id.swipe_refresh_widget)
     SwipeRefreshLayout swipeRefreshWidget;
     private SharedPreferences spPreferences;
-    private ArrayList<SProviderModel> mDatas;
+    private ArrayList<ShopCollectionBean> mDatas;
     private StoreRecyclerAdapter mAdapter;
     private String mUserId;
     private boolean mHasMore;
@@ -113,9 +114,9 @@ public class ShopCollectionFragment extends BaseFragment implements MultiItemTyp
 
     @Override
     protected void requestData() {
-        HttpProxy.getShopCollectList(mUserId, String.valueOf(mPageIndex), new HttpCallBack<List<SProviderModel>>() {
+        HttpProxy.getFavoriteCompanyList(String.valueOf(mPageIndex), new HttpCallBack<List<ShopCollectionBean>>() {
             @Override
-            public void onSuccess(List<SProviderModel> responseData) {
+            public void onSuccess(List<ShopCollectionBean> responseData) {
                 if (mIsLoadMore) {
                     mHasMore = mAdapter.addDatas(responseData);
                     if (mPageIndex == 1) {
@@ -162,9 +163,9 @@ public class ShopCollectionFragment extends BaseFragment implements MultiItemTyp
     @Override
     public void onItemClick(View view, RecyclerView.Adapter adapter, RecyclerView.ViewHolder holder, int position) {
         if (mDatas != null && mDatas.size() > position) {
-            SProviderModel model = mDatas.get(position);
+            ShopCollectionBean model = mDatas.get(position);
             int id = model.getUser_id();
-            UIHelper.showServiceShopInfoActivity(getActivity(), String.valueOf(id));
+            UIHelper.showFoodDescriptionActivity(getActivity(), String.valueOf(id), model.getName());
         }
     }
 

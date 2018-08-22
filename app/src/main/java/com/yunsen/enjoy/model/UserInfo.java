@@ -114,7 +114,7 @@ public class UserInfo {
     private String login_sign;
     private String login_stamp;
     private double amount;
-    private int promotion;
+    private double promotion;
     private int pension;
     private double packet;
     private double reserve;
@@ -489,11 +489,11 @@ public class UserInfo {
         this.reserve = reserve;
     }
 
-    public int getPromotion() {
+    public double getPromotion() {
         return promotion;
     }
 
-    public void setPromotion(int promotion) {
+    public void setPromotion(double promotion) {
         this.promotion = promotion;
     }
 

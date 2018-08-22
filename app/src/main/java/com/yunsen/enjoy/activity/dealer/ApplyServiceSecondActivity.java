@@ -28,14 +28,13 @@ import com.yunsen.enjoy.http.HttpProxy;
 import com.yunsen.enjoy.model.ServiceProject;
 import com.yunsen.enjoy.model.request.ApplyFacilitatorModel;
 import com.yunsen.enjoy.ui.UIHelper;
-import com.yunsen.enjoy.utils.DeviceUtil;
 import com.yunsen.enjoy.utils.ToastUtils;
 import com.yunsen.enjoy.widget.MyAlertDialog;
 import com.yunsen.enjoy.widget.NumberPickerDialog;
 import com.yunsen.enjoy.widget.dialog.ServiceTagCheckDialog;
 import com.yunsen.enjoy.widget.dialog.TimePickerViewDialog;
 import com.yunsen.enjoy.widget.interfaces.onLeftOnclickListener;
-import com.yunsen.enjoy.widget.interfaces.onRightOnclickListener;
+import com.yunsen.enjoy.widget.interfaces.OnRightOnclickListener;
 import com.yunsen.enjoy.widget.interfaces.onRightServiceProjectOnclickListener;
 
 import java.util.List;
@@ -191,7 +190,7 @@ public class ApplyServiceSecondActivity extends BaseFragmentActivity {
                 }
             }
         });
-        picker.setRightOnclickListener("确定", new onRightOnclickListener() {
+        picker.setRightOnclickListener("确定", new OnRightOnclickListener() {
             @Override
             public void onRightClick(int[] index) {
                 if (picker != null && picker.isShowing()) {
@@ -369,7 +368,7 @@ public class ApplyServiceSecondActivity extends BaseFragmentActivity {
                     }
                 }
             });
-            startPickerView.setRightOnclickListener("确定", new onRightOnclickListener() {
+            startPickerView.setRightOnclickListener("确定", new OnRightOnclickListener() {
                 @Override
                 public void onRightClick(int... index) {
                     facilitatorStartTv.setText(startPickerView.getTime(index[0], index[1]));
@@ -395,7 +394,7 @@ public class ApplyServiceSecondActivity extends BaseFragmentActivity {
                     }
                 }
             });
-            endPickerView.setRightOnclickListener("确定", new onRightOnclickListener() {
+            endPickerView.setRightOnclickListener("确定", new OnRightOnclickListener() {
                 @Override
                 public void onRightClick(int... index) {
                     facilitatorEndTv.setText(endPickerView.getTime(index[0], index[1]));

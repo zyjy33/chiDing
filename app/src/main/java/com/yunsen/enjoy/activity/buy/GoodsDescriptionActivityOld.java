@@ -262,7 +262,6 @@ public class GoodsDescriptionActivityOld extends BaseFragmentActivity implements
         data_spec_text = new ArrayList();
         data_exchange_point = new ArrayList();
         data_exchange_price = new ArrayList();
-
         data_goods_id_1 = new ArrayList();
         data_price = new ArrayList();
 
@@ -346,7 +345,7 @@ public class GoodsDescriptionActivityOld extends BaseFragmentActivity implements
                 UIHelper.goWXApp(GoodsDescriptionActivityOld.this);
                 break;
             case R.id.enter_shop: //返回购物车
-                UIHelper.showHomeCarFragment(this);
+                UIHelper.showShopCar(this);
                 break;
             case R.id.goods_share_img:
                 String shareUrl = URLConstants.SHEAR_URL + "/goods/show-" + mCarDetail.getId() + ".html?cid=" + mCarDetail.getCompany_id() + "&unionid=" + mUnionid + "&shareid=" + mUserId + "&from=android";

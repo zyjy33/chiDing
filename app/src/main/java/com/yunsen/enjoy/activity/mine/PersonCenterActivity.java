@@ -1,6 +1,5 @@
 package com.yunsen.enjoy.activity.mine;
 
-import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -65,7 +64,7 @@ import com.yunsen.enjoy.widget.DialogProgress;
 import com.yunsen.enjoy.widget.GlideCircleTransform;
 import com.yunsen.enjoy.widget.MyAlertDialog;
 import com.yunsen.enjoy.widget.interfaces.onLeftOnclickListener;
-import com.yunsen.enjoy.widget.interfaces.onRightOnclickListener;
+import com.yunsen.enjoy.widget.interfaces.OnRightOnclickListener;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -550,7 +549,7 @@ public class PersonCenterActivity extends BaseFragmentActivity implements OnClic
     private void showDatePicker() {
         if (mDataPicker == null) {
             mDataPicker = new DatePickerViewDialog(this);
-            mDataPicker.setRightOnclickListener("确定", new onRightOnclickListener() {
+            mDataPicker.setRightOnclickListener("确定", new OnRightOnclickListener() {
                 @Override
                 public void onRightClick(int... index) {
                     final String date = index[0] + "-" + index[1] + "-" + index[2];

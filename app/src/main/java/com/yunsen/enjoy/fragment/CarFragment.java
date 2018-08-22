@@ -396,7 +396,7 @@ public class CarFragment extends BaseFragment implements View.OnClickListener {
                                         public void onRightClick(int... index) {
                                             final DataBean data = (DataBean) fView.getTag();
 
-                                            HttpProxy.deleteShopCarGoods(user_id, "" + data.getId(), new HttpCallBack<ShopCarCount>() {
+                                            HttpProxy.deleteShopCarGoods("" + data.getId(), new HttpCallBack<ShopCarCount>() {
                                                 @Override
                                                 public void onSuccess(ShopCarCount responseData) {
                                                     if (mListData.remove(data)) {

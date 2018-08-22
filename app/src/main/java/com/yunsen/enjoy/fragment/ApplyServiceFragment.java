@@ -1,7 +1,6 @@
 package com.yunsen.enjoy.fragment;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.yunsen.enjoy.R;
-import com.yunsen.enjoy.common.wsmanager.WsManager;
+import com.yunsen.enjoy.activity.pay.MonneyChongZhiActivity;
 import com.yunsen.enjoy.http.DataException;
 import com.yunsen.enjoy.http.HttpCallBack;
 import com.yunsen.enjoy.http.HttpProxy;
@@ -51,6 +50,10 @@ public class ApplyServiceFragment extends BaseFragment {
     Button nextBtn;
     @Bind(R.id.apply_top_img)
     ImageView applyTopImg;
+    @Bind(R.id.goto_shopping)
+    Button gotoShopping;
+    @Bind(R.id.setting_shopping_money)
+    Button settingShoppingMoney;
     private boolean mIsService = false;
 
     @Override
@@ -94,6 +97,8 @@ public class ApplyServiceFragment extends BaseFragment {
                 actionBarTitle.setText("商家");
                 nextBtn.setText("进入商家商城");
                 notServiceLayout.setVisibility(View.GONE);
+                gotoShopping.setVisibility(View.VISIBLE);
+                settingShoppingMoney.setVisibility(View.VISIBLE);
                 mIsService = true;
             }
 
@@ -103,6 +108,8 @@ public class ApplyServiceFragment extends BaseFragment {
                     actionBarTitle.setText("申请商家");
                     nextBtn.setText("立即入驻");
                     notServiceLayout.setVisibility(View.VISIBLE);
+                    gotoShopping.setVisibility(View.GONE);
+                    settingShoppingMoney.setVisibility(View.GONE);
                     mIsService = false;
                 }
             }
@@ -136,13 +143,23 @@ public class ApplyServiceFragment extends BaseFragment {
         ButterKnife.unbind(this);
     }
 
-    @OnClick(R.id.next_btn)
-    public void onViewClicked() {
-        if (mIsService) {
-            UIHelper.showPartsShopActivity(getActivity());
-        } else {
-            UIHelper.showApplyServiceSecondActivity(getActivity());
-        }
 
+    @OnClick({R.id.next_btn, R.id.goto_shopping, R.id.setting_shopping_money})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.next_btn:
+                if (mIsService) {
+                    UIHelper.showPartsShopActivity(getActivity());
+                } else {
+                    UIHelper.showApplyServiceSecondActivity(getActivity());
+                }
+                break;
+            case R.id.goto_shopping:
+                UIHelper.showShopCar(getActivity());
+                break;
+            case R.id.setting_shopping_money:
+                UIHelper.showSettingShopMoneyActivity(getActivity());
+                break;
+        }
     }
 }

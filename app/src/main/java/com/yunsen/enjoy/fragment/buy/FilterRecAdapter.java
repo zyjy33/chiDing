@@ -29,9 +29,9 @@ public class FilterRecAdapter extends CommonAdapter<GoodsData> {
     protected void convert(ViewHolder holder, GoodsData goodsData, int position) {
         holder.setText(R.id.goods_title_2, goodsData.getTitle());
         holder.setText(R.id.goods_sub_title_2, goodsData.getSubtitle());
-        holder.setText(R.id.goods_money, goodsData.getSell_price() + "万元");//sell_price
-        holder.setText(R.id.goods_first_money, "首付" + goodsData.getFirst_payment() + "万元");
-        holder.setText(R.id.goods_address, goodsData.getCity());
+        holder.setText(R.id.goods_money, "¥" + goodsData.getSell_price());//sell_price
+//        holder.setText(R.id.goods_first_money, "首付" + goodsData.getFirst_payment() + "万元");
+        holder.setText(R.id.goods_address, goodsData.getAddress());
         Picasso.with(mContext)
                 .load(goodsData.getImg_url())
                 .resize(DeviceUtil.dp2px(mContext, 122), DeviceUtil.dp2px(mContext, 90))

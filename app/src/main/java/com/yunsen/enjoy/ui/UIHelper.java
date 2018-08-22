@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -88,6 +87,7 @@ import com.yunsen.enjoy.activity.pay.MonneyChongZhiActivity;
 import com.yunsen.enjoy.activity.pay.MyOrderZFActivity;
 import com.yunsen.enjoy.activity.pay.PayActivity;
 import com.yunsen.enjoy.activity.pay.PayFinishActivity;
+import com.yunsen.enjoy.activity.pay.SettingShopMoneyActivity;
 import com.yunsen.enjoy.activity.pay.TishiCarArchivesActivity;
 import com.yunsen.enjoy.activity.user.AgentHadActivity;
 import com.yunsen.enjoy.activity.user.DBFengXiangActivity;
@@ -96,7 +96,6 @@ import com.yunsen.enjoy.activity.user.TishiWxBangDingActivity;
 import com.yunsen.enjoy.activity.user.UserLoginActivity;
 import com.yunsen.enjoy.activity.user.UserRegisterActivity;
 import com.yunsen.enjoy.common.Constants;
-import com.yunsen.enjoy.common.SpConstants;
 import com.yunsen.enjoy.fragment.buy.SelectBrandActivity;
 import com.yunsen.enjoy.fragment.buy.SeniorFilterActivity;
 import com.yunsen.enjoy.http.AsyncHttp;
@@ -107,7 +106,6 @@ import com.yunsen.enjoy.model.MyOrderData;
 import com.yunsen.enjoy.model.NoticeModel;
 import com.yunsen.enjoy.model.OrderBean;
 import com.yunsen.enjoy.model.PhotoInfo;
-import com.yunsen.enjoy.model.request.ApplyCarModel;
 import com.yunsen.enjoy.model.request.ApplyFacilitatorModel;
 import com.yunsen.enjoy.utils.AccountUtils;
 
@@ -1141,7 +1139,7 @@ public class UIHelper {
     /**
      * 充值
      *
-     * @param ctx 1 充值余额 16 充值消费券
+     * @param ctx 1 充值余额 16 充值消费券 9 营销金
      */
     public static void showMonneyChongZhiActivity(Context ctx, String fundId) {
         Intent intent = new Intent(ctx, MonneyChongZhiActivity.class);
@@ -1188,6 +1186,21 @@ public class UIHelper {
         intent.putExtra("order_no", orderNo);
         intent.putExtra("order_yue", "order_yue");
         intent.putExtra(Constants.IS_CARD_MONEY, true);
+        act.startActivityForResult(intent, Constants.BALANCE_PAY_REQUEST);
+    }
+
+    /**
+     * 设置营销金
+     *
+     * @param act
+     * @param orderNo
+     */
+    public static void showSettingShopMoneyTishiActivity(Activity act, String orderNo,String money) {
+        Intent intent = new Intent(act, TishiCarArchivesActivity.class);
+        intent.putExtra("order_no", orderNo);
+        intent.putExtra("order_yue", "order_yue");
+        intent.putExtra(Constants.IS_SETTING_MONEY, true);
+        intent.putExtra(Constants.SETTING_MONEY, money);
         act.startActivityForResult(intent, Constants.BALANCE_PAY_REQUEST);
     }
 
@@ -1416,6 +1429,16 @@ public class UIHelper {
     public static void showPayFinishActivity(Context ctx, String payMoney) {
         Intent intent = new Intent(ctx, PayFinishActivity.class);
         intent.putExtra(Constants.PAY_MONEY, payMoney);
+        ctx.startActivity(intent);
+    }
+
+    /**
+     * 设置营销金
+     *
+     * @param ctx
+     */
+    public static void showSettingShopMoneyActivity(Context ctx) {
+        Intent intent = new Intent(ctx, SettingShopMoneyActivity.class);
         ctx.startActivity(intent);
     }
 

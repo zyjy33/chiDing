@@ -40,7 +40,7 @@ public class NoticeHelper {
                 //设置内容
                 .setContentText(content)
                 //设置小图标
-                .setSmallIcon(R.mipmap.app_icon_1)
+                .setSmallIcon(R.mipmap.app_icon)
                 //设置通知时间
                 .setWhen(System.currentTimeMillis())
                 .setAutoCancel(true)

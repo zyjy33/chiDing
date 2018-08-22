@@ -30,7 +30,7 @@ import com.yunsen.enjoy.widget.MoreCarView;
 import com.yunsen.enjoy.widget.NoticeView;
 import com.yunsen.enjoy.widget.NumberPickerDialog;
 import com.yunsen.enjoy.widget.interfaces.onLeftOnclickListener;
-import com.yunsen.enjoy.widget.interfaces.onRightOnclickListener;
+import com.yunsen.enjoy.widget.interfaces.OnRightOnclickListener;
 import com.yunsen.enjoy.widget.recyclerview.MultiItemTypeAdapter;
 
 import org.greenrobot.eventbus.EventBus;
@@ -209,7 +209,7 @@ public class FilterFragment extends BaseFragment implements MultiItemTypeAdapter
                     }
                 }
             });
-            mSortPicker.setRightOnclickListener("确定", new onRightOnclickListener() {
+            mSortPicker.setRightOnclickListener("确定", new OnRightOnclickListener() {
                 @Override
                 public void onRightClick(int[] index) {
                     if (mSortPicker.isShowing()) {
@@ -240,7 +240,7 @@ public class FilterFragment extends BaseFragment implements MultiItemTypeAdapter
                     }
                 }
             });
-            mPricePicker.setRightOnclickListener("确定", new onRightOnclickListener() {
+            mPricePicker.setRightOnclickListener("确定", new OnRightOnclickListener() {
                 @Override
                 public void onRightClick(int[] index) {
                     if (mPricePicker.isShowing()) {

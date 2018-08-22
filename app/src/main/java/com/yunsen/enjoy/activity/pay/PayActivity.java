@@ -153,7 +153,7 @@ public class PayActivity extends BaseFragmentActivity {
 //
 //                }
 //            });
-            UIHelper.showPayFinishActivity(this,payMoneyEdt.getText().toString());
+            UIHelper.showPayFinishActivity(this, payMoneyEdt.getText().toString());
             finish();
         }
     }
@@ -198,8 +198,19 @@ public class PayActivity extends BaseFragmentActivity {
                 }
                 switch (mPayType) {
                     case Constants.ALIPAY_TYPE:
-                        PayMoneyProxy.getInstance().aliayPay(this, AccountUtils.getUser_id(), AccountUtils.getUserName(),
-                                payMoneyStr, "No1999", mMyHandler);
+
+                        HttpProxy.gotoShopPay(mRequestData, new HttpCallBack<MyOrderInfo>() {
+                            @Override
+                            public void onSuccess(MyOrderInfo responseData) {
+                                PayMoneyProxy.getInstance().aliayPay(PayActivity.this, AccountUtils.getUser_id(), AccountUtils.getUserName(),
+                                        payMoneyEdt.getText().toString(), responseData.getTrade_no(), mMyHandler);
+                            }
+
+                            @Override
+                            public void onError(Request request, Exception e) {
+
+                            }
+                        });
                         break;
                     case Constants.WEI_XIN_PAY_TYPE:
                         break;

@@ -31,6 +31,7 @@ import com.yunsen.enjoy.model.CarBrandList;
 import com.yunsen.enjoy.model.CarDetails;
 import com.yunsen.enjoy.model.CarModel;
 import com.yunsen.enjoy.model.ClassifyBean;
+import com.yunsen.enjoy.model.GoodsCarInfo;
 import com.yunsen.enjoy.model.GoodsData;
 import com.yunsen.enjoy.model.GoogsListResponse;
 import com.yunsen.enjoy.model.HeightFilterBean;
@@ -50,6 +51,7 @@ import com.yunsen.enjoy.model.SProviderModel;
 import com.yunsen.enjoy.model.ServiceProject;
 import com.yunsen.enjoy.model.ServiceProvideResponse;
 import com.yunsen.enjoy.model.ShopCarCount;
+import com.yunsen.enjoy.model.ShopCollectionBean;
 import com.yunsen.enjoy.model.TeamInfoBean;
 import com.yunsen.enjoy.model.TradeData;
 import com.yunsen.enjoy.model.UserInfo;
@@ -79,6 +81,7 @@ import com.yunsen.enjoy.model.response.CarBrandResponese;
 import com.yunsen.enjoy.model.response.CarDetailsResponse;
 import com.yunsen.enjoy.model.response.ClassifyResponse;
 import com.yunsen.enjoy.model.response.DefaultAddressResponse;
+import com.yunsen.enjoy.model.response.GoodsCarResponse;
 import com.yunsen.enjoy.model.response.HeightFilterResponse;
 import com.yunsen.enjoy.model.response.MonthAmountResponse;
 import com.yunsen.enjoy.model.response.MyOrderResponse;
@@ -93,6 +96,7 @@ import com.yunsen.enjoy.model.response.SearchListResponse;
 import com.yunsen.enjoy.model.response.ServiceProjectListResponse;
 import com.yunsen.enjoy.model.response.ServiceShopInfoResponse;
 import com.yunsen.enjoy.model.response.ShopCarAccountResponse;
+import com.yunsen.enjoy.model.response.ShopCollectionResponse;
 import com.yunsen.enjoy.model.response.StringResponse;
 import com.yunsen.enjoy.model.response.TeamInfoResponse;
 import com.yunsen.enjoy.model.response.TradeListResponse;
@@ -1966,7 +1970,7 @@ public class HttpProxy {
         final Handler mainHandler = new Handler(Looper.getMainLooper());
         String url = "https://www.pgyer.com/apiv2/app/check";
         FormBody.Builder formBodyBuilder = new FormBody.Builder();
-        formBodyBuilder.add("buildBuildVersion", BuildConfig.PGY_VERSION);
+        formBodyBuilder.add("buildBuildVersion", String.valueOf(BuildConfig.VERSION_CODE));
         formBodyBuilder.add("buildVersion", String.valueOf(BuildConfig.VERSION_CODE));
         formBodyBuilder.add("appKey", "c90cf5a4751868b82447bef97d5c19b6");
         formBodyBuilder.add("_api_key", "ed2ae2909295d84464ed5a57eee0ca5d");
@@ -2121,10 +2125,10 @@ public class HttpProxy {
     /**
      * 删除购物车的某个商品
      */
-    public static void deleteShopCarGoods(String userId, String GoodsId, final HttpCallBack<ShopCarCount> callBack) {
+    public static void deleteShopCarGoods(String GoodsId, final HttpCallBack<ShopCarCount> callBack) {
         HashMap<String, String> map = new HashMap<>();
         map.put("clear", "0");
-        map.put("user_id", userId);
+        map.put("user_id", AccountUtils.getUser_id());
         map.put("cart_id", GoodsId);
         HttpClient.get(URLConstants.DELETE_SHOPPING_CART_GOODS, map, new HttpResponseHandler<ShopCarAccountResponse>() {
             @Override
@@ -2543,6 +2547,36 @@ public class HttpProxy {
     }
 
     /**
+     * 营销金设置
+     *
+     * @param amount
+     * @param callBack
+     */
+
+    public static void settingShopMoneyRequest(String amount,final HttpCallBack<RechargeNoBean> callBack) {
+        HashMap<String, String> map = new HashMap<>();
+        map.put(SpConstants.USER_ID, AccountUtils.getUser_id());
+        map.put(SpConstants.USER_NAME, AccountUtils.getUserName());
+        map.put(SpConstants.AMOUNT, amount);
+        map.put("fund_id", "9"); // 9 营销金
+        map.put("payment_id", "1"); //1 内部充值
+        map.put("rebate_item_id", "0");
+        HttpClient.get(URLConstants.ADD_AMOUNT_RECHARGE_URL, map, new HttpResponseHandler<RechargeNoResponse>() {
+            @Override
+            public void onSuccess(RechargeNoResponse response) {
+                super.onSuccess(response);
+                callBack.onSuccess(response.getData());
+            }
+
+            @Override
+            public void onFailure(Request request, Exception e) {
+                super.onFailure(request, e);
+                callBack.onError(request, e);
+            }
+        });
+    }
+
+    /**
      * 余额支付
      *
      * @param callBack
@@ -2737,6 +2771,7 @@ public class HttpProxy {
 
     /**
      * 关注商家
+     *
      * @param companyId
      * @param callBack
      */
@@ -2760,6 +2795,7 @@ public class HttpProxy {
 
     /**
      * 取消关注
+     *
      * @param companyId
      * @param callBack
      */
@@ -2780,5 +2816,140 @@ public class HttpProxy {
             }
         });
     }
+
+
+    /**
+     * 获取购物车
+     */
+    public static void getMyShoppingCart(String pageIdx, final HttpCallBack<List<GoodsCarInfo>> callBack) {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("pageSize", "50");
+        map.put("pageIndex", pageIdx);
+        map.put("user_id", AccountUtils.getUser_id());
+        HttpClient.get(URLConstants.MY_SHOPPING_CART_LIST, map, new HttpResponseHandler<GoodsCarResponse>() {
+            @Override
+            public void onSuccess(GoodsCarResponse response) {
+                super.onSuccess(response);
+                List<GoodsCarInfo> data = response.getData();
+                if (data != null) {
+                    callBack.onSuccess(data);
+                } else {
+                    callBack.onError(null, new Exception("data is empty!"));
+                }
+            }
+
+            @Override
+            public void onFailure(Request request, Exception e) {
+                callBack.onError(request, e);
+                super.onFailure(request, e);
+            }
+        });
+    }
+
+    /**
+     * 更新购物车物品数量
+     *
+     * @param GoodsId
+     * @param callBack
+     */
+    public static void upShopCarGoods(String GoodsId, String quantity, final HttpCallBack<ShopCarCount> callBack) {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("quantity", quantity);
+        map.put("user_id", AccountUtils.getUser_id());
+        map.put("cart_id", GoodsId);
+
+        HttpClient.get(URLConstants.UP_SHOPPING_CART_GOODS, map, new HttpResponseHandler<ShopCarAccountResponse>() {
+            @Override
+            public void onSuccess(ShopCarAccountResponse response) {
+                super.onSuccess(response);
+                ShopCarCount data = response.getData();
+                if (data != null) {
+                    callBack.onSuccess(data);
+                } else {
+                    callBack.onError(null, new Exception("data is empty!"));
+                }
+            }
+
+            @Override
+            public void onFailure(Request request, Exception e) {
+                callBack.onError(request, e);
+                super.onFailure(request, e);
+            }
+        });
+    }
+
+    /**
+     * 多个商品加入购物单
+     *
+     * @param goodsId
+     * @param articlesId
+     * @param quantity
+     * @param callBack
+     */
+
+    public static void addShoppingBuys(String goodsId, String articlesId, String quantity, final HttpCallBack<OrderInfo> callBack) {
+
+        HashMap<String, String> map = new HashMap<>();
+        map.put("quantity", quantity);
+        map.put("goods_id", goodsId);
+        map.put("article_id", articlesId);
+        map.put("user_id", AccountUtils.getUser_id());
+        map.put("user_sign", AccountUtils.getLoginSign());
+        map.put("user_name", AccountUtils.getUserName());
+
+        HttpClient.get(URLConstants.ADD_SHOPPING_BUYS, map, new HttpResponseHandler<AddShoppingBuysResponse>() {
+            @Override
+            public void onSuccess(AddShoppingBuysResponse response) {
+                super.onSuccess(response);
+                OrderInfo data = response.getData();
+                if (data != null) {
+                    callBack.onSuccess(data);
+                } else {
+                    callBack.onError(null, new Exception("data is empty!"));
+                }
+            }
+
+            @Override
+            public void onFailure(Request request, Exception e) {
+                callBack.onError(request, e);
+                super.onFailure(request, e);
+            }
+        });
+    }
+
+    /**
+     * 获取收藏的商家列表
+     *
+     * @param pageIndex
+     * @param callBack
+     */
+    public static void getFavoriteCompanyList(String pageIndex, final HttpCallBack<List<ShopCollectionBean>> callBack) {
+
+        HashMap<String, String> map = new HashMap<>();
+        map.put("user_id", AccountUtils.getUser_id());
+        map.put("page_size", "8");
+        map.put("page_index", pageIndex);
+        map.put("strwhere", "");
+        map.put("orderby", "");
+        HttpClient.get(URLConstants.GET_FAVORITE_COMPANY_LIST, map, new HttpResponseHandler<ShopCollectionResponse>() {
+            @Override
+            public void onSuccess(ShopCollectionResponse response) {
+                super.onSuccess(response);
+                List<ShopCollectionBean> data = response.getData();
+                if (data != null) {
+                    callBack.onSuccess(data);
+                } else {
+                    callBack.onError(null, new Exception("data is empty!"));
+                }
+            }
+
+            @Override
+            public void onFailure(Request request, Exception e) {
+                callBack.onError(request, e);
+                super.onFailure(request, e);
+            }
+        });
+    }
+
 }
 

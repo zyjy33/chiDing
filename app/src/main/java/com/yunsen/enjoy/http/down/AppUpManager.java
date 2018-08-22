@@ -165,9 +165,9 @@ public class AppUpManager {
     private void initNotification(Activity act) {
         notificationManager = (NotificationManager) act.getSystemService(Context.NOTIFICATION_SERVICE);
         notificationViews = new RemoteViews(act.getPackageName(), R.layout.down_notification);
-        notificationViews.setImageViewResource(R.id.download_icon, R.mipmap.app_icon_1);
+        notificationViews.setImageViewResource(R.id.download_icon, R.mipmap.app_icon);
         mNoticBuilder = new Notification.Builder(act)
-                .setSmallIcon(R.mipmap.app_icon_1)// 设置通知消息的图标
+                .setSmallIcon(R.mipmap.app_icon)// 设置通知消息的图标
                 .setContentTitle("正在下载...")// 设置通知消息的标题
                 .setContent(notificationViews);
         Message message = Message.obtain();

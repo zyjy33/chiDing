@@ -18,7 +18,7 @@ import android.widget.TimePicker;
 
 import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.widget.interfaces.onLeftOnclickListener;
-import com.yunsen.enjoy.widget.interfaces.onRightOnclickListener;
+import com.yunsen.enjoy.widget.interfaces.OnRightOnclickListener;
 
 import java.lang.reflect.Field;
 
@@ -31,7 +31,7 @@ public class TimePickerViewDialog extends Dialog {
     private TextView leftTv;
     private TextView rightTv;
     private onLeftOnclickListener leftOnclickListener;
-    private onRightOnclickListener rightOnclickListener;
+    private OnRightOnclickListener rightOnclickListener;
     private String leftStr;
     private String rightStr;
     private TimePicker timePicker;
@@ -124,13 +124,13 @@ public class TimePickerViewDialog extends Dialog {
      * 设置确定按钮的显示内容和监听
      *
      * @param str
-     * @param onRightOnclickListener
+     * @param OnRightOnclickListener
      */
-    public void setRightOnclickListener(String str, onRightOnclickListener onRightOnclickListener) {
+    public void setRightOnclickListener(String str, OnRightOnclickListener OnRightOnclickListener) {
         if (str != null) {
             rightStr = str;
         }
-        this.rightOnclickListener = onRightOnclickListener;
+        this.rightOnclickListener = OnRightOnclickListener;
     }
 
     private static final String TAG = "DatePickerViewDialog";

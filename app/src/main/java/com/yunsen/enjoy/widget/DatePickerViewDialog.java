@@ -6,7 +6,6 @@ import android.content.res.Resources;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
@@ -18,7 +17,7 @@ import android.widget.TextView;
 
 import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.widget.interfaces.onLeftOnclickListener;
-import com.yunsen.enjoy.widget.interfaces.onRightOnclickListener;
+import com.yunsen.enjoy.widget.interfaces.OnRightOnclickListener;
 
 import java.lang.reflect.Field;
 
@@ -32,7 +31,7 @@ public class DatePickerViewDialog extends Dialog {
     private TextView leftTv;
     private TextView rightTv;
     private onLeftOnclickListener leftOnclickListener;
-    private onRightOnclickListener rightOnclickListener;
+    private OnRightOnclickListener rightOnclickListener;
     private String leftStr;
     private String rightStr;
 
@@ -121,13 +120,13 @@ public class DatePickerViewDialog extends Dialog {
      * 设置确定按钮的显示内容和监听
      *
      * @param str
-     * @param onRightOnclickListener
+     * @param OnRightOnclickListener
      */
-    public void setRightOnclickListener(String str, onRightOnclickListener onRightOnclickListener) {
+    public void setRightOnclickListener(String str, OnRightOnclickListener OnRightOnclickListener) {
         if (str != null) {
             rightStr = str;
         }
-        this.rightOnclickListener = onRightOnclickListener;
+        this.rightOnclickListener = OnRightOnclickListener;
     }
 
     private static final String TAG = "DatePickerViewDialog";

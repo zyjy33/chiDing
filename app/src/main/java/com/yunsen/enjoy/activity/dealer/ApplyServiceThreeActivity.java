@@ -30,7 +30,7 @@ import com.yunsen.enjoy.utils.GetImgUtil;
 import com.yunsen.enjoy.utils.ToastUtils;
 import com.yunsen.enjoy.widget.NumberPickerDialog;
 import com.yunsen.enjoy.widget.interfaces.onLeftOnclickListener;
-import com.yunsen.enjoy.widget.interfaces.onRightOnclickListener;
+import com.yunsen.enjoy.widget.interfaces.OnRightOnclickListener;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -253,7 +253,7 @@ public class ApplyServiceThreeActivity extends BaseFragmentActivity {
                 }
             }
         });
-        picker.setRightOnclickListener("确定", new onRightOnclickListener() {
+        picker.setRightOnclickListener("确定", new OnRightOnclickListener() {
             @Override
             public void onRightClick(int[] index) {
                 if (picker != null && picker.isShowing()) {

@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.math.BigDecimal;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.text.NumberFormat;
@@ -647,5 +648,17 @@ public class StringUtils {
         datas.add(new CityModel("Z"));
         datas.addAll(listZ);
         return datas;
+    }
+
+    /**
+     * 保留两位小数
+     *
+     * @param num
+     * @return
+     */
+    public static double changeToMoney(double num) {
+        BigDecimal bg = new BigDecimal(num);
+        double moeny = bg.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+        return moeny;
     }
 }

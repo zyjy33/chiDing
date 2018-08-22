@@ -47,6 +47,9 @@ public class Constants {
     public static final String COMPANY_NAME = "company_name";
     public static final String AMOUNT = "amount";
     public static final String FUND_ID = "fund_id";
+    public static final String IS_STOCK_UP = "is_stock_up";
+    public static final String IS_SETTING_MONEY = "is_setting_money";
+    public static final String SETTING_MONEY = "setting_money";
 //    public static final String APP_SECRET = "";
 //appId=wxe60c28541b0fa8a2&body=zyjytest&device_info=1000&key=ca30ef7495cdd92ee94e1190f78a8735&mch_id=1502153101&nonce_str=ibuaiVcKdpRxkhJA
 
@@ -58,6 +61,7 @@ public class Constants {
     public static final int ALIPAY_TYPE = 3;  //z支付宝
     public static final int WEI_XIN_PAY_TYPE = 5;//微信
     public static final int CARD_PAY_TYPE = 9;//消费券支付
+    public static final int STOCK_UP = 12;//12  采购金Stock up
     /**
      * 买车界面
      */

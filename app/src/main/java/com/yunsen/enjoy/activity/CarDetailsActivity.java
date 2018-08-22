@@ -246,7 +246,7 @@ public class CarDetailsActivity extends BaseFragmentActivity implements NoticeVi
             return;
         }
         detailsTitle.setText(responseData.getTitle());
-        flowLayout.setDatas(responseData.getDatatype());//超值
+//        flowLayout.setDatas(responseData.getDatatype());//超值
         DefaultSpecItemBean defaultSpecItem = responseData.getDefault_spec_item();
         if (defaultSpecItem != null) {
             double rebatePrice = defaultSpecItem.getSell_price();

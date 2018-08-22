@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.yunsen.enjoy.common.AppContext;
+import com.yunsen.enjoy.common.Constants;
 import com.yunsen.enjoy.common.SpConstants;
 import com.yunsen.enjoy.model.AuthorizationModel;
 import com.yunsen.enjoy.model.UserInfo;
@@ -44,6 +45,7 @@ public class SpUtils {
         edit.putString(SpConstants.CARD, String.valueOf(userInfo.getCard()));
         edit.putString(SpConstants.IDENTITY_CARD, userInfo.getIdentity_card());
         edit.putString(SpConstants.STATUS, userInfo.getStatus());
+        edit.putString(SpConstants.PROMOTION, String.valueOf(userInfo.getPromotion()));
 //        edit.putString(SpConstants.PARENT_ID, "" + userInfo.getParent_id());
 //        edit.putString(SpConstants.PARENT_NAME, "" + userInfo.getParent_name());
 //        edit.putString(SpConstants.USER_LAYER, "" + userInfo.getUser_layer());
@@ -76,7 +78,6 @@ public class SpUtils {
 //        private int exp_action;
 //        private int exp_time;
 //        private String vip_card;
-
         edit.commit();
     }
 
@@ -117,6 +118,7 @@ public class SpUtils {
             edit.putString(SpConstants.CARD, String.valueOf(userInfo.getCard()));
             edit.putString(SpConstants.IDENTITY_CARD, userInfo.getIdentity_card());
             edit.putString(SpConstants.STATUS, userInfo.getStatus());
+            edit.putString(SpConstants.PROMOTION, String.valueOf(userInfo.getPromotion()));
         }
         edit.commit();
     }
@@ -155,6 +157,7 @@ public class SpUtils {
         userInfo.setCard((Double.valueOf(sp.getString(SpConstants.CARD, "" + userInfo.getCard()))));
         userInfo.setIdentity_card(sp.getString(SpConstants.IDENTITY_CARD, "" + userInfo.getIdentity_card()));
         userInfo.setStatus(sp.getString(SpConstants.STATUS, "" + userInfo.getStatus()));
+        userInfo.setPromotion(Double.valueOf(sp.getString(SpConstants.PROMOTION, Constants.EMPTY + userInfo.getPromotion())));
         return userInfo;
     }
 

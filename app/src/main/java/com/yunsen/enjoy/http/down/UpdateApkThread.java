@@ -136,7 +136,7 @@ public class UpdateApkThread  {
     private void initNofication() {
         notificationManager = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
         mNoticeBuilder = new Notification.Builder(mContext);
-        mNoticeBuilder.setSmallIcon(R.mipmap.app_icon_1);// 设置通知消息的图标
+        mNoticeBuilder.setSmallIcon(R.mipmap.app_icon);// 设置通知消息的图标
         mNoticeBuilder.setContentTitle("正在下载...");// 设置通知消息的标题
         notificationViews = new RemoteViews(mContext.getPackageName(), R.layout.down_notification);
         notificationViews.setImageViewResource(R.id.download_icon, R.mipmap.app_icon_1);
