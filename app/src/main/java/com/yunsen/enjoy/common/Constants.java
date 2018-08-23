@@ -50,6 +50,9 @@ public class Constants {
     public static final String IS_STOCK_UP = "is_stock_up";
     public static final String IS_SETTING_MONEY = "is_setting_money";
     public static final String SETTING_MONEY = "setting_money";
+    public static final String ADDRESS_LAT = "address_lat";
+    public static final String ADDRESS_LONG = "address_long";
+    public static final String DATA = "data";
 //    public static final String APP_SECRET = "";
 //appId=wxe60c28541b0fa8a2&body=zyjytest&device_info=1000&key=ca30ef7495cdd92ee94e1190f78a8735&mch_id=1502153101&nonce_str=ibuaiVcKdpRxkhJA
 

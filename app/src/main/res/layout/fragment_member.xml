@@ -642,6 +642,7 @@
 
             <!--商家加盟 开始-->
             <LinearLayout
+                android:visibility="gone"
                 android:id="@+id/seller_layout"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/item_height"
@@ -697,6 +698,7 @@
             <!--结束-->
             <!--添加商家-->
             <LinearLayout
+                android:visibility="gone"
                 android:id="@+id/add_shopping_layout"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/item_height"

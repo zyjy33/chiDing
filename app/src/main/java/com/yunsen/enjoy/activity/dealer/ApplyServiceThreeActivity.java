@@ -7,6 +7,8 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -14,6 +16,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.activity.BaseFragmentActivity;
 import com.yunsen.enjoy.common.Constants;
@@ -21,6 +26,7 @@ import com.yunsen.enjoy.http.DataException;
 import com.yunsen.enjoy.http.HttpCallBack;
 import com.yunsen.enjoy.http.HttpProxy;
 import com.yunsen.enjoy.http.RestApiResponse;
+import com.yunsen.enjoy.http.URLConstants;
 import com.yunsen.enjoy.model.TradeData;
 import com.yunsen.enjoy.model.event.EventConstants;
 import com.yunsen.enjoy.model.event.PullImageEvent;
@@ -29,8 +35,8 @@ import com.yunsen.enjoy.ui.UIHelper;
 import com.yunsen.enjoy.utils.GetImgUtil;
 import com.yunsen.enjoy.utils.ToastUtils;
 import com.yunsen.enjoy.widget.NumberPickerDialog;
-import com.yunsen.enjoy.widget.interfaces.onLeftOnclickListener;
 import com.yunsen.enjoy.widget.interfaces.OnRightOnclickListener;
+import com.yunsen.enjoy.widget.interfaces.onLeftOnclickListener;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -81,6 +87,14 @@ public class ApplyServiceThreeActivity extends BaseFragmentActivity {
     EditText facilitatorRefereeNumEdt;
     @Bind(R.id.submit_btn)
     Button submitBtn;
+    @Bind(R.id.facilitator_logo_img_loading)
+    ImageView facilitatorLogoImgLoading;
+    @Bind(R.id.facilitator_aptitude_img_loading)
+    ImageView facilitatorAptitudeImgLoading;
+    @Bind(R.id.facilitator_revenue_img_loading)
+    ImageView facilitatorRevenueImgLoading;
+    @Bind(R.id.facilitator_mechanism_img_loading)
+    ImageView facilitatorMechanismImgLoading;
     private ApplyFacilitatorModel mRequsetData;
     private String[] mTradeDatas;
     private String[] mImageUrls = new String[4];
@@ -92,6 +106,7 @@ public class ApplyServiceThreeActivity extends BaseFragmentActivity {
 
     private int mImgPullFinish = 0x0000;
     private List<TradeData> mTradeListDatas;
+    private Animation mAnimation;
 
     @Override
     public int getLayout() {
@@ -104,6 +119,7 @@ public class ApplyServiceThreeActivity extends BaseFragmentActivity {
         EventBus.getDefault().register(this);
         ButterKnife.bind(this);
         actionBarTitle.setText("申请商家2/2");
+        mAnimation = AnimationUtils.loadAnimation(this, R.anim.rotate_anim);
     }
 
     @Override
@@ -120,23 +136,7 @@ public class ApplyServiceThreeActivity extends BaseFragmentActivity {
 
     @Override
     public void requestData() {
-        HttpProxy.getTradeList(new HttpCallBack<List<TradeData>>() {
-            @Override
-            public void onSuccess(List<TradeData> responseData) {
-                int size = responseData.size();
-                mTradeDatas = new String[size];
-                mTradeListDatas = responseData;
-                for (int i = 0; i < size; i++) {
-                    mTradeDatas[i] = responseData.get(i).getTitle();
-                }
 
-            }
-
-            @Override
-            public void onError(Request request, Exception e) {
-
-            }
-        });
     }
 
     @Override
@@ -224,14 +224,12 @@ public class ApplyServiceThreeActivity extends BaseFragmentActivity {
         HttpProxy.getApplyServiceForm(this, mRequsetData, new HttpCallBack<RestApiResponse>() {
             @Override
             public void onSuccess(RestApiResponse responseData) {
-                Log.e(TAG, "onSuccess: " + responseData.getInfo());
                 EventBus.getDefault().postSticky(EventConstants.APP_LOGIN);
                 UIHelper.showMainActivity(ApplyServiceThreeActivity.this);
             }
 
             @Override
             public void onError(Request request, Exception e) {
-                Log.e(TAG, "onError: " + e.getMessage());
                 if (e instanceof DataException) {
                     ToastUtils.makeTextShort(e.getMessage());
                 }
@@ -297,26 +295,35 @@ public class ApplyServiceThreeActivity extends BaseFragmentActivity {
         switch (index) {
             case Constants.APPLY_SERVICE_REQUEST_1:
                 imageView = facilitatorLogoImg;
+                facilitatorLogoImgLoading.setVisibility(View.VISIBLE);
+                facilitatorLogoImgLoading.startAnimation(mAnimation);
                 type = 0;
                 break;
             case Constants.APPLY_SERVICE_REQUEST_2:
                 imageView = facilitatorAptitudeImg;
+                facilitatorAptitudeImgLoading.setVisibility(View.VISIBLE);
+                facilitatorAptitudeImgLoading.startAnimation(mAnimation);
                 type = 1;
                 break;
             case Constants.APPLY_SERVICE_REQUEST_3:
                 imageView = facilitatorRevenueImg;
+                facilitatorRevenueImgLoading.setVisibility(View.VISIBLE);
+                facilitatorRevenueImgLoading.startAnimation(mAnimation);
                 type = 2;
                 break;
             case Constants.APPLY_SERVICE_REQUEST_4:
                 imageView = facilitatorMechanismImg;
+                facilitatorMechanismImgLoading.setVisibility(View.VISIBLE);
+                facilitatorMechanismImgLoading.startAnimation(mAnimation);
                 type = 3;
                 break;
         }
-        if (imageView != null) {
-            Glide.with(this)
-                    .load(selectedImage)
-                    .into(imageView);
-        }
+
+        //        if (imageView != null) {
+//            Glide.with(this)
+//                    .load(selectedImage)
+//                    .into(imageView);
+//        }
         GetImgUtil.pullImageBase4(this, selectedImage, type);
 
     }
@@ -325,30 +332,72 @@ public class ApplyServiceThreeActivity extends BaseFragmentActivity {
     public void onEvent(PullImageEvent event) {
         int evenId = event.getEvenId();
         mImageUrls[evenId] = event.getImgUrl();
+        ImageView imageView;
+        ImageView loadView;
         switch (evenId) {
             case 0:
                 mImgPullFinish = mImgPullFinish | ONE_IMG;
+                imageView = facilitatorLogoImg;
+                loadView = facilitatorLogoImgLoading;
                 break;
             case 1:
                 mImgPullFinish = mImgPullFinish | TWO_IMG;
+                imageView = facilitatorAptitudeImg;
+                loadView = facilitatorAptitudeImgLoading;
                 break;
             case 2:
                 mImgPullFinish = mImgPullFinish | THREE_IMG;
+                imageView = facilitatorRevenueImg;
+                loadView = facilitatorRevenueImgLoading;
                 break;
             case 3:
                 mImgPullFinish = mImgPullFinish | FOUR_IMG;
+                imageView = facilitatorMechanismImg;
+                loadView = facilitatorMechanismImgLoading;
                 break;
+            default:
+                imageView = facilitatorLogoImg;
+                loadView = facilitatorLogoImgLoading;
         }
+        showImageView(loadView, imageView, mImageUrls[evenId]);
         Log.d(TAG, "onEvent:上传成功 " + event.getImgUrl());
     }
+
+    private void showImageView(final ImageView loadView, ImageView imageView, String url) {
+        if (url != null && url.startsWith("http")) {
+        } else {
+            url = URLConstants.REALM_URL + url;
+        }
+        Glide.with(this)
+                .load(url)
+                .error(R.mipmap.default_img)
+                .crossFade().listener(new RequestListener<String, GlideDrawable>() {
+            @Override
+            public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
+                loadView.clearAnimation();
+                loadView.setVisibility(View.GONE);
+                return false;
+            }
+
+            @Override
+            public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
+                loadView.clearAnimation();
+                loadView.setVisibility(View.GONE);
+                return false;
+            }
+        })
+                .into(imageView);
+    }
+
 
     private static final String TAG = "ApplyServiceThreeActivi";
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        ButterKnife.unbind(this);
         EventBus.getDefault().unregister(this);
+        ButterKnife.unbind(this);
+
     }
 
 }

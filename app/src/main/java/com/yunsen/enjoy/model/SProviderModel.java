@@ -1,5 +1,8 @@
 package com.yunsen.enjoy.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.alibaba.fastjson.annotation.JSONField;
 import com.yunsen.enjoy.http.URLConstants;
 
@@ -9,7 +12,7 @@ import java.util.List;
  * Created by Administrator on 2018/4/20.
  */
 
-public  class SProviderModel {
+public  class SProviderModel  implements Parcelable{
     /**
      * id : 20933
      * user_name : 13316989009
@@ -156,6 +159,83 @@ public  class SProviderModel {
     private String service_time;
     private int settle_time;
     private List<?> service;
+
+    public SProviderModel() {
+    }
+
+    protected SProviderModel(Parcel in) {
+        id = in.readInt();
+        user_name = in.readString();
+        group_id = in.readInt();
+        agency_layer = in.readInt();
+        parent_id = in.readInt();
+        user_id = in.readInt();
+        recommend_id = in.readInt();
+        name = in.readString();
+        contact = in.readString();
+        tel = in.readString();
+        regtime = in.readString();
+        post_code = in.readString();
+        mobile = in.readString();
+        artperson = in.readString();
+        img_url = in.readString();
+        sort_id = in.readInt();
+        seo_title = in.readString();
+        seo_keywords = in.readString();
+        seo_description = in.readString();
+        province = in.readString();
+        city = in.readString();
+        area = in.readString();
+        lng = in.readDouble();
+        lat = in.readDouble();
+        address = in.readString();
+        advantage = in.readString();
+        idcard = in.readString();
+        idcard_a = in.readString();
+        idcard_b = in.readString();
+        license = in.readString();
+        accredit = in.readString();
+        aptitude = in.readString();
+        revenue_card = in.readString();
+        organi_card = in.readString();
+        statusX = in.readInt();
+        brand_card = in.readString();
+        bank_licence = in.readString();
+        trade_aptitude = in.readString();
+        trade_id = in.readInt();
+        account_name = in.readString();
+        bank_name = in.readString();
+        bank_account = in.readString();
+        registeredid = in.readString();
+        logo_url = in.readString();
+        datatype = in.readString();
+        distance = in.readInt();
+        update_time = in.readString();
+        add_time = in.readString();
+        shop_name = in.readString();
+        shop_style = in.readString();
+        is_system = in.readInt();
+        agency_id = in.readInt();
+        store_id = in.readInt();
+        shops_id = in.readInt();
+        company_layer = in.readInt();
+        is_lock = in.readInt();
+        is_red = in.readInt();
+        service_time = in.readString();
+        settle_time = in.readInt();
+    }
+
+    public static final Creator<SProviderModel> CREATOR = new Creator<SProviderModel>() {
+        @Override
+        public SProviderModel createFromParcel(Parcel in) {
+            return new SProviderModel(in);
+        }
+
+        @Override
+        public SProviderModel[] newArray(int size) {
+            return new SProviderModel[size];
+        }
+    };
 
     public int getId() {
         return id;
@@ -695,5 +775,73 @@ public  class SProviderModel {
 
     public void setService(List<?> service) {
         this.service = service;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(id);
+        dest.writeString(user_name);
+        dest.writeInt(group_id);
+        dest.writeInt(agency_layer);
+        dest.writeInt(parent_id);
+        dest.writeInt(user_id);
+        dest.writeInt(recommend_id);
+        dest.writeString(name);
+        dest.writeString(contact);
+        dest.writeString(tel);
+        dest.writeString(regtime);
+        dest.writeString(post_code);
+        dest.writeString(mobile);
+        dest.writeString(artperson);
+        dest.writeString(img_url);
+        dest.writeInt(sort_id);
+        dest.writeString(seo_title);
+        dest.writeString(seo_keywords);
+        dest.writeString(seo_description);
+        dest.writeString(province);
+        dest.writeString(city);
+        dest.writeString(area);
+        dest.writeDouble(lng);
+        dest.writeDouble(lat);
+        dest.writeString(address);
+        dest.writeString(advantage);
+        dest.writeString(idcard);
+        dest.writeString(idcard_a);
+        dest.writeString(idcard_b);
+        dest.writeString(license);
+        dest.writeString(accredit);
+        dest.writeString(aptitude);
+        dest.writeString(revenue_card);
+        dest.writeString(organi_card);
+        dest.writeInt(statusX);
+        dest.writeString(brand_card);
+        dest.writeString(bank_licence);
+        dest.writeString(trade_aptitude);
+        dest.writeInt(trade_id);
+        dest.writeString(account_name);
+        dest.writeString(bank_name);
+        dest.writeString(bank_account);
+        dest.writeString(registeredid);
+        dest.writeString(logo_url);
+        dest.writeString(datatype);
+        dest.writeInt(distance);
+        dest.writeString(update_time);
+        dest.writeString(add_time);
+        dest.writeString(shop_name);
+        dest.writeString(shop_style);
+        dest.writeInt(is_system);
+        dest.writeInt(agency_id);
+        dest.writeInt(store_id);
+        dest.writeInt(shops_id);
+        dest.writeInt(company_layer);
+        dest.writeInt(is_lock);
+        dest.writeInt(is_red);
+        dest.writeString(service_time);
+        dest.writeInt(settle_time);
     }
 }

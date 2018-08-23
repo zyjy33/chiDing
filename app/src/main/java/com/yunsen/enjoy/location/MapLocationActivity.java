@@ -241,6 +241,7 @@ public class MapLocationActivity extends BaseFragmentActivity implements AMapLoc
                 if (mLocationUpMarker) {
                     mLocationUpMarker = false;
                     upMarker(mLatLng, true);
+                    aMap.moveCamera(CameraUpdateFactory.zoomTo(18));
                     mapView.invalidate();
                 }
                 Log.e(TAG, "onLocationChanged: amapLocation.getLongitude()=" + amapLocation.getLongitude() + "   amapLocation.getLatitude()=" + amapLocation.getLatitude());
@@ -274,7 +275,6 @@ public class MapLocationActivity extends BaseFragmentActivity implements AMapLoc
         mMarker = aMap.addMarker(mMarkerOption);
         if (needSearch) {
             regeocodeSearch(latLng.latitude, latLng.longitude, 3000);
-
         }
     }
 
@@ -461,6 +461,8 @@ public class MapLocationActivity extends BaseFragmentActivity implements AMapLoc
                     ToastUtils.makeTextShort("请选择地址");
                 } else {
                     data.putExtra(Constants.ADDRESS_KEY, value);
+                    data.putExtra(Constants.ADDRESS_LAT,mLatLng.latitude );
+                    data.putExtra(Constants.ADDRESS_LONG, mLatLng.longitude);
                     setResult(RESULT_OK, data);
                     finish();
                 }

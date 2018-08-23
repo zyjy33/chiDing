@@ -42,8 +42,8 @@
                     android:id="@+id/facilitator_category_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:hint="请选择行业类别"
                     android:gravity="right"
+                    android:hint="请选择行业类别"
                     android:textColor="@color/title_color"
                     android:textSize="15sp" />
 
@@ -149,13 +149,28 @@
                 android:textColor="@color/color_888"
                 android:textSize="13sp" />
 
-            <ImageView
-                android:id="@+id/facilitator_logo_img"
-                android:layout_width="120dp"
-                android:layout_height="80dp"
+            <FrameLayout
                 android:layout_margin="@dimen/app_margin"
-                android:scaleType="centerInside"
-                android:src="@mipmap/positive_photo" />
+                android:layout_width="120dp"
+                android:layout_height="80dp">
+
+                <ImageView
+                    android:id="@+id/facilitator_logo_img"
+                    android:layout_width="120dp"
+                    android:layout_height="80dp"
+                    android:scaleType="centerInside"
+                    android:src="@mipmap/positive_photo" />
+
+                <ImageView
+                    android:id="@+id/facilitator_logo_img_loading"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="25dp"
+                    android:scaleType="centerInside"
+                    android:src="@mipmap/img_loading"
+                    android:visibility="gone" />
+            </FrameLayout>
+
 
             <View
                 android:layout_width="match_parent"
@@ -179,13 +194,27 @@
                 android:textColor="@color/color_888"
                 android:textSize="13sp" />
 
-            <ImageView
-                android:id="@+id/facilitator_aptitude_img"
-                android:layout_width="120dp"
-                android:layout_height="80dp"
+            <FrameLayout
                 android:layout_margin="@dimen/app_margin"
-                android:scaleType="centerInside"
-                android:src="@mipmap/positive_photo" />
+                android:layout_width="120dp"
+                android:layout_height="80dp">
+
+                <ImageView
+                    android:id="@+id/facilitator_aptitude_img"
+                    android:layout_width="120dp"
+                    android:layout_height="80dp"
+                    android:scaleType="centerInside"
+                    android:src="@mipmap/positive_photo" />
+
+                <ImageView
+                    android:id="@+id/facilitator_aptitude_img_loading"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="25dp"
+                    android:scaleType="centerInside"
+                    android:src="@mipmap/img_loading"
+                    android:visibility="gone" />
+            </FrameLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -225,26 +254,54 @@
                 android:layout_margin="@dimen/app_margin"
                 android:orientation="horizontal">
 
-                <ImageView
-                    android:id="@+id/facilitator_revenue_img"
-                    android:layout_width="120dp"
-                    android:layout_height="80dp"
+                <FrameLayout
                     android:layout_margin="@dimen/app_margin"
-                    android:scaleType="centerInside"
-                    android:src="@mipmap/positive_photo" />
+                    android:layout_width="120dp"
+                    android:layout_height="80dp">
+
+                    <ImageView
+                        android:id="@+id/facilitator_revenue_img"
+                        android:layout_width="120dp"
+                        android:layout_height="80dp"
+                        android:scaleType="centerInside"
+                        android:src="@mipmap/positive_photo" />
+
+                    <ImageView
+                        android:id="@+id/facilitator_revenue_img_loading"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:padding="25dp"
+                        android:scaleType="centerInside"
+                        android:src="@mipmap/img_loading"
+                        android:visibility="gone" />
+                </FrameLayout>
 
                 <View
                     android:layout_width="0dp"
                     android:layout_height="1dp"
                     android:layout_weight="1" />
 
-                <ImageView
-                    android:id="@+id/facilitator_mechanism_img"
-                    android:layout_width="120dp"
-                    android:layout_height="80dp"
+                <FrameLayout
                     android:layout_margin="@dimen/app_margin"
-                    android:scaleType="centerInside"
-                    android:src="@mipmap/positive_photo" />
+                    android:layout_width="120dp"
+                    android:layout_height="80dp">
+
+                    <ImageView
+                        android:id="@+id/facilitator_mechanism_img"
+                        android:layout_width="120dp"
+                        android:layout_height="80dp"
+                        android:scaleType="centerInside"
+                        android:src="@mipmap/positive_photo" />
+
+                    <ImageView
+                        android:id="@+id/facilitator_mechanism_img_loading"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:padding="25dp"
+                        android:scaleType="centerInside"
+                        android:src="@mipmap/img_loading"
+                        android:visibility="gone" />
+                </FrameLayout>
 
             </LinearLayout>
 
@@ -254,9 +311,9 @@
                 android:background="@color/gray_light" />
 
             <LinearLayout
-                android:layout_marginLeft="@dimen/app_margin"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
+                android:layout_marginLeft="@dimen/app_margin"
                 android:orientation="horizontal">
 
                 <CheckBox
@@ -264,8 +321,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:padding="@dimen/app_margin"
-                    android:button="@drawable/protocol_selection_select" />
+                    android:button="@drawable/protocol_selection_select"
+                    android:padding="@dimen/app_margin" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -284,7 +341,7 @@
                         android:id="@+id/join_protocol_tv"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="《消费银行商家加盟协议》"
+                        android:text="《商家加盟协议》"
                         android:textColor="@color/orange_color"
                         android:textSize="15sp" />
                 </LinearLayout>
@@ -306,7 +363,7 @@
 
                 <TextView
                     style="@style/ApplyService2Tv"
-                    android:text="消费银行推荐人" />
+                    android:text="推荐人" />
 
                 <View
                     android:layout_width="0dp"

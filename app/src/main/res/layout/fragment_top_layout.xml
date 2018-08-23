@@ -166,6 +166,7 @@
             android:textColor="@color/color_666" />
 
         <TextView
+            android:visibility="gone"
             android:id="@+id/top_money_discount_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -177,6 +178,7 @@
             android:textColor="@color/orange_color" />
 
         <TextView
+            android:visibility="gone"
             android:id="@+id/top_vip_discount_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

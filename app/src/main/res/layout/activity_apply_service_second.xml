@@ -73,8 +73,7 @@
                     android:layout_marginRight="0dp"
                     android:drawablePadding="10dp"
                     android:drawableRight="@drawable/down_more_selected"
-                    android:hint="分类"
-                    android:text="商品" />
+                    android:hint="分类" />
             </LinearLayout>
 
 
@@ -85,8 +84,7 @@
 
 
             <LinearLayout
-                android:visibility="gone"
-                android:id="@+id/facilitator_project_layout"
+                android:id="@+id/facilitator_location_name_layout"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/item_height"
                 android:layout_marginLeft="@dimen/app_margin"
@@ -95,17 +93,17 @@
 
                 <TextView
                     style="@style/ApplyService2Tv"
-                    android:text="服务项目" />
+                    android:text="店铺名称" />
 
                 <View
                     android:layout_width="0dp"
                     android:layout_height="1dp"
                     android:layout_weight="1" />
 
-                <TextView
-                    android:id="@+id/facilitator_project_tv"
+                <EditText
+                    android:id="@+id/facilitator_location_name_tv"
                     style="@style/ApplyService2Edt"
-                    android:hint="未选择" />
+                    android:hint="请输入店铺名称" />
             </LinearLayout>
 
 

@@ -155,7 +155,13 @@ public class ApplyServiceFragment extends BaseFragment {
                 }
                 break;
             case R.id.goto_shopping:
-                UIHelper.showShopCar(getActivity());
+                if (!AccountUtils.hasLogin()) {
+                    UIHelper.showUserLoginActivity(getActivity());
+                } else if (!AccountUtils.hasBoundPhone()) {
+                    UIHelper.showBundPhoneActivity(getActivity());
+                }else {
+                    UIHelper.showShopCar(getActivity());
+                }
                 break;
             case R.id.setting_shopping_money:
                 UIHelper.showSettingShopMoneyActivity(getActivity());

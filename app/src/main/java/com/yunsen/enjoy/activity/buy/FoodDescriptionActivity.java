@@ -1,10 +1,16 @@
 package com.yunsen.enjoy.activity.buy;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -67,6 +73,8 @@ public class FoodDescriptionActivity extends BaseFragmentActivity implements Mul
     TextView distanceTv;
     @Bind(R.id.service_time_tv)
     TextView serviceTimeTv;
+    @Bind(R.id.location_tv)
+    TextView locationTv;
 
     private GoodsListAdapter mAdapter;
     private ArrayList<SProviderModel> mDatas;
@@ -76,6 +84,7 @@ public class FoodDescriptionActivity extends BaseFragmentActivity implements Mul
     private boolean mIsCollect;
     private int mCompanyUserId = 0;
     private boolean mHasFinish;
+    private AlertDialog mSelectMapDialog;
 
     @Override
     public int getLayout() {
@@ -211,6 +220,8 @@ public class FoodDescriptionActivity extends BaseFragmentActivity implements Mul
 //            view.setVisibility(View.GONE);
             distanceTv.setText("0.00 km");
         }
+        locationTv.setText(mData.getAddress());
+
         serviceTimeTv.setText(data.getService_time());
     }
 
@@ -257,7 +268,7 @@ public class FoodDescriptionActivity extends BaseFragmentActivity implements Mul
 
     @OnClick({R.id.action_back_1, R.id.action_bar_share, R.id.action_back_complaint,
             R.id.look_img_tv, R.id.look_img_img, R.id.pay_money_tv, R.id.collect_tv,
-            R.id.phone_img})
+            R.id.phone_img, R.id.location_img, R.id.location_tv})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.action_back_1:
@@ -290,8 +301,15 @@ public class FoodDescriptionActivity extends BaseFragmentActivity implements Mul
             case R.id.phone_img:
                 requestPermission(Permission.CALL_PHONE, Constants.CALL_PHONE);
                 break;
+            case R.id.location_img:
+            case R.id.location_tv:
+                if (mData != null) {
+                    UIHelper.showMapActivity(this, mData, 22.55693, 114.066551, mData.getAddress());
+                }
+                break;
         }
     }
+
 
     @Override
     protected void onRequestPermissionSuccess(int requestCode) {

@@ -4,13 +4,13 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 
@@ -26,6 +26,7 @@ import com.yunsen.enjoy.common.SpConstants;
 import com.yunsen.enjoy.http.HttpCallBack;
 import com.yunsen.enjoy.http.HttpProxy;
 import com.yunsen.enjoy.model.ServiceProject;
+import com.yunsen.enjoy.model.TradeData;
 import com.yunsen.enjoy.model.request.ApplyFacilitatorModel;
 import com.yunsen.enjoy.ui.UIHelper;
 import com.yunsen.enjoy.utils.ToastUtils;
@@ -33,8 +34,8 @@ import com.yunsen.enjoy.widget.MyAlertDialog;
 import com.yunsen.enjoy.widget.NumberPickerDialog;
 import com.yunsen.enjoy.widget.dialog.ServiceTagCheckDialog;
 import com.yunsen.enjoy.widget.dialog.TimePickerViewDialog;
-import com.yunsen.enjoy.widget.interfaces.onLeftOnclickListener;
 import com.yunsen.enjoy.widget.interfaces.OnRightOnclickListener;
+import com.yunsen.enjoy.widget.interfaces.onLeftOnclickListener;
 import com.yunsen.enjoy.widget.interfaces.onRightServiceProjectOnclickListener;
 
 import java.util.List;
@@ -61,14 +62,10 @@ public class ApplyServiceSecondActivity extends BaseFragmentActivity {
     EditText facilitatorNameEdt;
     @Bind(R.id.facilitator_tag_tv)
     TextView facilitatorTagTv;
-    @Bind(R.id.facilitator_project_tv)
-    TextView facilitatorProjectTv;
     @Bind(R.id.facilitator_phone_edt)
     EditText facilitatorPhoneEdt;
     @Bind(R.id.facilitator_address_edt)
     TextView facilitatorAddressEdt;
-    @Bind(R.id.facilitator_gps_edt)
-    EditText facilitatorGpsEdt;
     @Bind(R.id.facilitator_start_tv)
     TextView facilitatorStartTv;
     @Bind(R.id.facilitator_end_tv)
@@ -79,6 +76,9 @@ public class ApplyServiceSecondActivity extends BaseFragmentActivity {
     Switch wifiSwitch;
     @Bind(R.id.stop_car_switch)
     Switch stopCarSwitch;
+    @Bind(R.id.facilitator_location_name_tv)
+    EditText facilitatorLocationNameTv;
+
     private ApplyFacilitatorModel mRequstData;
     private String mAddressTxt;
     private String mProvinces;
@@ -88,6 +88,7 @@ public class ApplyServiceSecondActivity extends BaseFragmentActivity {
     private TimePickerViewDialog startPickerView;
     private TimePickerViewDialog endPickerView;
     private ServiceTagCheckDialog mServiceTagDialog;
+    private List<TradeData> mServiceListDatas;
 
     @Override
     public int getLayout() {
@@ -109,19 +110,36 @@ public class ApplyServiceSecondActivity extends BaseFragmentActivity {
         mRequstData = new ApplyFacilitatorModel();
         mRequstData.setUser_name(userName);
         mRequstData.setUser_id(userId);
-        facilitatorGpsEdt.setText("深圳市南山区科技园");
     }
 
     @Override
     public void requestData() {
-        HttpProxy.getServiceProjectList(new HttpCallBack<List<ServiceProject>>() {
+//        HttpProxy.getServiceProjectList(new HttpCallBack<List<ServiceProject>>() {
+//            @Override
+//            public void onSuccess(List<ServiceProject> responseData) {
+//                Log.e(TAG, "onSuccess: " + responseData);
+//                mServiceProjectDatas = new String[responseData.size()];
+//                for (int i = 0; i < responseData.size(); i++) {
+//                    mServiceProjectDatas[i] = responseData.get(i).getTitle();
+//                }
+//            }
+//
+//            @Override
+//            public void onError(Request request, Exception e) {
+//
+//            }
+//        });
+
+        HttpProxy.getTradeList(new HttpCallBack<List<TradeData>>() {
             @Override
-            public void onSuccess(List<ServiceProject> responseData) {
-                Log.e(TAG, "onSuccess: " + responseData);
-                mServiceProjectDatas = new String[responseData.size()];
-                for (int i = 0; i < responseData.size(); i++) {
+            public void onSuccess(List<TradeData> responseData) {
+                int size = responseData.size();
+                mServiceProjectDatas = new String[size];
+                mServiceListDatas = responseData;
+                for (int i = 0; i < size; i++) {
                     mServiceProjectDatas[i] = responseData.get(i).getTitle();
                 }
+
             }
 
             @Override
@@ -142,13 +160,17 @@ public class ApplyServiceSecondActivity extends BaseFragmentActivity {
         if (resultCode == RESULT_OK) {
             if (requestCode == Constants.ADDRESS_REQUEST) {
                 String address = data.getStringExtra(Constants.ADDRESS_KEY);
+                double addressLong = data.getDoubleExtra(Constants.ADDRESS_LONG, 0.00);
+                double addressLat = data.getDoubleExtra(Constants.ADDRESS_LAT, 0.00);
+                mRequstData.setLng(String.valueOf(addressLong));
+                mRequstData.setLat(String.valueOf(addressLat));
                 facilitatorAddressEdt.setText(address);
             }
         }
     }
 
     @OnClick({R.id.action_back, R.id.facilitator_start_layout, R.id.facilitator_end_layout, R.id.next_btn,
-            R.id.facilitator_address_layout, R.id.facilitator_tag_layout})
+            R.id.facilitator_address_layout, R.id.facilitator_tag_layout, R.id.facilitator_location_name_layout})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.action_back:
@@ -173,6 +195,8 @@ public class ApplyServiceSecondActivity extends BaseFragmentActivity {
             case R.id.next_btn:
                 intSMap();
                 break;
+            case R.id.facilitator_location_name_layout:
+                break;
         }
     }
 
@@ -195,8 +219,6 @@ public class ApplyServiceSecondActivity extends BaseFragmentActivity {
             public void onRightClick(int[] index) {
                 if (picker != null && picker.isShowing()) {
                     facilitatorTagTv.setText(mServiceProjectDatas[index[0]]);
-                    facilitatorProjectTv.setTag(index[0]);
-                    facilitatorProjectTv.setText("已选择");
                     picker.dismiss();
                 }
             }
@@ -226,20 +248,20 @@ public class ApplyServiceSecondActivity extends BaseFragmentActivity {
     private void intSMap() {
         String name = facilitatorNameEdt.getText().toString();
         String serviceFlag = facilitatorTagTv.getText().toString();
-        Integer projectTag = (Integer) facilitatorProjectTv.getTag();
+
         String phoneNum = facilitatorPhoneEdt.getText().toString();
-//        String address = facilitatorAddressEdt.getText().toString();
-        String gpsAddress = facilitatorGpsEdt.getText().toString();
+        String locationName = facilitatorLocationNameTv.getText().toString();
+        String gpsAddress = facilitatorAddressEdt.getText().toString();
         String startTime = facilitatorStartTv.getText().toString();
         String endTime = facilitatorEndTv.getText().toString();
         if (TextUtils.isEmpty(name)) {
             ToastUtils.makeTextShort("申请商家名称不能为空");
         } else if (TextUtils.isEmpty(phoneNum)) {
             ToastUtils.makeTextShort("联系电话不能为空");
-//        } else if (TextUtils.isEmpty(address)) {
-//            ToastUtils.makeTextShort("申请商家城市不能为空");
+        } else if (TextUtils.isEmpty(locationName)) {
+            ToastUtils.makeTextShort("店铺名称不能为空");
         } else if (TextUtils.isEmpty(gpsAddress)) {
-            ToastUtils.makeTextShort("详细地址不能为空");
+            ToastUtils.makeTextShort("店铺地址不能为空");
         } else if (TextUtils.isEmpty(startTime)) {
         } else if (TextUtils.isEmpty(endTime)) {
         } else {
@@ -248,7 +270,6 @@ public class ApplyServiceSecondActivity extends BaseFragmentActivity {
             boolean canStopCar = stopCarSwitch.isChecked();
             mRequstData.setName(name);
             mRequstData.setSeo_title(serviceFlag);
-            mRequstData.setService_ids(String.valueOf(projectTag));
             mRequstData.setMobile(phoneNum);
 //            mRequstData.setProvince(address);
             mRequstData.setAddress(gpsAddress);
@@ -442,7 +463,6 @@ public class ApplyServiceSecondActivity extends BaseFragmentActivity {
                         strSub += datas.get(i).getTitle();
                         strId += datas.get(i).getId();
                         facilitatorTagTv.setText(strSub);
-                        facilitatorProjectTv.setTag(strId);
                     } else {
                         facilitatorTagTv.setText("");
                         facilitatorTagTv.setTag("");

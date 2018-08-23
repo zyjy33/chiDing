@@ -171,9 +171,9 @@ public class URLConstants {
     public static final String SERVICE_ODER_NUM_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/get_commpany_orders_total";
     /**
      * 商家申请提交表单数据
-     * https://szlxkg.com/tools/mobile_ajax.asmx/add_user_commpany_2017
+     * https://szlxkg.com/tools/mobile_ajax.asmx/add_user_commpany_2017 user_upgrade_sales
      */
-    public static final String APPLY_SERVICE_FORM_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/add_application_agent";
+    public static final String APPLY_SERVICE_FORM_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/add_ddek_user_commpany";
 
     /**
      * 预约管理Booking Management

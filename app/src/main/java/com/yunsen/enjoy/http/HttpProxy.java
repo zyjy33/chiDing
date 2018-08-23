@@ -280,7 +280,7 @@ public class HttpProxy {
         param.put("trade_id", "0");
         param.put("page_size", "5");
         param.put("page_index", "" + pageIndex);
-        param.put("strwhere", "status=0 and datatype='Supply'");
+        param.put("strwhere", "status=0 and datatype='Supply' ");//and group_id=23
 //        param.put("strwhere", "status=0 and datatype='Supply'and city = \'" + city + "\'");
         param.put("orderby", "");
 
@@ -321,7 +321,7 @@ public class HttpProxy {
             param.put("page_size", "10");
         }
         param.put("page_index", "" + pageIndex);
-        param.put("strwhere", "status=0 and datatype='Supply'");
+        param.put("strwhere", "status=0 and datatype='Supply'"); //and group_id=23
 //        param.put("strwhere", "status=0 and datatype='Supply'and city = \'" + city + "\'");
         param.put("orderby", "");
 

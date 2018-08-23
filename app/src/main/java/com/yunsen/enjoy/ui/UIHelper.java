@@ -3,6 +3,7 @@ package com.yunsen.enjoy.ui;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -13,6 +14,7 @@ import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.tencent.mm.opensdk.modelbiz.WXLaunchMiniProgram;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
+import com.yunsen.enjoy.BuildConfig;
 import com.yunsen.enjoy.activity.AdvertActivity;
 import com.yunsen.enjoy.activity.ApplyAgentActivity;
 import com.yunsen.enjoy.activity.CarDetailsActivity;
@@ -34,6 +36,7 @@ import com.yunsen.enjoy.activity.buy.FoodDescriptionActivity;
 import com.yunsen.enjoy.activity.buy.GoodsDescriptionActivity;
 import com.yunsen.enjoy.activity.buy.GoodsDescriptionActivityOld;
 import com.yunsen.enjoy.activity.buy.GoodsListActivity;
+import com.yunsen.enjoy.activity.buy.MapActivity;
 import com.yunsen.enjoy.activity.buy.MeetAddressActivity;
 import com.yunsen.enjoy.activity.buy.PartsShopActivity;
 import com.yunsen.enjoy.activity.buy.SecondActivityActivity;
@@ -106,8 +109,10 @@ import com.yunsen.enjoy.model.MyOrderData;
 import com.yunsen.enjoy.model.NoticeModel;
 import com.yunsen.enjoy.model.OrderBean;
 import com.yunsen.enjoy.model.PhotoInfo;
+import com.yunsen.enjoy.model.SProviderModel;
 import com.yunsen.enjoy.model.request.ApplyFacilitatorModel;
 import com.yunsen.enjoy.utils.AccountUtils;
+import com.yunsen.enjoy.utils.ToastUtils;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -1195,7 +1200,7 @@ public class UIHelper {
      * @param act
      * @param orderNo
      */
-    public static void showSettingShopMoneyTishiActivity(Activity act, String orderNo,String money) {
+    public static void showSettingShopMoneyTishiActivity(Activity act, String orderNo, String money) {
         Intent intent = new Intent(act, TishiCarArchivesActivity.class);
         intent.putExtra("order_no", orderNo);
         intent.putExtra("order_yue", "order_yue");
@@ -1440,6 +1445,90 @@ public class UIHelper {
     public static void showSettingShopMoneyActivity(Context ctx) {
         Intent intent = new Intent(ctx, SettingShopMoneyActivity.class);
         ctx.startActivity(intent);
+    }
+
+    /**
+     * 打开地图
+     *
+     * @param ctx
+     * @param data
+     */
+    public static void showMapActivity(Context ctx, SProviderModel data, double dlat, double dlon, String dname) {
+        Intent intent = new Intent(ctx, MapActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putDouble(Constants.ADDRESS_LAT, dlat);
+        bundle.putDouble(Constants.ADDRESS_LONG, dlon);
+        bundle.putString(Constants.ADDRESS_KEY, dname);
+        bundle.putParcelable(Constants.DATA, data);
+        intent.putExtras(bundle);
+        ctx.startActivity(intent);
+    }
+
+    /**
+     * 打开高德地图
+     *
+     * @author jack
+     * created at 2017/8/2 15:01
+     */
+    public static void openGaoDeMap(Activity act, double dlat, double dlon, String dname) {
+        try {
+            // APP_NAME  自己应用的名字
+            String uri = getGdMapUri(BuildConfig.APPLICATION_ID,
+                    String.valueOf(dlat),
+                    String.valueOf(dlon),
+                    dname);
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setPackage("com.autonavi.minimap");
+            intent.setData(Uri.parse(uri));
+            act.startActivity(intent); //启动调用
+        } catch (Exception e) {
+            e.printStackTrace();
+            ToastUtils.makeTextShort("请先安装高德地图");
+        }
+    }
+
+    /**
+     * 获取打开高德地图应用uri
+     * style
+     * 导航方式(0 速度快; 1 费用少; 2 路程短; 3 不走高速；4 躲避拥堵；5
+     * 不走高速且避免收费；6 不走高速且躲避拥堵；
+     * 7 躲避收费和拥堵；8 不走高速躲避收费和拥堵)
+     */
+    public static String getGdMapUri(String appName, String dlat, String dlon, String dname) {
+        String newUri = "androidamap://navi?sourceApplication=%1$s&poiname=%2$s&lat=%3$s&lon=%4$s&dev=1&style=2";
+        return String.format(newUri, appName, dname, dlat, dlon);
+    }
+
+    /**
+     * 打开百度地图
+     *
+     * @param slat  开始地点 维度
+     * @param slon  开始地点 经度
+     * @param sname 开始地点 名字
+     * @param dlat  终点地点 维度
+     * @param dlon  终点地点 经度
+     * @param dname 终点名字
+     * @param city  所在城市- 动态获取 （例如：北京市）
+     * @author jack
+     * created at 2017/8/2 15:01
+     */
+    public void openBaiduMap(Activity act, double slat, double slon, String sname,
+                             double dlat, double dlon, String dname, String city) {
+        try {
+            String uri = getBaiduMapUri(String.valueOf(slat), String.valueOf(slon), sname,
+                    String.valueOf(dlat), String.valueOf(dlon), dname, city, "");
+            Intent intent = Intent.parseUri(uri, 0);
+            act.startActivity(intent); //启动调用
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static String getBaiduMapUri(String originLat, String originLon, String originName, String desLat, String desLon, String destination, String region, String src) {
+        String uri = "intent://map/direction?origin=latlng:%1$s,%2$s|name:%3$s" +
+                "&destination=latlng:%4$s,%5$s|name:%6$s&mode=driving&region=%7$s&src=%8$s#Intent;" +
+                "scheme=bdapp;package=com.baidu.BaiduMap;end";
+        return String.format(uri, originLat, originLon, originName, desLat, desLon, destination, region, src);
     }
 
 
