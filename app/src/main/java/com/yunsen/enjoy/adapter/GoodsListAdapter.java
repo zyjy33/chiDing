@@ -5,6 +5,7 @@ import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -59,17 +60,26 @@ public class GoodsListAdapter extends CommonAdapter<SProviderModel> {
                 .load(data.getImg_url())
                 .placeholder(R.mipmap.default_img)
                 .into(imageView);
-        double lat = data.getLat();
-        double lng = data.getLng();
-        if (lat != 0 && lng != 0 && GlobalStatic.latitude != 0.0 && GlobalStatic.longitude != 0.0 && !("0,0".equals(lat) || "0.0".equals(lng))) {
-            double algorithm = Utils.algorithm(GlobalStatic.longitude, GlobalStatic.latitude, Double.valueOf(lng), Double.valueOf(lat)) / 1000;
+        double lng = data.getLat();
+        double lat = data.getLng();
+//        Log.e(TAG, "convert: " + position + "  data.getLat()=" + lat + "  data.getLng() =" + lng);
+        if (lat > 0 && lng >= 0 && GlobalStatic.latitude != 0.0 && GlobalStatic.longitude != 0.0) {
+            double algorithm = Utils.algorithm(GlobalStatic.longitude, GlobalStatic.latitude, lng, lat) / 1000;
+
             BigDecimal b = new BigDecimal(algorithm);
             double df = b.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
-            holder.setText(R.id.goods_list_distance_tv, df + "km");
+            if (df < 0.1) {
+                holder.setText(R.id.goods_list_distance_tv, "小于0.1kmm");
+            } else {
+                holder.setText(R.id.goods_list_distance_tv, df + "km");
+            }
+
         } else {
 //            view.setVisibility(View.GONE);
             holder.setText(R.id.goods_list_distance_tv, "0.0 km");
         }
 
     }
+
+    private static final String TAG = "GoodsListAdapter";
 }

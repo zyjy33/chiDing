@@ -29,6 +29,8 @@ import com.yunsen.enjoy.model.ServiceProject;
 import com.yunsen.enjoy.model.TradeData;
 import com.yunsen.enjoy.model.request.ApplyFacilitatorModel;
 import com.yunsen.enjoy.ui.UIHelper;
+import com.yunsen.enjoy.utils.LngLat;
+import com.yunsen.enjoy.utils.MapUtils;
 import com.yunsen.enjoy.utils.ToastUtils;
 import com.yunsen.enjoy.widget.MyAlertDialog;
 import com.yunsen.enjoy.widget.NumberPickerDialog;
@@ -39,6 +41,7 @@ import com.yunsen.enjoy.widget.interfaces.onLeftOnclickListener;
 import com.yunsen.enjoy.widget.interfaces.onRightServiceProjectOnclickListener;
 
 import java.util.List;
+import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -162,8 +165,10 @@ public class ApplyServiceSecondActivity extends BaseFragmentActivity {
                 String address = data.getStringExtra(Constants.ADDRESS_KEY);
                 double addressLong = data.getDoubleExtra(Constants.ADDRESS_LONG, 0.00);
                 double addressLat = data.getDoubleExtra(Constants.ADDRESS_LAT, 0.00);
-                mRequstData.setLng(String.valueOf(addressLong));
-                mRequstData.setLat(String.valueOf(addressLat));
+                //高德转百度 经纬度
+                LngLat lngLat = MapUtils.bd_encrypt(new LngLat(addressLong, addressLat));
+                mRequstData.setLng(String.valueOf(lngLat.getLongitude()));
+                mRequstData.setLat(String.valueOf(lngLat.getLantitude()));
                 facilitatorAddressEdt.setText(address);
             }
         }

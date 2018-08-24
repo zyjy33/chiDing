@@ -151,7 +151,12 @@ public class MineFragment extends BaseFragment {
 
     @Override
     protected void requestData() {
-
+        String isFilter = mSp.getString(SpConstants.HAS_SERVICE_SHOP, Constants.EMPTY);
+        if (!TextUtils.isEmpty(isFilter)) {
+            myOrderLayout.setVisibility(View.VISIBLE);
+        } else {
+            requestIsFacilitator();
+        }
     }
 
 
@@ -325,6 +330,7 @@ public class MineFragment extends BaseFragment {
             @Override
             public void onSuccess(Boolean isFacilitator) {
                 mIsFacilitator = isFacilitator;
+                myOrderLayout.setVisibility(View.VISIBLE);
                 SharedPreferences.Editor edit = mSp.edit();
                 edit.putBoolean(SpConstants.HAS_SERVICE_SHOP, isFacilitator);
                 edit.commit();
@@ -332,7 +338,7 @@ public class MineFragment extends BaseFragment {
 
             @Override
             public void onError(Request request, Exception e) {
-
+                myOrderLayout.setVisibility(View.GONE);
             }
         });
     }
@@ -416,6 +422,7 @@ public class MineFragment extends BaseFragment {
 //                achiRootLayout2.setVisibility(View.GONE);
 //                achiRootLayout3.setVisibility(View.GONE);
 //                gradeTv.setVisibility(View.GONE);
+                myOrderLayout.setVisibility(View.GONE);
                 AccountUtils.clearData();
                 SharedPreferences sp = getActivity().getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, Context.MODE_PRIVATE);
                 sp.edit().clear().commit();
@@ -493,7 +500,7 @@ public class MineFragment extends BaseFragment {
                     UIHelper.showPersonCenterActivity(getActivity());
                     break;
                 case R.id.recharge_layout:
-                    UIHelper.showMonneyChongZhiActivity(getActivity(),"16");
+                    UIHelper.showMonneyChongZhiActivity(getActivity(), "16");
                     break;
                 case R.id.my_account_layout:
                     UIHelper.showMyAccountOrderActivity(getActivity());

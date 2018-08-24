@@ -37,7 +37,6 @@ import com.yunsen.enjoy.activity.BaseFragmentActivity;
 import com.yunsen.enjoy.common.Constants;
 import com.yunsen.enjoy.model.SProviderModel;
 import com.yunsen.enjoy.ui.UIHelper;
-import com.yunsen.enjoy.utils.GlobalStatic;
 import com.yunsen.enjoy.utils.Utils;
 import com.zaaach.citypicker.CityPicker;
 import com.zaaach.citypicker.model.LocateState;
@@ -47,6 +46,7 @@ import java.math.BigDecimal;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 import static com.amap.api.maps2d.AMap.MAP_TYPE_NORMAL;
 
@@ -58,6 +58,20 @@ public class MapActivity extends BaseFragmentActivity implements AMapLocationLis
     private static final String TAG = "MapActivity";
     @Bind(R.id.map_view)
     MapView mapView;
+    @Bind(R.id.goods_list_img)
+    ImageView goodsListImg;
+    @Bind(R.id.goods_list_title_tv)
+    TextView goodsListTitleTv;
+    @Bind(R.id.goods_list_address_tv)
+    TextView goodsListAddressTv;
+    @Bind(R.id.goods_list_coin_tv)
+    TextView goodsListCoinTv;
+    @Bind(R.id.goods_list_vip_tv)
+    TextView goodsListVipTv;
+    @Bind(R.id.goods_list_type_tv)
+    TextView goodsListTypeTv;
+    @Bind(R.id.goods_list_distance_tv)
+    TextView goodsListDistanceTv;
 
     private AlertDialog mSelectMapDialog;
     private AMap aMap;
@@ -103,6 +117,14 @@ public class MapActivity extends BaseFragmentActivity implements AMapLocationLis
             aMap.setOnMarkerClickListener(this);
         }
         requestPermission(new String[]{Permission.ACCESS_COARSE_LOCATION, Permission.ACCESS_FINE_LOCATION}, 1);
+
+        Glide.with(MapActivity.this)
+                .load(mData.getImg_url())
+                .into(goodsListImg);
+        goodsListTitleTv.setText(mData.getName());
+        goodsListAddressTv.setText(mData.getAddress());
+
+
     }
 
     @Override
@@ -175,7 +197,6 @@ public class MapActivity extends BaseFragmentActivity implements AMapLocationLis
 
     @Override
     public void onLocationChanged(AMapLocation amapLocation) {
-        Log.e(TAG, "onLocationChanged: aa");
         if (amapLocation != null) {
             String city = amapLocation.getCity();
             if (amapLocation.getErrorCode() == 0) {
@@ -187,7 +208,16 @@ public class MapActivity extends BaseFragmentActivity implements AMapLocationLis
                 aMap.moveCamera(CameraUpdateFactory.zoomTo(10));
                 upMarker(mLatLng);
 //                }
-                showShopDialog();
+                if (mAddressLat != 0 && mAddressLon != 0) {
+                    double algorithm = Utils.algorithm(amapLocation.getLongitude(), amapLocation.getLatitude(), mAddressLon, mAddressLat) / 1000;
+                    BigDecimal b = new BigDecimal(algorithm);
+                    double df = b.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+                    goodsListDistanceTv.setText(df + "km");
+                } else {
+//            view.setVisibility(View.GONE);
+                    goodsListDistanceTv.setText("0.0 km");
+                }
+
                 Log.e(TAG, "onLocationChanged: amapLocation.getLongitude()=" + amapLocation.getLongitude() + "   amapLocation.getLatitude()=" + amapLocation.getLatitude());
             } else {
                 Log.e("AmapError", "location Error, ErrCode:"
@@ -271,27 +301,7 @@ public class MapActivity extends BaseFragmentActivity implements AMapLocationLis
             TextView goodsListTypeTv = (TextView) view.findViewById(R.id.goods_list_type_tv);
             TextView goodsListDistanceTv = (TextView) view.findViewById(R.id.goods_list_distance_tv);
             Button lookBtn = (Button) view.findViewById(R.id.look_line_btn);
-            Glide.with(MapActivity.this)
-                    .load(mData.getImg_url())
-                    .into(goodsListImg);
-            goodsListTitleTv.setText(mData.getName());
-            goodsListAddressTv.setText(mData.getAddress());
-            if (mAddressLat != 0 && mAddressLon != 0 && GlobalStatic.latitude != 0.0 && GlobalStatic.longitude != 0.0) {
-                double algorithm = Utils.algorithm(GlobalStatic.longitude, GlobalStatic.latitude, mAddressLon, mAddressLat) / 1000;
-                BigDecimal b = new BigDecimal(algorithm);
-                double df = b.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
-                goodsListDistanceTv.setText(df + "km");
-            } else {
-//            view.setVisibility(View.GONE);
-                goodsListDistanceTv.setText("0.0 km");
-            }
 
-            lookBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    showSelectMapDialog();
-                }
-            });
             view.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
 
             mShopDialog = new AlertDialog.Builder(this)
@@ -341,4 +351,17 @@ public class MapActivity extends BaseFragmentActivity implements AMapLocationLis
     }
 
 
+
+
+    @OnClick({R.id.back_img, R.id.look_line_btn})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.back_img:
+                finish();
+                break;
+            case R.id.look_line_btn:
+                showSelectMapDialog();
+                break;
+        }
+    }
 }

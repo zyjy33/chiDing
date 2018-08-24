@@ -331,12 +331,19 @@ public class Utils {
         a = latitude1 - latitude2;
         b = rad(longitude1 - longitude2);
 
-        sa2 = Math.sin(a / 2.0);
-        sb2 = Math.sin(b / 2.0);
-        d = 2 * EARTH_RADIUS
-                * Math.asin(Math.sqrt(sa2 * sa2 + Math.cos(latitude1)
-                * Math.cos(latitude2) * sb2 * sb2));
-//
+//        sa2 = Math.sin(a / 2.0);
+//        sb2 = Math.sin(b / 2.0);
+//        d = 2 * EARTH_RADIUS
+//                * Math.asin(Math.sqrt(sa2 * sa2 + Math.cos(latitude1)
+//                * Math.cos(latitude2) * sb2 * sb2));
+
+        double s = 2 * Math.asin(Math.sqrt(Math.pow(Math.sin(a / 2), 2)
+                + Math.cos(latitude1) * Math.cos(latitude2)
+                * Math.pow(Math.sin(b / 2), 2)));
+        s = s * EARTH_RADIUS;
+        s = Math.round(s * 10000d) / 10000d;
+        s = s * 1000;
+
 //        double Lat1 = rad(latitude1); // 纬度
 //
 //        double Lat2 = rad(latitude2);
@@ -353,7 +360,7 @@ public class Utils {
 //
 //        s = Math.round(s * 10000d) / 10000d;//精确距离的数值
 
-        return d;
+        return s;
 
     }
 

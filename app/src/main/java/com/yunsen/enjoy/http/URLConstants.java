@@ -174,6 +174,10 @@ public class URLConstants {
      * https://szlxkg.com/tools/mobile_ajax.asmx/add_user_commpany_2017 user_upgrade_sales
      */
     public static final String APPLY_SERVICE_FORM_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/add_ddek_user_commpany";
+    /**
+     * 申请代理商
+     */
+    public static final String APPLY_PROXY_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/add_ddek_application_agent";
 
     /**
      * 预约管理Booking Management

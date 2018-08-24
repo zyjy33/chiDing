@@ -64,6 +64,7 @@ import com.yunsen.enjoy.model.WithdrawLogData;
 import com.yunsen.enjoy.model.WxPaySignBean;
 import com.yunsen.enjoy.model.request.ApplyCarModel;
 import com.yunsen.enjoy.model.request.ApplyFacilitatorModel;
+import com.yunsen.enjoy.model.request.ApplyProxyServiceRequest;
 import com.yunsen.enjoy.model.request.ApplyWalletCashRequest;
 import com.yunsen.enjoy.model.request.BindBankCardRequest;
 import com.yunsen.enjoy.model.request.BindBankCardRequest2;
@@ -321,7 +322,7 @@ public class HttpProxy {
             param.put("page_size", "10");
         }
         param.put("page_index", "" + pageIndex);
-        param.put("strwhere", "status=0 and datatype='Supply'"); //and group_id=23
+        param.put("strwhere", "status=0 and datatype='Supply'"); //  and group_id =23 group_id=23   门店商家 group_id=19 供应商
 //        param.put("strwhere", "status=0 and datatype='Supply'and city = \'" + city + "\'");
         param.put("orderby", "");
 
@@ -1241,6 +1242,27 @@ public class HttpProxy {
         data.setSort_id("0");
         Map<String, Object> param = EntityToMap.ConvertObjToMap(data);
         HttpClient.get(URLConstants.APPLY_SERVICE_FORM_URL, param, new HttpResponseHandler<RestApiResponse>() {
+            @Override
+            public void onSuccess(RestApiResponse response) {
+                callBack.onSuccess(response);
+                super.onSuccess(response);
+            }
+
+            @Override
+            public void onFailure(Request request, Exception e) {
+                Logger.e("onFailure: " + e.getMessage());
+                callBack.onError(request, e);
+            }
+        });
+    }
+
+    /**
+     * 商家申请提交表单数据
+     */
+    public static void getApplyProxyService(Activity act, ApplyFacilitatorModel data, final HttpCallBack<RestApiResponse> callBack) {
+        SharedPreferences sp = act.getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, Context.MODE_PRIVATE);
+        Map<String, Object> param = EntityToMap.ConvertObjToMap(data);
+        HttpClient.get(URLConstants.APPLY_PROXY_URL, param, new HttpResponseHandler<RestApiResponse>() {
             @Override
             public void onSuccess(RestApiResponse response) {
                 callBack.onSuccess(response);
@@ -2553,7 +2575,7 @@ public class HttpProxy {
      * @param callBack
      */
 
-    public static void settingShopMoneyRequest(String amount,final HttpCallBack<RechargeNoBean> callBack) {
+    public static void settingShopMoneyRequest(String amount, final HttpCallBack<RechargeNoBean> callBack) {
         HashMap<String, String> map = new HashMap<>();
         map.put(SpConstants.USER_ID, AccountUtils.getUser_id());
         map.put(SpConstants.USER_NAME, AccountUtils.getUserName());

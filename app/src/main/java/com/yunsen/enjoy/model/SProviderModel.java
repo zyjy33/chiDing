@@ -5,6 +5,7 @@ import android.os.Parcelable;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import com.yunsen.enjoy.http.URLConstants;
+import com.yunsen.enjoy.utils.MapUtils;
 
 import java.util.List;
 
@@ -450,7 +451,7 @@ public  class SProviderModel  implements Parcelable{
     }
 
     public double getLng() {
-        return lng;
+        return  MapUtils.getLongitude(lng,lat);
     }
 
     public void setLng(double lng) {
@@ -458,7 +459,7 @@ public  class SProviderModel  implements Parcelable{
     }
 
     public double getLat() {
-        return lat;
+        return   MapUtils.getLantitude(lng,lat);
     }
 
     public void setLat(double lat) {

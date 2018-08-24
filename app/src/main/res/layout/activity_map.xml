@@ -17,12 +17,13 @@
         android:layout_marginTop="20dp"
         android:src="@drawable/fanhui" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="120dp"
-        android:layout_marginLeft="@dimen/app_margin"
-        android:layout_marginRight="@dimen/app_margin"
-        android:orientation="vertical">
-
-    </LinearLayout>
+<LinearLayout
+    android:layout_gravity="bottom"
+    android:layout_marginRight="20dp"
+    android:layout_marginLeft="20dp"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <include layout="@layout/shop_dialog"/>
+</LinearLayout>
 </FrameLayout>

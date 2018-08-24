@@ -211,8 +211,8 @@ public class FoodDescriptionActivity extends BaseFragmentActivity implements Mul
 
         double lat = data.getLat();
         double lng = data.getLng();
-        if (lat != 0 && lng != 0 && GlobalStatic.latitude != 0.0 && GlobalStatic.longitude != 0.0 && !("0,0".equals(lat) || "0.0".equals(lng))) {
-            double algorithm = Utils.algorithm(GlobalStatic.longitude, GlobalStatic.latitude, Double.valueOf(lng), Double.valueOf(lat)) / 1000;
+        if (lat != 0 && lng != 0 && GlobalStatic.latitude != 0.0 && GlobalStatic.longitude != 0.0) {
+            double algorithm = Utils.algorithm(GlobalStatic.longitude, GlobalStatic.latitude, lng, lat) / 1000;
             BigDecimal b = new BigDecimal(algorithm);
             double df = b.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
             distanceTv.setText(df + "km");
@@ -304,7 +304,7 @@ public class FoodDescriptionActivity extends BaseFragmentActivity implements Mul
             case R.id.location_img:
             case R.id.location_tv:
                 if (mData != null) {
-                    UIHelper.showMapActivity(this, mData, 22.55693, 114.066551, mData.getAddress());
+                    UIHelper.showMapActivity(this, mData, mData.getLng(), mData.getLat(), mData.getAddress());
                 }
                 break;
         }
