@@ -20,7 +20,7 @@
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="@dimen/app_margin"
             android:layout_marginRight="@dimen/app_margin"
-            android:text="大道易客"
+            android:text="大道网"
             android:gravity="center"
             android:textStyle="bold"
             android:textColor="@color/Yellow"

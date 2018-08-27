@@ -41,7 +41,7 @@ public class ShoppingPhotoActivity extends BaseFragmentActivity {
     @Override
     protected void initView() {
         ButterKnife.bind(this);
-        actionBarTitle.setText("大道易客商家相册");
+        actionBarTitle.setText("大道网商家相册");
     }
 
     @Override

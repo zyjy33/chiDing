@@ -68,7 +68,7 @@ public class CarShoppingAdapter extends RecyclerView.Adapter<CarShoppingAdapter.
             }
         }
         holder.shopPersonCB.setChecked(i == size);
-        holder.shopPersonName.setText("大道易客" + position);
+        holder.shopPersonName.setText("大道网" + position);
         final DShoppingCarAdapter fAdapte = adapter;
         adapter.setOnItemClickListener(new MultiItemTypeAdapter.OnItemClickListener() {
             @Override

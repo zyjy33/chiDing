@@ -53,7 +53,7 @@ public class HelpActivity extends BaseFragmentActivity {
     @Override
     protected void initView() {
         ButterKnife.bind(this);
-        actionBarTitle.setText("大道易客帮助中心");
+        actionBarTitle.setText("大道网帮助中心");
     }
 
     @Override

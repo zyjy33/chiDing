@@ -96,7 +96,7 @@ public class PayMoneyProxy {
      */
     private void ali_pay(Activity act, String total_fee, String recharge_no, Handler handler) {
         String bizContent = "{\"timeout_express\":\"30m\",\"product_code\":\"QUICK_MSECURITY_PAY\",\"total_amount\":\""
-                + total_fee + "\",\"subject\":\"大道易客\",\"body\":\"商品描述\",\"out_trade_no\":\"" + recharge_no + "\"}";
+                + total_fee + "\",\"subject\":\"大道网\",\"body\":\"商品描述\",\"out_trade_no\":\"" + recharge_no + "\"}";
         Map<String, String> params = OrderInfoUtil2_0.buildOrderParamMap(PayProxy.APPID, true, bizContent);
         PayProxy.payV2(act, handler, params);
     }
