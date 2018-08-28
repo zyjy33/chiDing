@@ -174,7 +174,7 @@ public class LoginActivity extends BaseFragmentActivity {
                 mIsWXLogin = true;
                 SendAuth.Req req = new SendAuth.Req();
                 req.scope = "snsapi_userinfo";
-                req.state = "wei_xin_log_in";
+                req.state = "ddw_wei_xin_log_in";
                 mWxApi.sendReq(req);
                 break;
         }

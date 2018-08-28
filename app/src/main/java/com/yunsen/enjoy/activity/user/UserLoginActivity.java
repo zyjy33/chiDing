@@ -113,7 +113,7 @@ public class UserLoginActivity extends AppCompatActivity implements OnClickListe
         setContentView(R.layout.activity_weixin_login);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
-        mWxApi = WXAPIFactory.createWXAPI(this, null);
+        mWxApi = WXAPIFactory.createWXAPI(this, Constants.APP_ID,true);
         mWxApi.registerApp(Constants.APP_ID);
         mTencent = Tencent.createInstance(Constants.APP_QQ_ID, AppContext.getInstance());
         spPreferences_weixin = getSharedPreferences("longuserset_weixin", MODE_PRIVATE);
@@ -291,7 +291,7 @@ public class UserLoginActivity extends AppCompatActivity implements OnClickListe
                 isWXLogin = true;
                 SendAuth.Req req = new SendAuth.Req();
                 req.scope = "snsapi_userinfo";
-                req.state = "wei_xin_log_in";
+                req.state = "ddw_wei_xin_log_in";
                 mWxApi.sendReq(req);
                 break;
             case R.id.phone_login_btn://qq登录

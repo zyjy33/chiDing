@@ -19,6 +19,7 @@ import com.yunsen.enjoy.common.Constants;
 import com.yunsen.enjoy.model.CheckedData;
 import com.yunsen.enjoy.utils.DeviceUtil;
 import com.yunsen.enjoy.utils.ToastUtils;
+import com.yunsen.enjoy.widget.NoticeView;
 import com.yunsen.enjoy.widget.recyclerview.MultiItemTypeAdapter;
 
 import java.util.ArrayList;
@@ -42,11 +43,14 @@ public class MyAccountOrderActivity extends BaseFragmentActivity {
     LinearLayout teamTopLayout;
     @Bind(R.id.filter_tv)
     TextView filterTv;
+    @Bind(R.id.notice_view)
+    NoticeView noticeView;
     @Bind(R.id.current_filter_tv)
     TextView currentFilterTv;
     @Bind(R.id.filter_layout)
     LinearLayout filterLayout;
     private PopupWindow popWnd;
+
 
     @Override
     public int getLayout() {
@@ -61,6 +65,8 @@ public class MyAccountOrderActivity extends BaseFragmentActivity {
     @Override
     protected void initData(Bundle savedInstanceState) {
         actionBarTitle.setText("我的账单");
+        noticeView.setVisibility(View.VISIBLE);
+        noticeView.showNoticeType(NoticeView.Type.NO_DATA);
     }
 
     @Override

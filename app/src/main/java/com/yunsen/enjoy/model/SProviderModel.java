@@ -13,7 +13,7 @@ import java.util.List;
  * Created by Administrator on 2018/4/20.
  */
 
-public  class SProviderModel  implements Parcelable{
+public class SProviderModel implements Parcelable {
     /**
      * id : 20933
      * user_name : 13316989009
@@ -451,7 +451,11 @@ public  class SProviderModel  implements Parcelable{
     }
 
     public double getLng() {
-        return  MapUtils.getLongitude(lng,lat);
+        if (lng == 0) {
+            return 0;
+        } else {
+            return MapUtils.getLongitude(lng, lat);
+        }
     }
 
     public void setLng(double lng) {
@@ -459,7 +463,11 @@ public  class SProviderModel  implements Parcelable{
     }
 
     public double getLat() {
-        return   MapUtils.getLantitude(lng,lat);
+        if (lat == 0) {
+            return 0;
+        } else {
+            return MapUtils.getLantitude(lng, lat);
+        }
     }
 
     public void setLat(double lat) {

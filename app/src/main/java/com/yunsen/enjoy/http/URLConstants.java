@@ -225,6 +225,10 @@ public class URLConstants {
      */
     public static final String TRADE_LIST_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/get_trade_list?parent_id=0";
     /**
+     *分类的商业列表 ?parent_id=0
+     */
+    public static final String TRADE_TYPE_LIST_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/get_trade_list";
+    /**
      * 申请买车
      */
     public static final String APPLY_BUY_CAR_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/submit_user_apply_purchase";

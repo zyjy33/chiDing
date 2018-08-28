@@ -53,11 +53,13 @@
 
             <TextView
                 android:id="@+id/goods_list_address_tv"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawableLeft="@mipmap/address_icon"
                 android:drawablePadding="5dp"
                 android:text="详细地址"
+                android:maxLines="2"
+                android:ellipsize="end"
                 android:textColor="@color/color_666"
                 android:textSize="12sp" />
 

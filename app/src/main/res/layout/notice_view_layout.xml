@@ -35,13 +35,32 @@
         <TextView
             android:id="@+id/notice_tv"
             android:layout_width="match_parent"
-            android:textSize="15sp"
-            android:textColor="@color/color_888"
             android:layout_height="30dp"
             android:layout_marginLeft="@dimen/app_margin"
             android:layout_marginRight="@dimen/app_margin"
-            android:gravity="center" />
+            android:gravity="center"
+            android:textColor="@color/color_888"
+            android:textSize="15sp" />
+    </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/no_data_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="@dimen/app_margin"
+            android:layout_marginRight="@dimen/app_margin"
+            android:gravity="center"
+            android:text="暂无数据"
+            android:textColor="@color/color_888"
+            android:textSize="16sp" />
     </LinearLayout>
 
 </FrameLayout>

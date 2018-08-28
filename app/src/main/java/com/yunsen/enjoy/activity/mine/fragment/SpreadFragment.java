@@ -26,6 +26,7 @@ import com.yunsen.enjoy.ui.recyclerview.HeaderAndFooterRecyclerViewAdapter;
 import com.yunsen.enjoy.ui.recyclerview.LoadMoreLayout;
 import com.yunsen.enjoy.ui.recyclerview.RecyclerViewUtils;
 import com.yunsen.enjoy.widget.FlowLayout;
+import com.yunsen.enjoy.widget.NoticeView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,6 +47,8 @@ public class SpreadFragment extends BaseFragment {
     RecyclerView recyclerView;
     @Bind(R.id.refreshLayout)
     TwinklingRefreshLayout refreshLayout;
+    @Bind(R.id.notice_view)
+    NoticeView noticeView;
     private int fragmentType;
     private TeamInfoAdapter mAdapter;
     private int mPageIndex = 1;
@@ -105,6 +108,10 @@ public class SpreadFragment extends BaseFragment {
                     refreshLayout.setBottomView(new ZyBottomView(getActivity()));
                 } else {
                     refreshLayout.finishRefreshing();
+                }
+                if (mPageIndex == 1) {
+                    recyclerView.setVisibility(View.GONE);
+                    noticeView.showNoticeType(NoticeView.Type.NO_DATA );
                 }
             }
         });

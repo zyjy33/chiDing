@@ -36,4 +36,8 @@
             android:textColor="@color/color_666"
             android:textSize="14sp" />
     </LinearLayout>
+    <com.yunsen.enjoy.widget.NoticeView
+        android:id="@+id/notice_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 </LinearLayout>

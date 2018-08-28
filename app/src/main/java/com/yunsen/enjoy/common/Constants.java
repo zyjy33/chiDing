@@ -14,7 +14,7 @@ public class Constants {
     //    微信
     public static final String APP_ID = "wxb4a350e3cbbc4b9a";
     public static final String MCH_ID = "1505676961";
-    public static final String APP_SECRET = "ca30ef7495cdd92ee94e1190f78a8735";
+    public static final String APP_SECRET = "b7e6ba967014ade71c37abf142158fb0";
 
     //微信小程序原始ID
     public static final String WX_GH_ID = "gh_aeab7704dad3";
@@ -53,6 +53,7 @@ public class Constants {
     public static final String ADDRESS_LAT = "address_lat";
     public static final String ADDRESS_LONG = "address_long";
     public static final String DATA = "data";
+    public static final String GOODS_NAME_KEY = "goods_name_key";
 //    public static final String APP_SECRET = "";
 //appId=wxe60c28541b0fa8a2&body=zyjytest&device_info=1000&key=ca30ef7495cdd92ee94e1190f78a8735&mch_id=1502153101&nonce_str=ibuaiVcKdpRxkhJA
 
@@ -243,9 +244,9 @@ public class Constants {
     public static final int VIP_TAG = 1;
     public static final int SHOPPING_TAG = 2;
 
-    public static final int DELICIOUS_ID = 0;  //美食
-    public static final int ENTERTAINMENT_ID = 1;//娱乐
-    public static final int STAY_ID = 2;  //住宿
-    public static final int EXPERIENCE_ID = 3; //商品体验
+    public static final int DELICIOUS_ID = 273;  //美食
+    public static final int ENTERTAINMENT_ID = 282;//娱乐
+    public static final int STAY_ID = 1290;  //住宿
+    public static final int EXPERIENCE_ID = 1291; //商品体验
 
 }

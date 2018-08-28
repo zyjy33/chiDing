@@ -47,7 +47,6 @@ public class SecondActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.second_layout);
         ImageView gd_ll = (ImageView) findViewById(R.id.gd_ll);
-        gd_ll.setBackgroundResource(R.drawable.zamswz);
         TextView tv_tiaoguo = (TextView) findViewById(R.id.tv_tiaoguo);
         tv_tiaoguo.setOnClickListener(new OnClickListener() {
 

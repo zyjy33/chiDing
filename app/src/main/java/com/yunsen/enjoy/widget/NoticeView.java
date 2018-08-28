@@ -33,6 +33,7 @@ public class NoticeView extends LinearLayout implements View.OnClickListener {
     private ImageView mNoticeNoInternet;
     private Type mType;
     private OnNoticeListener mOnNoticeListener;
+    private LinearLayout nDataLayout;
 
     public NoticeView(@NonNull Context context) {
         this(context, null);
@@ -63,6 +64,9 @@ public class NoticeView extends LinearLayout implements View.OnClickListener {
             case 2:
                 mType = Type.DATA_ERROR;
                 break;
+            case 3:
+                mType = Type.NO_DATA;
+                break;
         }
         inflater = ((LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE));
         View view = inflater.inflate(R.layout.notice_view_layout, this);
@@ -72,6 +76,7 @@ public class NoticeView extends LinearLayout implements View.OnClickListener {
         mNoticeTv = ((TextView) view.findViewById(R.id.notice_tv));
         mNoticeImg = (ImageView) view.findViewById(R.id.notice_img);
         mNoticeNoInternet = ((ImageView) view.findViewById(R.id.notice_no_internet));
+        nDataLayout = ((LinearLayout) view.findViewById(R.id.no_data_layout));
     }
 
     public void setOnNoticeListener(OnNoticeListener onNoticeListener) {
@@ -89,7 +94,7 @@ public class NoticeView extends LinearLayout implements View.OnClickListener {
     }
 
 
-    public enum Type {NO_INTERNET, DATA_ERROR, LOADING}
+    public enum Type {NO_INTERNET, DATA_ERROR, NO_DATA, LOADING}
 
 
     public void showNoticeType(Type type) {
@@ -97,6 +102,7 @@ public class NoticeView extends LinearLayout implements View.OnClickListener {
         mNoticeLayout.setVisibility(GONE);
         mNoticeLoading.setVisibility(GONE);
         mNoticeNoInternet.setVisibility(GONE);
+        nDataLayout.setVisibility(GONE);
         this.setVisibility(VISIBLE);
         switch (type) {
             case NO_INTERNET:
@@ -107,6 +113,9 @@ public class NoticeView extends LinearLayout implements View.OnClickListener {
                 break;
             case DATA_ERROR:
                 mNoticeLayout.setVisibility(VISIBLE);
+                break;
+            case NO_DATA:
+                nDataLayout.setVisibility(VISIBLE);
                 break;
         }
     }
@@ -129,6 +138,10 @@ public class NoticeView extends LinearLayout implements View.OnClickListener {
             case DATA_ERROR:
                 mNoticeLayout.setVisibility(GONE);
                 break;
+            case NO_DATA:
+                nDataLayout.setVisibility(GONE);
+                break;
+
         }
     }
 

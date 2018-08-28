@@ -2,9 +2,11 @@ package com.yunsen.enjoy.activity.mine;
 
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
 import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.activity.BaseFragmentActivity;
 import com.yunsen.enjoy.widget.NoticeView;
@@ -28,6 +30,8 @@ public class MyTranslateActivity extends BaseFragmentActivity {
     RecyclerView recyclerView;
     @Bind(R.id.notice_view)
     NoticeView noticeView;
+    @Bind(R.id.refreshLayout)
+    TwinklingRefreshLayout refreshLayout;
 
     @Override
     public int getLayout() {
@@ -42,7 +46,8 @@ public class MyTranslateActivity extends BaseFragmentActivity {
 
     @Override
     protected void initData(Bundle savedInstanceState) {
-
+        refreshLayout.setVisibility(View.GONE);
+        noticeView.showNoticeType(NoticeView.Type.NO_DATA);
     }
 
     @Override
@@ -53,5 +58,8 @@ public class MyTranslateActivity extends BaseFragmentActivity {
 
     @OnClick(R.id.action_back)
     public void onViewClicked() {
+        finish();
     }
+
+
 }

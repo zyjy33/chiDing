@@ -176,7 +176,7 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
     }
 
     public void requestServiceMore() {
-        HttpProxy.getServiceMoreProvider(mPageIndex, null, new HttpCallBack<List<SProviderModel>>() {
+        HttpProxy.getServiceMoreProvider(mPageIndex, null, "0", new HttpCallBack<List<SProviderModel>>() {
             @Override
             public void onSuccess(List<SProviderModel> responseData) {
                 if (mIsLoadMore) {
@@ -185,7 +185,7 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
                         Log.e(TAG, "onSuccess: 没有更多数据");
                         refreshLayout.setBottomView(new ZyBottomView(getActivity()));
                     } else {
-                        Log.e(TAG, "onSuccess: 加载更多" );
+                        Log.e(TAG, "onSuccess: 加载更多");
                         refreshLayout.finishLoadmore();
                     }
                 } else {

@@ -27,15 +27,13 @@ import com.yunsen.enjoy.adapter.TypeListAdapter;
 import com.yunsen.enjoy.common.Constants;
 import com.yunsen.enjoy.http.HttpCallBack;
 import com.yunsen.enjoy.http.HttpProxy;
-import com.yunsen.enjoy.model.CarDetails;
 import com.yunsen.enjoy.model.SProviderModel;
 import com.yunsen.enjoy.model.SelectStringModel;
-import com.yunsen.enjoy.model.UsedFunction;
+import com.yunsen.enjoy.model.TradeData;
 import com.yunsen.enjoy.ui.UIHelper;
 import com.yunsen.enjoy.ui.loadmore.ZyBottomView;
 import com.yunsen.enjoy.ui.recyclerview.HeaderAndFooterRecyclerViewAdapter;
 import com.yunsen.enjoy.ui.recyclerview.RecyclerViewUtils;
-import com.yunsen.enjoy.utils.DeviceUtil;
 import com.yunsen.enjoy.utils.ToastUtils;
 import com.yunsen.enjoy.widget.recyclerview.MultiItemTypeAdapter;
 
@@ -89,6 +87,9 @@ public class GoodsListActivity extends BaseFragmentActivity implements View.OnCl
     private ArrayList<SProviderModel> mDatas;
     private int mPageIndex = 1;
     private boolean mIsLoadMore = true;
+    private ArrayList<TradeData> mTopDatas;
+    private ImageAndTextAdapter mTopAdapter;
+    private int mTreadId = 0;
 
     @Override
     public int getLayout() {
@@ -120,19 +121,12 @@ public class GoodsListActivity extends BaseFragmentActivity implements View.OnCl
             mTitle = Constants.EMPTY;
         }
         actionBackTitle.setText(mTitle);
+        mRecyclerTop.setLayoutManager(new GridLayoutManager(this, 4));
+        mTopDatas = new ArrayList<TradeData>();
+        mTopAdapter = new ImageAndTextAdapter(this, R.layout.img_and_text_layout_2, mTopDatas);
+        mRecyclerTop.setAdapter(mTopAdapter);
         switch (mTypeId) {
             case Constants.DELICIOUS_ID: //美食
-                mRecyclerTop.setLayoutManager(new GridLayoutManager(this, 4));
-                ArrayList<UsedFunction> datas1 = new ArrayList<>();
-                datas1.add(new UsedFunction(R.mipmap.btn_qubu, "全部"));
-                datas1.add(new UsedFunction(R.mipmap.app_icon, "中餐"));
-                datas1.add(new UsedFunction(R.mipmap.app_icon, "火锅"));
-                datas1.add(new UsedFunction(R.mipmap.app_icon, "西餐"));
-                datas1.add(new UsedFunction(R.mipmap.app_icon, "自助餐"));
-                datas1.add(new UsedFunction(R.mipmap.app_icon, "水果"));
-                datas1.add(new UsedFunction(R.mipmap.app_icon, "宵夜"));
-                datas1.add(new UsedFunction(R.mipmap.app_icon, "烧烤"));
-                mRecyclerTop.setAdapter(new ImageAndTextAdapter(this, R.layout.img_and_text_layout_2, datas1));
                 break;
             case Constants.ENTERTAINMENT_ID://娱乐
                 mRecyclerTop.setVisibility(View.GONE);
@@ -207,6 +201,23 @@ public class GoodsListActivity extends BaseFragmentActivity implements View.OnCl
             }
         });
 
+        mTopAdapter.setOnItemClickListener(new MultiItemTypeAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, RecyclerView.Adapter adapter, RecyclerView.ViewHolder holder, int position) {
+                List<TradeData> datas = mTopAdapter.getDatas();
+                if (datas != null && datas.size() > position) {
+                    mTreadId = datas.get(position).getId();
+                    mPageIndex = 1;
+                    mIsLoadMore = false;
+                    requestList(String.valueOf(mTreadId));
+                }
+            }
+
+            @Override
+            public boolean onItemLongClick(View view, RecyclerView.Adapter adapter, RecyclerView.ViewHolder holder, int position) {
+                return false;
+            }
+        });
     }
 
     @Override
@@ -222,8 +233,29 @@ public class GoodsListActivity extends BaseFragmentActivity implements View.OnCl
 //
 //            }
 //        });
+        HttpProxy.getTypeTradeList(String.valueOf(mTypeId), new HttpCallBack<List<TradeData>>() {
+            @Override
+            public void onSuccess(List<TradeData> responseData) {
+                if (responseData == null || responseData.size() == 0) {
+                    mRecyclerTop.setVisibility(View.GONE);
+                } else {
+                    mRecyclerTop.setVisibility(View.VISIBLE);
+                    mTopAdapter.upBaseDatas(responseData);
 
-        HttpProxy.getServiceMoreProvider(mPageIndex, null, new HttpCallBack<List<SProviderModel>>() {
+                }
+            }
+
+            @Override
+            public void onError(Request request, Exception e) {
+                mRecyclerTop.setVisibility(View.GONE);
+            }
+        });
+        requestList(String.valueOf(mTreadId));
+
+    }
+
+    private void requestList(String treadId) {
+        HttpProxy.getServiceMoreProvider(mPageIndex, null, treadId, new HttpCallBack<List<SProviderModel>>() {
             @Override
             public void onSuccess(List<SProviderModel> responseData) {
                 if (mIsLoadMore) {
@@ -449,8 +481,9 @@ public class GoodsListActivity extends BaseFragmentActivity implements View.OnCl
 
     @Override
     public void onItemClick(View view, RecyclerView.Adapter adapter, RecyclerView.ViewHolder holder, int position) {
-        if (position > 0 && position < mDatas.size() + 1) {
-            SProviderModel data = mDatas.get(position);
+        int currentPos = position - 1;
+        if (currentPos >= 0 && currentPos < mDatas.size()) {
+            SProviderModel data = mDatas.get(currentPos);
             UIHelper.showFoodDescriptionActivity(this, String.valueOf(data.getUser_id()), data.getName());
         }
     }

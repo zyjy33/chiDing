@@ -75,6 +75,8 @@ public class FoodDescriptionActivity extends BaseFragmentActivity implements Mul
     TextView serviceTimeTv;
     @Bind(R.id.location_tv)
     TextView locationTv;
+    @Bind(R.id.good_food_title)
+    TextView goodFoodTitle;
 
     private GoodsListAdapter mAdapter;
     private ArrayList<SProviderModel> mDatas;
@@ -85,6 +87,7 @@ public class FoodDescriptionActivity extends BaseFragmentActivity implements Mul
     private int mCompanyUserId = 0;
     private boolean mHasFinish;
     private AlertDialog mSelectMapDialog;
+    private String mGoodsName;
 
     @Override
     public int getLayout() {
@@ -101,6 +104,9 @@ public class FoodDescriptionActivity extends BaseFragmentActivity implements Mul
     protected void initData(Bundle savedInstanceState) {
         Intent intent = getIntent();
         mGoodsId = intent.getStringExtra(Constants.GOODS_ID_KEY);
+        mGoodsName = intent.getStringExtra(Constants.GOODS_TITLE_KEY);
+        actionBarTitle.setText(mGoodsName);
+        goodFoodTitle.setText(mGoodsName);
         NoScrollLinearLayoutManager layout = new NoScrollLinearLayoutManager(this);
         layout.setScrollEnabled(false);
         recyclerView.setLayoutManager(layout);
@@ -162,7 +168,7 @@ public class FoodDescriptionActivity extends BaseFragmentActivity implements Mul
             }
         });
 
-        HttpProxy.getServiceMoreProvider(mPageIndex, "4", new HttpCallBack<List<SProviderModel>>() {
+        HttpProxy.getServiceMoreProvider(mPageIndex, "4", "0", new HttpCallBack<List<SProviderModel>>() {
             @Override
             public void onSuccess(List<SProviderModel> responseData) {
                 mAdapter.addBaseDatas(responseData);
@@ -220,9 +226,18 @@ public class FoodDescriptionActivity extends BaseFragmentActivity implements Mul
 //            view.setVisibility(View.GONE);
             distanceTv.setText("0.00 km");
         }
-        locationTv.setText(mData.getAddress());
-
+        String address = mData.getProvince() + mData.getCity() + mData.getArea() + mData.getAddress();
+        locationTv.setText(address);
+        Glide.with(this)
+                .load(data.getImg_url())
+                .into(lookImgImg);
         serviceTimeTv.setText(data.getService_time());
+        if (data.getArticle() != null) {
+            List<?> list = data.getArticle();
+            lookImgTv.setText(list.size());
+        } else {
+            lookImgTv.setText("0");
+        }
     }
 
     private void addFavorite() {
@@ -275,14 +290,19 @@ public class FoodDescriptionActivity extends BaseFragmentActivity implements Mul
                 finish();
                 break;
             case R.id.action_bar_share:
-                UIHelper.showShareGoodsActivity(this, "测试标题", "测试描述", "测试路径", "测试图片路径");
+                if (mData != null) {
+                    UIHelper.showShareGoodsActivity(this, mData.getName(), mData.getContact(), "路径暂无", mData.getImg_url());
+                }
                 break;
             case R.id.action_back_complaint:
                 UIHelper.showComplaintActivity(this);
                 break;
             case R.id.look_img_img:
-            case R.id.look_img_tv: //查看商家相册
-                UIHelper.showShoppingPhotoActivity(this);
+            case R.id.look_img_tv:
+                if (mData != null && mData.getArticle() != null && mData.getArticle().size() > 0) {
+                    //查看商家相册
+                    UIHelper.showShoppingPhotoActivity(this);
+                }
                 break;
             case R.id.pay_money_tv:
                 if (mData != null) {

@@ -96,6 +96,8 @@ public class MineFragment extends BaseFragment {
     LinearLayout proxyLayout;
     @Bind(R.id.about_layout)
     LinearLayout aboutLayout;
+    @Bind(R.id.logout_layout)
+    LinearLayout logoutLayout;
     private FragmentActivity context;
     private SharedPreferences mSp;
     private String mGroupId;
@@ -140,19 +142,39 @@ public class MineFragment extends BaseFragment {
             if (AccountUtils.hasBoundPhone()) {
                 getUserInfo();
             } else {
-                // TODO: 2018/8/1/001
+                setWeiXinLoginInfo();
             }
+            logoutLayout.setVisibility(View.VISIBLE);
         } else {
             memberIdTv.setVisibility(View.GONE);
             userNameTv.setVisibility(View.GONE);
             loginTv.setVisibility(View.VISIBLE);
+            logoutLayout.setVisibility(View.GONE);
         }
+    }
+
+    private void setWeiXinLoginInfo() {
+        memberIdTv.setVisibility(View.VISIBLE);
+        userNameTv.setVisibility(View.VISIBLE);
+        loginTv.setVisibility(View.GONE);
+        String nickName = mSp.getString(SpConstants.NICK_NAME, Constants.EMPTY);
+        String userName = AccountUtils.getUserName();
+        if (TextUtils.isEmpty(userName)) {
+            userNameTv.setText(nickName);
+        } else {
+            userNameTv.setText(userName);
+        }
+        String userCode = mSp.getString(SpConstants.USER_CODE, Constants.EMPTY);
+        if (!TextUtils.isEmpty(userCode)) {
+            memberIdTv.setText("会员号:" + userCode);
+        }
+
     }
 
     @Override
     protected void requestData() {
-        String isFilter = mSp.getString(SpConstants.HAS_SERVICE_SHOP, Constants.EMPTY);
-        if (!TextUtils.isEmpty(isFilter)) {
+        Boolean sFilter = mSp.getBoolean(SpConstants.HAS_SERVICE_SHOP,false);
+        if (!sFilter) {
             myOrderLayout.setVisibility(View.VISIBLE);
         } else {
             requestIsFacilitator();
@@ -399,29 +421,27 @@ public class MineFragment extends BaseFragment {
     public void onEvent(UpUiEvent event) {
         switch (event.getEventId()) {
             case EventConstants.APP_LOGIN:
-//                hasLoginLayout.setVisibility(View.VISIBLE);
-//                loginIcon.setVisibility(View.GONE);
-//                loginTv.setVisibility(View.GONE);
-//                noLoginLayout.setVisibility(View.GONE);
                 Log.e(TAG, "onEvent: 登录更新");
-                WsManager.getInstance().init();
-                getUserInfo();
+                if (AccountUtils.hasBoundPhone()) {
+                    getUserInfo();
+                } else {
+                    setWeiXinLoginInfo();
+                }
+                logoutLayout.setVisibility(View.VISIBLE);
                 break;
             case EventConstants.APP_LOGOUT:
-//                hasLoginLayout.setVisibility(View.GONE);
-//                loginIcon.setVisibility(View.VISIBLE);
-//                loginTv.setVisibility(View.VISIBLE);
-//                noLoginLayout.setVisibility(View.VISIBLE);
+                logoutLayout.setVisibility(View.GONE);
+                userNameTv.setText(Constants.EMPTY);
+                memberIdTv.setVisibility(View.GONE);
+                userNameTv.setVisibility(View.GONE);
+                loginTv.setVisibility(View.VISIBLE);
+                Glide.with(getActivity())
+                        .load(R.mipmap.login_icon)
+                        .transform(new GlideCircleTransform(getActivity()))
+                        .into(userImg);
+                balanceTv.setText("0.00");
                 mIsFacilitator = false;
                 Log.e(TAG, "onEvent: 注销更新");
-//                allIncomeMoneyTv.setText("0");
-//                allOrderCountTv.setText("0");
-//                allIncomeTv.setText("0");
-//                balanceTv.setText("0.00");
-//                storedIcCardTv.setText("0.00");
-//                achiRootLayout2.setVisibility(View.GONE);
-//                achiRootLayout3.setVisibility(View.GONE);
-//                gradeTv.setVisibility(View.GONE);
                 myOrderLayout.setVisibility(View.GONE);
                 AccountUtils.clearData();
                 SharedPreferences sp = getActivity().getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, Context.MODE_PRIVATE);
@@ -476,9 +496,14 @@ public class MineFragment extends BaseFragment {
 
     @OnClick({R.id.messageImg, R.id.setting_img, R.id.invite_friends, R.id.gift_other, R.id.login_layout, R.id.recharge_layout,
             R.id.my_account_layout, R.id.my_complaint_layout, R.id.my_collect_layout, R.id.my_address_layout, R.id.my_order_layout,
-            R.id.spread_layout, R.id.help_layout, R.id.seller_layout, R.id.proxy_layout, R.id.about_layout, R.id.add_shopping_layout})
+            R.id.spread_layout, R.id.help_layout, R.id.seller_layout, R.id.proxy_layout, R.id.about_layout, R.id.add_shopping_layout,
+            R.id.logout_layout})
     public void onViewClicked(View view) {
-        if (!AccountUtils.hasLogin()) {
+        if (view.getId() == R.id.about_layout) {
+            UIHelper.showWebActivity(getActivity(), "http://www.baidu.com");
+        } else if (view.getId() == R.id.logout_layout) {
+            DialogUtils.showLoginDialog(getActivity());
+        } else if (!AccountUtils.hasLogin()) {
             UIHelper.showUserLoginActivity(getActivity());
         } else if (!AccountUtils.hasBoundPhone()) {
             UIHelper.showBundPhoneActivity(getActivity());
@@ -529,14 +554,13 @@ public class MineFragment extends BaseFragment {
                 case R.id.proxy_layout:
                     UIHelper.showApplyServiceActivity(getActivity());
                     break;
-                case R.id.about_layout:
-                    UIHelper.showWebActivity(getActivity(), "http://www.baidu.com");
-                    break;
                 case R.id.add_shopping_layout:
                     UIHelper.showAddShoppingActivity(getActivity());
                     break;
             }
         }
+
+
     }
 
 

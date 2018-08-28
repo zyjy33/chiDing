@@ -312,9 +312,9 @@ public class HttpProxy {
      * @param city
      * @param callBack
      */
-    public static void getServiceMoreProvider(int pageIndex, String city, final HttpCallBack<List<SProviderModel>> callBack) {
+    public static void getServiceMoreProvider(int pageIndex, String city,String tradeId, final HttpCallBack<List<SProviderModel>> callBack) {
         HashMap<String, String> param = new HashMap<>();
-        param.put("trade_id", "0");
+        param.put("trade_id",tradeId);
         if (!TextUtils.isEmpty(city)) {
             param.put("page_size", "4");
 
@@ -616,6 +616,9 @@ public class HttpProxy {
      * @param callBack
      */
     public static void getUserInfo(String userName, final HttpCallBack<UserInfo> callBack) {
+        if (TextUtils.isEmpty(userName)) {
+            userName = "0";
+        }
         HttpClient.get(URLConstants.PHONE_USER_INFO_URL + userName, new HashMap<String, String>(), new HttpResponseHandler<UserInfoResponse>() {
             @Override
             public void onSuccess(UserInfoResponse response) {
@@ -1306,7 +1309,16 @@ public class HttpProxy {
      * @param callBack
      */
     public static void getTradeList(final HttpCallBack<List<TradeData>> callBack) {
-        HttpClient.get(URLConstants.TRADE_LIST_URL, new HashMap<String, String>(),
+        getTypeTradeList("0", callBack);
+    }
+
+    /**
+     * 行业类别
+     *
+     * @param callBack
+     */
+    public static void getTypeTradeList(String parentId, final HttpCallBack<List<TradeData>> callBack) {
+        HttpClient.get(URLConstants.TRADE_TYPE_LIST_URL + "?parent_id=" + parentId, new HashMap<String, String>(),
                 new HttpResponseHandler<TradeListResponse>() {
                     @Override
                     public void onSuccess(TradeListResponse response) {
@@ -1319,6 +1331,7 @@ public class HttpProxy {
                     @Override
                     public void onFailure(Request request, Exception e) {
                         super.onFailure(request, e);
+                        callBack.onError(request, e);
                     }
                 });
     }
