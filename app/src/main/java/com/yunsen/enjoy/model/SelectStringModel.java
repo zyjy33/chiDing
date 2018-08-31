@@ -6,10 +6,12 @@ package com.yunsen.enjoy.model;
 
 public class SelectStringModel {
     private String name;
-    private boolean isSelected =false;
+    private boolean isSelected = false;
+    private String value;
 
-    public SelectStringModel(String name) {
+    public SelectStringModel(String name, String value) {
         this.name = name;
+        this.value = value;
     }
 
     public String getName() {
@@ -26,5 +28,13 @@ public class SelectStringModel {
 
     public void setSelected(boolean selected) {
         isSelected = selected;
+    }
+
+    public String getValue() {
+        return value;
+    }
+
+    public void setValue(String value) {
+        this.value = value;
     }
 }

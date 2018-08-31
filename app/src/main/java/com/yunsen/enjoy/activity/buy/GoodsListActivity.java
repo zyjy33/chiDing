@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -90,6 +91,9 @@ public class GoodsListActivity extends BaseFragmentActivity implements View.OnCl
     private ArrayList<TradeData> mTopDatas;
     private ImageAndTextAdapter mTopAdapter;
     private int mTreadId = 0;
+    private String mOrderStrValue = "clever";
+    private String mDistanceValue = "";
+
 
     @Override
     public int getLayout() {
@@ -148,6 +152,8 @@ public class GoodsListActivity extends BaseFragmentActivity implements View.OnCl
 
     }
 
+    private int totalDy = 0;
+
     private static final String TAG = "GoodsListActivity";
 
     @Override
@@ -158,12 +164,12 @@ public class GoodsListActivity extends BaseFragmentActivity implements View.OnCl
         mAdapter.setOnItemClickListener(this);
 
         recyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
-            private int totalDy = 0;
 
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
                 totalDy += dy;
+                Log.e(TAG, "onScrolled: totalDy=" + totalDy + " dy=" + dy);
                 if (topTitleLayout.getY() >= totalDy) {
                     aboveTitleLayout.setVisibility(View.GONE);
                 } else {
@@ -178,11 +184,8 @@ public class GoodsListActivity extends BaseFragmentActivity implements View.OnCl
                 refreshLayout.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        LoadingView loadingView = new LoadingView(GoodsListActivity.this);
-                        refreshLayout.setBottomView(loadingView);
-                        mIsLoadMore = false;
-                        mPageIndex = 1;
-                        requestData();
+
+                        requestList(String.valueOf(mTreadId), true);
 
                     }
                 }, 500);
@@ -193,9 +196,8 @@ public class GoodsListActivity extends BaseFragmentActivity implements View.OnCl
                 refreshLayout.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        mIsLoadMore = true;
-                        mPageIndex++;
-                        requestData();
+
+                        requestList(String.valueOf(mTreadId), false);
                     }
                 }, 500);
             }
@@ -206,10 +208,13 @@ public class GoodsListActivity extends BaseFragmentActivity implements View.OnCl
             public void onItemClick(View view, RecyclerView.Adapter adapter, RecyclerView.ViewHolder holder, int position) {
                 List<TradeData> datas = mTopAdapter.getDatas();
                 if (datas != null && datas.size() > position) {
-                    mTreadId = datas.get(position).getId();
+                    TradeData tradeData = datas.get(position);
+                    mTreadId = tradeData.getId();
                     mPageIndex = 1;
                     mIsLoadMore = false;
-                    requestList(String.valueOf(mTreadId));
+                    topAllType.setText(tradeData.getTitle());
+                    topAllType.setText(tradeData.getTitle());
+                    requestList(String.valueOf(mTreadId), true);
                 }
             }
 
@@ -241,21 +246,32 @@ public class GoodsListActivity extends BaseFragmentActivity implements View.OnCl
                 } else {
                     mRecyclerTop.setVisibility(View.VISIBLE);
                     mTopAdapter.upBaseDatas(responseData);
-
                 }
             }
 
             @Override
             public void onError(Request request, Exception e) {
                 mRecyclerTop.setVisibility(View.GONE);
+                if (!mIsLoadMore) {
+                    mTopAdapter.upBaseDatas(new ArrayList<TradeData>());
+                }
             }
         });
-        requestList(String.valueOf(mTreadId));
+
+        requestList(String.valueOf(mTreadId), true);
 
     }
 
-    private void requestList(String treadId) {
-        HttpProxy.getServiceMoreProvider(mPageIndex, null, treadId, new HttpCallBack<List<SProviderModel>>() {
+    private void requestList(String treadId, boolean isUpData) {
+        if (isUpData) {
+            refreshLayout.setBottomView(new LoadingView(GoodsListActivity.this));
+            mPageIndex = 1;
+            mIsLoadMore = false;
+        } else {
+            mIsLoadMore = true;
+            mPageIndex++;
+        }
+        HttpProxy.getServiceMoreProvider(mPageIndex, null, treadId, mOrderStrValue, mDistanceValue, new HttpCallBack<List<SProviderModel>>() {
             @Override
             public void onSuccess(List<SProviderModel> responseData) {
                 if (mIsLoadMore) {
@@ -267,6 +283,14 @@ public class GoodsListActivity extends BaseFragmentActivity implements View.OnCl
                     }
                 } else {
                     mAdapter.upBaseDatas(responseData);
+                    recyclerView.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            aboveTitleLayout.setVisibility(View.GONE);
+                            recyclerView.scrollBy(0, -totalDy);
+                            totalDy =0;
+                        }
+                    });
                     refreshLayout.finishRefreshing();
                     refreshLayout.finishLoadmore();
                 }
@@ -336,21 +360,16 @@ public class GoodsListActivity extends BaseFragmentActivity implements View.OnCl
      * 显示全部分类列表
      */
     private void showTypePopupWindow() {
+        if (mTopDatas == null) {
+            return;
+        }
         if (mTypePopupWindow == null) {
             LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
             View view = inflater.inflate(R.layout.type_popup_layout, null);
             RecyclerView typeRecycler = (RecyclerView) view.findViewById(R.id.recycler_type);
             typeRecycler.setLayoutManager(new LinearLayoutManager(this));
-            ArrayList<String> datas = new ArrayList<>();
-            datas.add("全部");
-            datas.add("中餐");
-            datas.add("火锅");
-            datas.add("西餐");
-            datas.add("自助餐");
-            datas.add("水果");
-            datas.add("夜宵");
-            datas.add("烧烤");
-            TypeListAdapter adapter = new TypeListAdapter(this, R.layout.type_item_layout, datas);
+
+            TypeListAdapter adapter = new TypeListAdapter(this, R.layout.type_item_layout, mTopDatas);
             typeRecycler.setAdapter(adapter);
             mTypePopupWindow = new PopupWindow(view, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
             mTypePopupWindow.setFocusable(true);
@@ -359,10 +378,13 @@ public class GoodsListActivity extends BaseFragmentActivity implements View.OnCl
                 @Override
                 public void onItemClick(View view, RecyclerView.Adapter adapter, RecyclerView.ViewHolder holder, int position) {
                     if (adapter instanceof TypeListAdapter) {
-                        String data = ((TypeListAdapter) adapter).getDatas().get(position);
+                        TradeData tradeData = ((TypeListAdapter) adapter).getDatas().get(position);
+                        String data = tradeData.getTitle();
                         topAllType.setText(data);
                         aboveAllType.setText(data);
                         mTypePopupWindow.dismiss();
+                        mTreadId = tradeData.getId();
+                        requestList(String.valueOf(mTreadId), true);
                     }
                 }
 
@@ -393,12 +415,12 @@ public class GoodsListActivity extends BaseFragmentActivity implements View.OnCl
 
 
             ArrayList<SelectStringModel> models = new ArrayList<>();
-            models.add(new SelectStringModel("附近"));
-            models.add(new SelectStringModel("<10Km"));
-            models.add(new SelectStringModel("<30Km"));
-            models.add(new SelectStringModel("<50Km"));
-            models.add(new SelectStringModel("<70Km"));
-            models.add(new SelectStringModel("全部"));
+            models.add(new SelectStringModel("附近", "<5"));
+            models.add(new SelectStringModel("<10Km", "<10"));
+            models.add(new SelectStringModel("<30Km", "<30"));
+            models.add(new SelectStringModel("<50Km", "<50"));
+            models.add(new SelectStringModel("<70Km", "<70"));
+            models.add(new SelectStringModel("全部", Constants.EMPTY));
             SelectStringAdapter adapter = new SelectStringAdapter(this, R.layout.select_string_item, models);
             nearByRecycler.setAdapter(adapter);
 
@@ -409,10 +431,13 @@ public class GoodsListActivity extends BaseFragmentActivity implements View.OnCl
                 @Override
                 public void onItemClick(View view, RecyclerView.Adapter adapter, RecyclerView.ViewHolder holder, int position) {
                     if (adapter instanceof SelectStringAdapter) {
-                        String data = ((SelectStringAdapter) adapter).getDatas().get(position).getName();
+                        SelectStringModel model = ((SelectStringAdapter) adapter).getDatas().get(position);
+                        String data = model.getName();
                         aboveNearbyTv.setText(data);
                         topNearbyType.setText(data);
                         ((SelectStringAdapter) adapter).selectItem(position);
+                        mDistanceValue = model.getValue();
+                        requestList(String.valueOf(mTreadId), true);
                         mNearByPopup.dismiss();
                     }
                 }
@@ -444,8 +469,11 @@ public class GoodsListActivity extends BaseFragmentActivity implements View.OnCl
 
 
             ArrayList<SelectStringModel> models = new ArrayList<>();
-            models.add(new SelectStringModel("智能排序"));
-            models.add(new SelectStringModel("最近距离"));
+            models.add(new SelectStringModel("智能排序", "clever"));
+            models.add(new SelectStringModel("好评优先", "pralse"));
+            models.add(new SelectStringModel("离我最近", "lately"));
+            models.add(new SelectStringModel("人气最高", "buzz"));
+
             SelectStringAdapter adapter = new SelectStringAdapter(this, R.layout.select_string_item, models);
             nearByRecycler.setAdapter(adapter);
 
@@ -456,10 +484,14 @@ public class GoodsListActivity extends BaseFragmentActivity implements View.OnCl
                 @Override
                 public void onItemClick(View view, RecyclerView.Adapter adapter, RecyclerView.ViewHolder holder, int position) {
                     if (adapter instanceof SelectStringAdapter) {
-                        String data = ((SelectStringAdapter) adapter).getDatas().get(position).getName();
+                        SelectStringModel model = ((SelectStringAdapter) adapter).getDatas().get(position);
+                        String data = model.getName();
                         aboveSortTv.setText(data);
                         topSortType.setText(data);
+
                         ((SelectStringAdapter) adapter).selectItem(position);
+                        mOrderStrValue = model.getValue();
+                        requestList(String.valueOf(mTreadId), true);
                         mSortPopup.dismiss();
                     }
                 }
@@ -484,7 +516,7 @@ public class GoodsListActivity extends BaseFragmentActivity implements View.OnCl
         int currentPos = position - 1;
         if (currentPos >= 0 && currentPos < mDatas.size()) {
             SProviderModel data = mDatas.get(currentPos);
-            UIHelper.showFoodDescriptionActivity(this, String.valueOf(data.getUser_id()), data.getName());
+            UIHelper.showFoodDescriptionActivity(this, String.valueOf(data.getUser_id()), data.getShop_name());
         }
     }
 

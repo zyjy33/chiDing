@@ -1001,7 +1001,7 @@ public class PersonCenterActivity extends BaseFragmentActivity implements OnClic
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        ButterKnife.unbind(this);
+//        ButterKnife.unbind(this);
     }
 
     @OnClick(R.id.action_back)

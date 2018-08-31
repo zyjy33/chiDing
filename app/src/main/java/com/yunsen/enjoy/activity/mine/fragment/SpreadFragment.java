@@ -65,11 +65,7 @@ public class SpreadFragment extends BaseFragment {
         ButterKnife.bind(this, rootView);
         Bundle bundle = getArguments();
         fragmentType = bundle.getInt(Constants.FRAGMENT_TYPE_KEY);
-        if (fragmentType == Constants.VIP_TAG) {
 
-        } else if (fragmentType == Constants.SHOPPING_TAG) {
-
-        }
     }
 
     @Override
@@ -85,36 +81,71 @@ public class SpreadFragment extends BaseFragment {
 
     @Override
     protected void requestData() {
-        HttpProxy.getFriendRing(String.valueOf(mPageIndex), new HttpCallBack<TeamInfoBean>() {
-            @Override
-            public void onSuccess(TeamInfoBean responseData) {
-                if (mIsLoadMore) {
-                    boolean hasMore = mAdapter.addBaseDatas(responseData.getListModel());
-                    if (hasMore) {
-                        refreshLayout.finishLoadmore();
-                    } else {
-                        refreshLayout.setBottomView(new ZyBottomView(getActivity()));
-                    }
-                } else {
-                    mAdapter.upBaseDatas(responseData.getListModel());
-                    refreshLayout.finishRefreshing();
-                    refreshLayout.finishLoadmore();
-                }
-            }
 
-            @Override
-            public void onError(Request request, Exception e) {
-                if (mIsLoadMore) {
-                    refreshLayout.setBottomView(new ZyBottomView(getActivity()));
-                } else {
-                    refreshLayout.finishRefreshing();
+        if (fragmentType == Constants.VIP_TAG) {
+            HttpProxy.getGavelockRing(String.valueOf(mPageIndex), new HttpCallBack<TeamInfoBean>() {
+                @Override
+                public void onSuccess(TeamInfoBean responseData) {
+                    if (mIsLoadMore) {
+                        boolean hasMore = mAdapter.addBaseDatas(responseData.getListModel());
+                        if (hasMore) {
+                            refreshLayout.finishLoadmore();
+                        } else {
+                            refreshLayout.setBottomView(new ZyBottomView(getActivity()));
+                        }
+                    } else {
+                        mAdapter.upBaseDatas(responseData.getListModel());
+                        refreshLayout.finishRefreshing();
+                        refreshLayout.finishLoadmore();
+                    }
                 }
-                if (mPageIndex == 1) {
-                    recyclerView.setVisibility(View.GONE);
-                    noticeView.showNoticeType(NoticeView.Type.NO_DATA );
+
+                @Override
+                public void onError(Request request, Exception e) {
+                    if (mIsLoadMore) {
+                        refreshLayout.setBottomView(new ZyBottomView(getActivity()));
+                    } else {
+                        refreshLayout.finishRefreshing();
+                    }
+                    if (mPageIndex == 1) {
+                        recyclerView.setVisibility(View.GONE);
+                        noticeView.showNoticeType(NoticeView.Type.NO_DATA);
+                    }
                 }
-            }
-        });
+            });
+        } else if (fragmentType == Constants.SHOPPING_TAG) {
+
+            HttpProxy.getFriendRing(String.valueOf(mPageIndex), new HttpCallBack<TeamInfoBean>() {
+                @Override
+                public void onSuccess(TeamInfoBean responseData) {
+                    if (mIsLoadMore) {
+                        boolean hasMore = mAdapter.addBaseDatas(responseData.getListModel());
+                        if (hasMore) {
+                            refreshLayout.finishLoadmore();
+                        } else {
+                            refreshLayout.setBottomView(new ZyBottomView(getActivity()));
+                        }
+                    } else {
+                        mAdapter.upBaseDatas(responseData.getListModel());
+                        refreshLayout.finishRefreshing();
+                        refreshLayout.finishLoadmore();
+                    }
+                }
+
+                @Override
+                public void onError(Request request, Exception e) {
+                    if (mIsLoadMore) {
+                        refreshLayout.setBottomView(new ZyBottomView(getActivity()));
+                    } else {
+                        refreshLayout.finishRefreshing();
+                    }
+                    if (mPageIndex == 1) {
+                        recyclerView.setVisibility(View.GONE);
+                        noticeView.showNoticeType(NoticeView.Type.NO_DATA);
+                    }
+                }
+            });
+        }
     }
 
     @Override

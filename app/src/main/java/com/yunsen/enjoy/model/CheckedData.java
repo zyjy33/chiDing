@@ -7,6 +7,8 @@ package com.yunsen.enjoy.model;
 public class CheckedData {
     private String id;
     private String name;
+    private String value;
+    private String flag;
 
     public boolean isChecked() {
         return isChecked;
@@ -27,6 +29,29 @@ public class CheckedData {
         this.isChecked = isChecked;
     }
 
+    public CheckedData(String id, String name, String value, boolean isChecked) {
+        this.id = id;
+        this.name = name;
+        this.value = value;
+        this.isChecked = isChecked;
+    }
+
+    public CheckedData(String id, String name, String value, boolean isChecked, String flag) {
+        this.id = id;
+        this.name = name;
+        this.value = value;
+        this.flag = flag;
+        this.isChecked = isChecked;
+    }
+
+    public String getFlag() {
+        return flag;
+    }
+
+    public void setFlag(String flag) {
+        this.flag = flag;
+    }
+
     public String getId() {
         return id;
     }
@@ -43,5 +68,11 @@ public class CheckedData {
         this.name = name;
     }
 
+    public String getValue() {
+        return value;
+    }
 
+    public void setValue(String value) {
+        this.value = value;
+    }
 }

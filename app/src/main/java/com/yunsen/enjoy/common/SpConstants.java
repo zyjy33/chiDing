@@ -95,4 +95,5 @@ public class SpConstants {
     public static final String CARD = "card";
     public static final String CITY_CODE = "city_code";
     public static final String PROMOTION = "promotion"; //营销金
+    public static final String COMPANY_NAME = "company_name";
 }

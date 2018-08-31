@@ -21,6 +21,7 @@ import com.yunsen.enjoy.activity.mine.BecomeVipActivity;
 import com.yunsen.enjoy.common.Constants;
 import com.yunsen.enjoy.common.PayMoneyProxy;
 import com.yunsen.enjoy.common.SpConstants;
+import com.yunsen.enjoy.http.DataException;
 import com.yunsen.enjoy.http.HttpCallBack;
 import com.yunsen.enjoy.http.HttpProxy;
 import com.yunsen.enjoy.model.CarDetails;
@@ -225,7 +226,9 @@ public class PayActivity extends BaseFragmentActivity {
 
                             @Override
                             public void onError(Request request, Exception e) {
-
+                                if (e instanceof DataException) {
+                                    ToastUtils.makeTextShort(e.getMessage());
+                                }
                             }
                         });
                         break;

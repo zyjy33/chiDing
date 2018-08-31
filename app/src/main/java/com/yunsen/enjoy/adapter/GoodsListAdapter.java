@@ -35,7 +35,7 @@ public class GoodsListAdapter extends CommonAdapter<SProviderModel> {
     @Override
     protected void convert(ViewHolder holder, SProviderModel data, int position) {
         ImageView imageView = (ImageView) holder.getView(R.id.goods_list_img);
-        holder.setText(R.id.goods_list_title_tv, data.getName());
+        holder.setText(R.id.goods_list_title_tv, data.getShop_name());
         String address = data.getProvince() + data.getCity() + data.getArea() + data.getAddress();
         holder.setText(R.id.goods_list_address_tv, address);
 //        String text = "可用消费券" + 88 + "元";
@@ -69,7 +69,7 @@ public class GoodsListAdapter extends CommonAdapter<SProviderModel> {
             BigDecimal b = new BigDecimal(algorithm);
             double df = b.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
             if (df < 0.1) {
-                holder.setText(R.id.goods_list_distance_tv, "小于0.1kmm");
+                holder.setText(R.id.goods_list_distance_tv, "小于0.1km");
             } else {
                 holder.setText(R.id.goods_list_distance_tv, df + "km");
             }

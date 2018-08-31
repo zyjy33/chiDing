@@ -31,7 +31,7 @@ public class MeetAddressAdapter extends CommonAdapter<SProviderModel> {
                 .load(imgUrl)
                 .into(imageView);
         holder.setText(R.id.meet_address_tv, sProviderModel.getAddress());
-        holder.setText(R.id.meet_address_item_title, sProviderModel.getName());
+        holder.setText(R.id.meet_address_item_title, sProviderModel.getShop_name());
     }
 
     public void upDatas(List<SProviderModel> datas) {

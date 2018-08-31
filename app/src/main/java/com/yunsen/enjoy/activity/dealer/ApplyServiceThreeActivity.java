@@ -136,7 +136,23 @@ public class ApplyServiceThreeActivity extends BaseFragmentActivity {
 
     @Override
     public void requestData() {
+        HttpProxy.getTradeList(new HttpCallBack<List<TradeData>>() {
+            @Override
+            public void onSuccess(List<TradeData> responseData) {
+                int size = responseData.size();
+                mTradeDatas = new String[size];
+                mTradeListDatas = responseData;
+                for (int i = 0; i < size; i++) {
+                    mTradeDatas[i] = responseData.get(i).getTitle();
+                }
 
+            }
+
+            @Override
+            public void onError(Request request, Exception e) {
+
+            }
+        });
     }
 
     @Override

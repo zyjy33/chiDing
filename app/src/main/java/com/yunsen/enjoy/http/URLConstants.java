@@ -225,7 +225,7 @@ public class URLConstants {
      */
     public static final String TRADE_LIST_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/get_trade_list?parent_id=0";
     /**
-     *分类的商业列表 ?parent_id=0
+     * 分类的商业列表 ?parent_id=0
      */
     public static final String TRADE_TYPE_LIST_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/get_trade_list";
     /**
@@ -447,6 +447,22 @@ public class URLConstants {
      * 收藏的商家列表
      */
     public static final String GET_FAVORITE_COMPANY_LIST = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/get_favorite_company_list";
+    /**
+     * 提交商家投诉
+     */
+    public static final String ADD_USER_COMPLAINT = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/add_user_complaint";
+    /**
+     * 获取用户投诉列表
+     */
+    public static final String GET_USER_COMPLAINT_LIST = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/get_user_complaint_list";
+    /**
+     * 撤销投诉
+     */
+    public static final String EDIT_USER_COMPLAINT = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/edit_user_complaint";
+    /**
+     * 查看我的账单
+     */
+    public static final String GET_DDEK_USER_PAYRECORD_LIST = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/get_ddek_user_payrecord_list";
 
 
     public static final String REALM_NAME_WEB = BuildConfig.ROOT_URL;

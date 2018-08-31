@@ -6,7 +6,6 @@ import android.graphics.Paint;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 import android.view.View;
 import android.webkit.WebView;
 import android.widget.Button;
@@ -17,7 +16,6 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.activity.BaseFragmentActivity;
@@ -33,12 +31,14 @@ import com.yunsen.enjoy.model.AlbumsBean;
 import com.yunsen.enjoy.model.CarDetails;
 import com.yunsen.enjoy.model.DefaultSpecItemBean;
 import com.yunsen.enjoy.model.SpecItemBean;
+import com.yunsen.enjoy.ui.DialogUtils;
 import com.yunsen.enjoy.ui.UIHelper;
 import com.yunsen.enjoy.ui.loopviewpager.AutoLoopViewPager;
 import com.yunsen.enjoy.ui.viewpagerindicator.CirclePageIndicator;
 import com.yunsen.enjoy.utils.AccountUtils;
 import com.yunsen.enjoy.utils.DeviceUtil;
 import com.yunsen.enjoy.utils.ToastUtils;
+import com.yunsen.enjoy.widget.drag.DragLayout;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -128,6 +128,11 @@ public class GoodsDescriptionActivityOld extends BaseFragmentActivity implements
     ImageView collectImg;
     @Bind(R.id.collect_tv)
     TextView collectTv;
+    @Bind(R.id.goods_attribute)
+    TextView goodsAttributeTv;
+    @Bind(R.id.drag_layout)
+    DragLayout dragLayout;
+
     private String mGoodId;
     private CarDetails mCarDetail;
 
@@ -157,6 +162,7 @@ public class GoodsDescriptionActivityOld extends BaseFragmentActivity implements
         goodsMarketPriceTv2.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG | Paint.ANTI_ALIAS_FLAG);
         goodsRLayout.getLayoutParams().height = (int) (DeviceUtil.getWidth(this) * 0.6);
         sHandler = new MyHandler(this);
+        dragLayout.setCanDrag(false);
     }
 
     @Override
@@ -180,7 +186,7 @@ public class GoodsDescriptionActivityOld extends BaseFragmentActivity implements
         SharedPreferences sp = getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, MODE_PRIVATE);
         mUserId = sp.getString(SpConstants.USER_ID, "");
         mUserName = sp.getString(SpConstants.USER_NAME, "");
-        mPoint = sp.getString(SpConstants.POINT, "");
+        mPoint = sp.getString(SpConstants.POINT, "0");
         mUnionid = sp.getString(SpConstants.UNION_ID, "");
         switch (mBuyType) {
             case Constants.DEFAULT_BUY:
@@ -203,6 +209,7 @@ public class GoodsDescriptionActivityOld extends BaseFragmentActivity implements
     @Override
     protected void initListener() {
         goodsRadioGroup.setOnCheckedChangeListener(this);
+        dragLayout.setDragIconClick(this);
     }
 
     @Override
@@ -215,7 +222,6 @@ public class GoodsDescriptionActivityOld extends BaseFragmentActivity implements
                 upBanner(albums);
                 upView(responseData);
                 upData(responseData);
-
                 if (albums != null && albums.size() > 0) {
                     webview.loadUrl(URLConstants.REALM_NAME_HTTP + "/mobile/goods/conent-" + albums.get(0).getArticle_id() + ".html");//商品介绍
                 }
@@ -248,6 +254,13 @@ public class GoodsDescriptionActivityOld extends BaseFragmentActivity implements
         });
     }
 
+    @Override
+    protected void onRequestPermissionSuccess(int requestCode) {
+        super.onRequestPermissionSuccess(requestCode);
+        if (requestCode == Constants.CALL_PHONE) {
+            UIHelper.showPhoneNumberActivity(this, Constants.PHONE_NUMBER);
+        }
+    }
     /**
      * need 升级 移植旧代码 拥有添加商品
      *
@@ -262,6 +275,7 @@ public class GoodsDescriptionActivityOld extends BaseFragmentActivity implements
         data_spec_text = new ArrayList();
         data_exchange_point = new ArrayList();
         data_exchange_price = new ArrayList();
+
         data_goods_id_1 = new ArrayList();
         data_price = new ArrayList();
 
@@ -274,6 +288,7 @@ public class GoodsDescriptionActivityOld extends BaseFragmentActivity implements
             data_spec_text.add(data.getSpec_text());
             data_exchange_point.add(data.getExchange_point());
             data_exchange_price.add(data.getExchange_price());
+            data_price.add(data.getSell_price());
         }
 
 
@@ -297,7 +312,7 @@ public class GoodsDescriptionActivityOld extends BaseFragmentActivity implements
         } else if (mBuyType == Constants.POINT_BUY) {
             int exchangePoint = defaultSpecItem.getExchange_point();
             String exchangePriceStr = defaultSpecItem.getExchange_priceStr();
-            goodsPointTv.setText(exchangePoint + "分+" + exchangePriceStr + "元");
+            goodsPointTv.setText(exchangePoint + "积分+" + exchangePriceStr + "元");
             goodsMarketPriceTv2.setText("¥" + defaultSpecItem.getMarkePriceStr());
             int ownPoint = Integer.parseInt(mPoint);
             if (exchangePoint < ownPoint) {
@@ -306,6 +321,7 @@ public class GoodsDescriptionActivityOld extends BaseFragmentActivity implements
                 mCanExchange = false;
             }
         }
+        goodsAttributeTv.setText(defaultSpecItem.getSpec_text());
         goodsPacketPriceTv.setText("¥" + defaultSpecItem.getCashing_packetStr());
         this.mCarDetail = responseData;
 
@@ -340,12 +356,15 @@ public class GoodsDescriptionActivityOld extends BaseFragmentActivity implements
             return;
         }
 
+
+        DefaultSpecItemBean defaultSpecItem = mCarDetail.getDefault_spec_item();
+
         switch (view.getId()) {
             case R.id.btn_dianping: // 联系客服
                 UIHelper.goWXApp(GoodsDescriptionActivityOld.this);
                 break;
             case R.id.enter_shop: //返回购物车
-                UIHelper.showShopCar(this);
+                UIHelper.showHomeCarFragment(this);
                 break;
             case R.id.goods_share_img:
                 String shareUrl = URLConstants.SHEAR_URL + "/goods/show-" + mCarDetail.getId() + ".html?cid=" + mCarDetail.getCompany_id() + "&unionid=" + mUnionid + "&shareid=" + mUserId + "&from=android";

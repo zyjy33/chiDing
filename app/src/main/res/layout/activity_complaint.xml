@@ -24,10 +24,10 @@
             android:textSize="13sp" />
 
         <TextView
+            android:id="@+id/shop_name_tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="1918VIP"
             android:textColor="@color/color_666"
             android:textSize="13sp" />
 
@@ -39,6 +39,7 @@
         android:background="@color/color_f5f7fa" />
 
     <LinearLayout
+        android:id="@+id/complaint_time_layout"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_marginLeft="@dimen/app_margin"
@@ -54,10 +55,10 @@
             android:textSize="13sp" />
 
         <TextView
+            android:id="@+id/complaint_time_tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="2018-08-10"
             android:textColor="@color/color_666"
             android:textSize="13sp" />
 
@@ -100,17 +101,16 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/color_f5f7fa"
-               >
+                android:background="@color/color_f5f7fa">
 
                 <com.yunsen.enjoy.widget.FlowLayout
                     android:id="@+id/flow_layout"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingBottom="@dimen/app_margin"
-                    android:paddingTop="@dimen/app_margin"
                     android:paddingLeft="@dimen/app_margin"
-                    android:paddingRight="@dimen/app_margin" />
+                    android:paddingRight="@dimen/app_margin"
+                    android:paddingTop="@dimen/app_margin" />
             </LinearLayout>
 
             <LinearLayout
@@ -137,17 +137,22 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/app_margin"
                 android:layout_marginRight="@dimen/app_margin"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
                 <EditText
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:id="@+id/complaint_content_edt"
+                    android:layout_width="match_parent"
+                    android:layout_height="80sp"
                     android:background="@null"
+                    android:gravity="left"
                     android:hint="请输入投诉原因"
+                    android:maxLength="500"
+                    android:padding="5dp"
+                    android:scrollbars="vertical"
                     android:textColor="@color/color_666"
                     android:textSize="13sp" />
 
@@ -189,6 +194,7 @@
                 android:orientation="horizontal">
 
                 <EditText
+                    android:id="@+id/online_phone_edt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@null"

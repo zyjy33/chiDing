@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.orhanobut.logger.Logger;
 import com.yunsen.enjoy.R;
+import com.yunsen.enjoy.common.Constants;
 import com.yunsen.enjoy.model.DatatypeBean;
 import com.yunsen.enjoy.utils.DeviceUtil;
 
@@ -249,6 +250,7 @@ public class FlowLayout extends ViewGroup {
 
         this.setVisibility(VISIBLE);
         this.mDatas = datas;
+        int i = 0;
         for (DatatypeBean data : datas) {
             final TextView textView = new TextView(getContext());
             textView.setText(data.getDatatype_title());
@@ -262,7 +264,7 @@ public class FlowLayout extends ViewGroup {
             gradientDrawable2.setShape(GradientDrawable.RECTANGLE);
             gradientDrawable2.setCornerRadius(dp5);
             gradientDrawable2.setColor(Color.parseColor("#ffffff"));
-            ColorStateList csl= getResources().getColorStateList(R.color.collect_tv_select_e);
+            ColorStateList csl = getResources().getColorStateList(R.color.collect_tv_select_e);
             textView.setTextColor(csl);
             textView.setTextSize(12);
             textView.setPadding(10, 10, 10, 10);
@@ -273,15 +275,41 @@ public class FlowLayout extends ViewGroup {
             stateListDrawable.addState(new int[]{android.R.attr.state_selected}, gradientDrawable);
             stateListDrawable.addState(new int[]{}, gradientDrawable2);
             textView.setBackgroundDrawable(stateListDrawable);
+            textView.setTag(i);
             textView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     v.setSelected(!v.isSelected());
+                    int index = (int) v.getTag();
+                    if (mDatas != null && mDatas.size() >index && index >= 0) {
+                        mDatas.get(index).setChecked(v.isSelected());
+                    }
                 }
             });
-
+            i++;
             this.addView(textView);
         }
-
     }
+
+    public String getSelectData() {
+        if (mDatas != null) {
+            int size = mDatas.size();
+            StringBuffer buffer = new StringBuffer();
+            for (int i = 0; i < size; i++) {
+                DatatypeBean data = mDatas.get(i);
+                boolean checked = data.isChecked();
+                if (checked) {
+                    String title = data.getDatatype_title();
+                    buffer.append(title).append(",");
+                }
+            }
+            String str = buffer.toString();
+            if (-1 != (str.lastIndexOf(","))) {
+                str = str.substring(0, str.length() - 1);
+            }
+            return str;
+        }
+        return Constants.EMPTY;
+    }
+
 }

@@ -168,11 +168,10 @@ public class FoodDescriptionActivity extends BaseFragmentActivity implements Mul
             }
         });
 
-        HttpProxy.getServiceMoreProvider(mPageIndex, "4", "0", new HttpCallBack<List<SProviderModel>>() {
+        HttpProxy.getServiceMoreProvider(mPageIndex, "4", "0", "buzz", "<10", new HttpCallBack<List<SProviderModel>>() {
             @Override
             public void onSuccess(List<SProviderModel> responseData) {
                 mAdapter.addBaseDatas(responseData);
-
             }
 
             @Override
@@ -215,13 +214,18 @@ public class FoodDescriptionActivity extends BaseFragmentActivity implements Mul
                 .load(data.getImg_url())
                 .into(lookImgImg);
 
-        double lat = data.getLat();
-        double lng = data.getLng();
+        double lng = data.getLat();
+        double lat = data.getLng();
         if (lat != 0 && lng != 0 && GlobalStatic.latitude != 0.0 && GlobalStatic.longitude != 0.0) {
             double algorithm = Utils.algorithm(GlobalStatic.longitude, GlobalStatic.latitude, lng, lat) / 1000;
             BigDecimal b = new BigDecimal(algorithm);
             double df = b.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
-            distanceTv.setText(df + "km");
+            if (df < 0.1) {
+                distanceTv.setText("小于0.1km");
+            } else {
+                distanceTv.setText(df + "km");
+            }
+
         } else {
 //            view.setVisibility(View.GONE);
             distanceTv.setText("0.00 km");
@@ -291,11 +295,11 @@ public class FoodDescriptionActivity extends BaseFragmentActivity implements Mul
                 break;
             case R.id.action_bar_share:
                 if (mData != null) {
-                    UIHelper.showShareGoodsActivity(this, mData.getName(), mData.getContact(), "路径暂无", mData.getImg_url());
+                    UIHelper.showShareGoodsActivity(this, mData.getShop_name(), mData.getContact(), "路径暂无", mData.getImg_url());
                 }
                 break;
             case R.id.action_back_complaint:
-                UIHelper.showComplaintActivity(this);
+                UIHelper.showComplaintActivity(this, String.valueOf(mData.getUser_id()), mData.getShop_name());
                 break;
             case R.id.look_img_img:
             case R.id.look_img_tv:
@@ -306,7 +310,7 @@ public class FoodDescriptionActivity extends BaseFragmentActivity implements Mul
                 break;
             case R.id.pay_money_tv:
                 if (mData != null) {
-                    UIHelper.showPayActivity(this, String.valueOf(mData.getId()), mData.getName());
+                    UIHelper.showPayActivity(this, String.valueOf(mData.getId()), mData.getShop_name());
                 } else {
                     ToastUtils.makeTextShort("网络慢，请稍后。。。 ");
                 }
@@ -343,7 +347,7 @@ public class FoodDescriptionActivity extends BaseFragmentActivity implements Mul
     public void onItemClick(View view, RecyclerView.Adapter adapter, RecyclerView.ViewHolder holder, int position) {
         if (position >= 0 && position < mDatas.size()) {
             SProviderModel data = mDatas.get(position);
-            UIHelper.showFoodDescriptionActivity(this, String.valueOf(data.getUser_id()), data.getName());
+            UIHelper.showFoodDescriptionActivity(this, String.valueOf(data.getUser_id()), data.getShop_name());
         }
     }
 

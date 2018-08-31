@@ -54,6 +54,7 @@ public class Constants {
     public static final String ADDRESS_LONG = "address_long";
     public static final String DATA = "data";
     public static final String GOODS_NAME_KEY = "goods_name_key";
+    public static final String PHONE_NUMBER = "4008***888";
 //    public static final String APP_SECRET = "";
 //appId=wxe60c28541b0fa8a2&body=zyjytest&device_info=1000&key=ca30ef7495cdd92ee94e1190f78a8735&mch_id=1502153101&nonce_str=ibuaiVcKdpRxkhJA
 

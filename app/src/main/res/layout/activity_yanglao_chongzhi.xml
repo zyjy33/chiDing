@@ -131,14 +131,14 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="30"
+                    android:text="40"
                     android:textColor="@color/color_theme"
                     android:textSize="12sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="元"
+                    android:text="元（以此类推）"
                     android:textColor="@color/color_666"
                     android:textSize="12sp" />
             </LinearLayout>
@@ -208,7 +208,7 @@
                 <TextView
                     android:id="@+id/give_coin_tv"
                     style="@style/ApplyService2Edt"
-                    android:text="+30.00"
+                    android:text="+40.00"
                     android:textColor="@color/color_666" />
             </LinearLayout>
 
@@ -256,7 +256,57 @@
                 android:text="选择支付方式"
                 android:textColor="@color/title_color"
                 android:textSize="14sp" />
+            <LinearLayout
+                android:id="@+id/yu_pay2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp">
 
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/yezf" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:orientation="vertical"
+                    android:paddingLeft="10dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="余额支付"
+                        android:textColor="@color/black"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="支付更快捷，又省心"
+                        android:textColor="@color/all_c1c1c1"
+                        android:textSize="12sp" />
+                </LinearLayout>
+
+                <CheckBox
+                    android:id="@+id/yu_pay_c2"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_margin="5dp"
+                    android:background="@drawable/checkbox_select_zhifu"
+                    android:button="@null" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/color_f5f7fa" />
             <LinearLayout
                 android:id="@+id/yu_pay0"
                 android:layout_width="match_parent"
@@ -362,57 +412,7 @@
                 android:background="@color/color_f5f7fa" />
 
 
-            <LinearLayout
-                android:id="@+id/yu_pay2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="10dp">
 
-                <ImageView
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:src="@drawable/yezf" />
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="center_vertical"
-                    android:orientation="vertical"
-                    android:paddingLeft="10dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="余额支付"
-                        android:textColor="@color/black"
-                        android:textSize="14sp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="支付更快捷，又省心"
-                        android:textColor="@color/all_c1c1c1"
-                        android:textSize="12sp" />
-                </LinearLayout>
-
-                <CheckBox
-                    android:id="@+id/yu_pay_c2"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_gravity="center_vertical"
-                    android:layout_margin="5dp"
-                    android:background="@drawable/checkbox_select_zhifu"
-                    android:button="@null" />
-            </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/color_f5f7fa" />
 
             <LinearLayout
                 android:layout_width="match_parent"

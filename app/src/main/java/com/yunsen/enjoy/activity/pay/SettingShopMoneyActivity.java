@@ -1,5 +1,6 @@
 package com.yunsen.enjoy.activity.pay;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
@@ -11,11 +12,14 @@ import android.widget.TextView;
 
 import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.activity.BaseFragmentActivity;
+import com.yunsen.enjoy.common.Constants;
 import com.yunsen.enjoy.http.DataException;
 import com.yunsen.enjoy.http.HttpCallBack;
 import com.yunsen.enjoy.http.HttpProxy;
 import com.yunsen.enjoy.model.RechargeNoBean;
+import com.yunsen.enjoy.model.UserInfo;
 import com.yunsen.enjoy.ui.UIHelper;
+import com.yunsen.enjoy.utils.AccountUtils;
 import com.yunsen.enjoy.utils.ToastUtils;
 
 import butterknife.Bind;
@@ -40,6 +44,10 @@ public class SettingShopMoneyActivity extends BaseFragmentActivity {
     EditText payMoneyEdt;
     @Bind(R.id.submit_btn)
     Button submitBtn;
+    @Bind(R.id.action_back)
+    ImageView actionBack;
+    @Bind(R.id.current_shop_money)
+    TextView currentShopMoney;
 
     @Override
     public int getLayout() {
@@ -50,7 +58,7 @@ public class SettingShopMoneyActivity extends BaseFragmentActivity {
     @Override
     protected void initView() {
         ButterKnife.bind(this);
-
+        actionBarTitle.setText("营销金");
     }
 
     @Override
@@ -63,6 +71,28 @@ public class SettingShopMoneyActivity extends BaseFragmentActivity {
 
     }
 
+    @Override
+    public void requestData() {
+        HttpProxy.getUserInfoNoSave(AccountUtils.getUserName(), new HttpCallBack<UserInfo>() {
+            @Override
+            public void onSuccess(UserInfo responseData) {
+                currentShopMoney.setText("当前营销金为" + String.valueOf(responseData.getPromotion()) + "元");
+            }
+
+            @Override
+            public void onError(Request request, Exception e) {
+
+            }
+        });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == Constants.BALANCE_PAY_REQUEST) {
+            requestData();
+        }
+    }
 
     @OnClick({R.id.action_back, R.id.submit_btn})
     public void onViewClicked(View view) {
@@ -79,7 +109,7 @@ public class SettingShopMoneyActivity extends BaseFragmentActivity {
                     HttpProxy.settingShopMoneyRequest(moneyStr, new HttpCallBack<RechargeNoBean>() {
                         @Override
                         public void onSuccess(RechargeNoBean responseData) {
-                            UIHelper.showSettingShopMoneyTishiActivity(SettingShopMoneyActivity.this, responseData.getRecharge_no(),payMoneyEdt.getText().toString());
+                            UIHelper.showSettingShopMoneyTishiActivity(SettingShopMoneyActivity.this, responseData.getRecharge_no(), payMoneyEdt.getText().toString());
                         }
 
                         @Override
@@ -93,4 +123,5 @@ public class SettingShopMoneyActivity extends BaseFragmentActivity {
                 break;
         }
     }
+
 }

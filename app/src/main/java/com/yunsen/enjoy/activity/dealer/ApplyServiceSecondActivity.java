@@ -133,23 +133,23 @@ public class ApplyServiceSecondActivity extends BaseFragmentActivity {
 //            }
 //        });
 
-        HttpProxy.getTradeList(new HttpCallBack<List<TradeData>>() {
-            @Override
-            public void onSuccess(List<TradeData> responseData) {
-                int size = responseData.size();
-                mServiceProjectDatas = new String[size];
-                mServiceListDatas = responseData;
-                for (int i = 0; i < size; i++) {
-                    mServiceProjectDatas[i] = responseData.get(i).getTitle();
-                }
-
-            }
-
-            @Override
-            public void onError(Request request, Exception e) {
-
-            }
-        });
+//        HttpProxy.getTradeList(new HttpCallBack<List<TradeData>>() {
+//            @Override
+//            public void onSuccess(List<TradeData> responseData) {
+//                int size = responseData.size();
+//                mServiceProjectDatas = new String[size];
+//                mServiceListDatas = responseData;
+//                for (int i = 0; i < size; i++) {
+//                    mServiceProjectDatas[i] = responseData.get(i).getTitle();
+//                }
+//
+//            }
+//
+//            @Override
+//            public void onError(Request request, Exception e) {
+//
+//            }
+//        });
     }
 
     @Override
@@ -182,11 +182,11 @@ public class ApplyServiceSecondActivity extends BaseFragmentActivity {
                 finish();
                 break;
             case R.id.facilitator_tag_layout:
-                if (mServiceProjectDatas != null) {
-                    showPickerDialog(mServiceProjectDatas);
-                } else {
-                    requestData();
-                }
+//                if (mServiceProjectDatas != null) {
+//                    showPickerDialog(mServiceProjectDatas);
+//                } else {
+//                    requestData();
+//                }
                 break;
             case R.id.facilitator_address_layout:
                 UIHelper.showMapLocationActivity(this);

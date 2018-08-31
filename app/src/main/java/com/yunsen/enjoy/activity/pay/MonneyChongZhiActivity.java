@@ -44,6 +44,8 @@ import com.yunsen.enjoy.http.URLConstants;
 import com.yunsen.enjoy.model.RechargeModel;
 import com.yunsen.enjoy.model.UserRegisterllData;
 import com.yunsen.enjoy.model.WxSignData;
+import com.yunsen.enjoy.model.event.EventConstants;
+import com.yunsen.enjoy.model.event.UpUiEvent;
 import com.yunsen.enjoy.thirdparty.Common;
 import com.yunsen.enjoy.thirdparty.PayProxy;
 import com.yunsen.enjoy.thirdparty.alipay.OrderInfoUtil2_0;
@@ -53,6 +55,7 @@ import com.yunsen.enjoy.ui.UIHelper;
 import com.yunsen.enjoy.widget.DialogProgress;
 import com.yunsen.enjoy.widget.recyclerview.MultiItemTypeAdapter;
 
+import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.w3c.dom.Text;
@@ -671,7 +674,10 @@ public class MonneyChongZhiActivity extends AppCompatActivity implements OnClick
                     if (TextUtils.equals(resultStatus, "9000")) {
                         // 该笔订单是否真实支付成功，需要依赖服务端的异步通知。
                         Toast.makeText(MonneyChongZhiActivity.this, "支付成功", Toast.LENGTH_SHORT).show();
-                        userloginqm();
+//                        userloginqm();
+                        EventBus.getDefault().postSticky(new UpUiEvent(EventConstants.APP_LOGIN));
+                        finish();
+
                     } else {
                         //                            // 其他值就可以判断为支付失败，包括用户主动取消支付，或者系统返回的错误
                         Toast.makeText(MonneyChongZhiActivity.this, "支付失败", Toast.LENGTH_SHORT).show();
@@ -694,7 +700,7 @@ public class MonneyChongZhiActivity extends AppCompatActivity implements OnClick
                 RechargeModel model = datas.get(position);
                 String money = model.getMoney();
                 chongzhi_edit.setText(money);
-                Double coin = Double.parseDouble(money) / 100 * 30;
+                Double coin = Double.parseDouble(money) / 100 * 40;
                 payMoneyTv.setText("¥" + money);
                 giveCoinTv.setText("+" + coin);
                 ((RechargeMoneyAdapter) adapter).setSelected(position);

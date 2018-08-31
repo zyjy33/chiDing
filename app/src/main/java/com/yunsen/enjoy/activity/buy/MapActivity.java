@@ -121,7 +121,7 @@ public class MapActivity extends BaseFragmentActivity implements AMapLocationLis
         Glide.with(MapActivity.this)
                 .load(mData.getImg_url())
                 .into(goodsListImg);
-        goodsListTitleTv.setText(mData.getName());
+        goodsListTitleTv.setText(mData.getShop_name());
         goodsListAddressTv.setText(mData.getAddress());
 
 

@@ -75,6 +75,7 @@
             android:paddingTop="10dp">
 
             <TextView
+                android:visibility="invisible"
                 android:id="@+id/translate_rest_day"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"

@@ -31,6 +31,7 @@ import com.yunsen.enjoy.model.CarBrandList;
 import com.yunsen.enjoy.model.CarDetails;
 import com.yunsen.enjoy.model.CarModel;
 import com.yunsen.enjoy.model.ClassifyBean;
+import com.yunsen.enjoy.model.ComplaintBean;
 import com.yunsen.enjoy.model.GoodsCarInfo;
 import com.yunsen.enjoy.model.GoodsData;
 import com.yunsen.enjoy.model.GoogsListResponse;
@@ -64,10 +65,10 @@ import com.yunsen.enjoy.model.WithdrawLogData;
 import com.yunsen.enjoy.model.WxPaySignBean;
 import com.yunsen.enjoy.model.request.ApplyCarModel;
 import com.yunsen.enjoy.model.request.ApplyFacilitatorModel;
-import com.yunsen.enjoy.model.request.ApplyProxyServiceRequest;
 import com.yunsen.enjoy.model.request.ApplyWalletCashRequest;
 import com.yunsen.enjoy.model.request.BindBankCardRequest;
 import com.yunsen.enjoy.model.request.BindBankCardRequest2;
+import com.yunsen.enjoy.model.request.ComplaintRequest;
 import com.yunsen.enjoy.model.request.UserCertificationRequestModel;
 import com.yunsen.enjoy.model.request.WatchCarModel;
 import com.yunsen.enjoy.model.response.AccountBalanceResponse;
@@ -101,15 +102,14 @@ import com.yunsen.enjoy.model.response.ShopCollectionResponse;
 import com.yunsen.enjoy.model.response.StringResponse;
 import com.yunsen.enjoy.model.response.TeamInfoResponse;
 import com.yunsen.enjoy.model.response.TradeListResponse;
+import com.yunsen.enjoy.model.response.ComplaintResponse;
 import com.yunsen.enjoy.model.response.UserInfoResponse;
 import com.yunsen.enjoy.model.response.WalletCashNewResponse;
 import com.yunsen.enjoy.model.response.WalletCashResponse;
 import com.yunsen.enjoy.model.response.WatchCarResponse;
 import com.yunsen.enjoy.model.response.WithdrawLogResponse;
 import com.yunsen.enjoy.model.response.WxPaySignResponse;
-import com.yunsen.enjoy.ui.UIHelper;
 import com.yunsen.enjoy.utils.AccountUtils;
-import com.yunsen.enjoy.utils.DeviceUtil;
 import com.yunsen.enjoy.utils.EntityToMap;
 import com.yunsen.enjoy.utils.SpUtils;
 import com.yunsen.enjoy.utils.ToastUtils;
@@ -118,7 +118,6 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -312,20 +311,19 @@ public class HttpProxy {
      * @param city
      * @param callBack
      */
-    public static void getServiceMoreProvider(int pageIndex, String city,String tradeId, final HttpCallBack<List<SProviderModel>> callBack) {
+    public static void getServiceMoreProvider(int pageIndex, String city, String tradeId, String orderStr, String distance, final HttpCallBack<List<SProviderModel>> callBack) {
         HashMap<String, String> param = new HashMap<>();
-        param.put("trade_id",tradeId);
+        param.put("trade_id", tradeId);
         if (!TextUtils.isEmpty(city)) {
             param.put("page_size", "4");
-
         } else {
             param.put("page_size", "10");
         }
         param.put("page_index", "" + pageIndex);
         param.put("strwhere", "status=0 and datatype='Supply'"); //  and group_id =23 group_id=23   门店商家 group_id=19 供应商
-//        param.put("strwhere", "status=0 and datatype='Supply'and city = \'" + city + "\'");
         param.put("orderby", "");
-
+        param.put("distance", distance);
+        param.put("orderstr", orderStr);
 
         HttpClient.get(URLConstants.SERVICE_PROVIDE, param, new HttpResponseHandler<ServiceProvideResponse>() {
             @Override
@@ -1029,21 +1027,23 @@ public class HttpProxy {
     /**
      * 铁杆圈
      */
-    public static void getGavelockRing() {
+    public static void getGavelockRing(String pageIndex, final HttpCallBack<TeamInfoBean> callBack) {
         HashMap<String, String> param = new HashMap<>();
-        param.put("user_id", "");
-        param.put("page_size", "5");
+        param.put("user_id", AccountUtils.getUser_id());
+        param.put("page_size", "10");
+        param.put("page_index", pageIndex);
         param.put("strwhere", "");
         param.put("orderby", "id desc");
-        param.put("page_index", "1");
-        HttpClient.get(URLConstants.GAVELOCK_RING_URL, param, new HttpResponseHandler<AccountBalanceResponse>() {
+        HttpClient.get(URLConstants.GAVELOCK_RING_URL, param, new HttpResponseHandler<TeamInfoResponse>() {
             @Override
-            public void onSuccess(AccountBalanceResponse response) {
+            public void onSuccess(TeamInfoResponse response) {
                 super.onSuccess(response);
+                callBack.onSuccess(response.getData());
             }
 
             @Override
             public void onFailure(Request request, Exception e) {
+                callBack.onError(request, e);
                 Logger.e(TAG, "onFailure: " + e.getMessage());
             }
         });
@@ -2982,6 +2982,108 @@ public class HttpProxy {
             public void onFailure(Request request, Exception e) {
                 callBack.onError(request, e);
                 super.onFailure(request, e);
+            }
+        });
+    }
+
+    /**
+     * 提交投诉
+     *
+     * @param request
+     * @param callBack
+     */
+    public static void submitAddUserComplaint(ComplaintRequest request, final HttpCallBack<Boolean> callBack) {
+        Map<String, Object> map = EntityToMap.ConvertObjToMap(request);
+
+        HttpClient.get(URLConstants.ADD_USER_COMPLAINT, map, new HttpResponseHandler<RestApiResponse>() {
+            @Override
+            public void onSuccess(RestApiResponse response) {
+                super.onSuccess(response);
+                callBack.onSuccess(true);
+            }
+
+            @Override
+            public void onFailure(Request request, Exception e) {
+                callBack.onError(request, e);
+            }
+        });
+    }
+
+    /**
+     * 获取投诉列表
+     *
+     * @param callBack
+     */
+    public static void getUserComplaintList(final HttpCallBack<List<ComplaintBean>> callBack) {
+        HashMap<String, String> map = new HashMap<String, String>();
+        map.put(SpConstants.USER_ID, AccountUtils.getUser_id());
+        map.put(SpConstants.USER_NAME, AccountUtils.getUserName());
+        map.put("user_sign", AccountUtils.getLoginSign());
+
+        HttpClient.get(URLConstants.GET_USER_COMPLAINT_LIST, map, new HttpResponseHandler<ComplaintResponse>() {
+            @Override
+            public void onSuccess(ComplaintResponse response) {
+                super.onSuccess(response);
+                callBack.onSuccess(response.getData());
+            }
+
+            @Override
+            public void onFailure(Request request, Exception e) {
+                callBack.onError(request, e);
+            }
+        });
+    }
+
+    /**
+     * 撤销投诉
+     *
+     * @param complaintId
+     */
+    public static void getEditUserComplaint(String complaintId, final HttpCallBack<List<ComplaintBean>> callBack) {
+        HashMap<String, String> map = new HashMap<String, String>();
+        map.put(SpConstants.USER_ID, AccountUtils.getUser_id());
+        map.put("complaint_id", complaintId);
+        map.put("user_sign", AccountUtils.getLoginSign());
+
+        HttpClient.get(URLConstants.EDIT_USER_COMPLAINT, map, new HttpResponseHandler<ComplaintResponse>() {
+            @Override
+            public void onSuccess(ComplaintResponse response) {
+                super.onSuccess(response);
+                callBack.onSuccess(response.getData());
+            }
+
+            @Override
+            public void onFailure(Request request, Exception e) {
+                callBack.onError(request, e);
+            }
+        });
+    }
+
+    /**
+     * 我的账单
+     *
+     * @param callBack
+     */
+    public static void getDdekUserPayrecordList(String pageIndex, String nDay, String fundId, String flag, final HttpCallBack<List<WalletCashBean>> callBack) {
+        HashMap<String, String> map = new HashMap<String, String>();
+        map.put(SpConstants.USER_ID, AccountUtils.getUser_id());
+        map.put("fund_id", fundId);
+        map.put("expenses_id", "0");
+        map.put("nday", nDay);
+        map.put("page_size", "8");
+        map.put("page_index", pageIndex);
+        map.put("flag", flag);
+
+        HttpClient.get(URLConstants.GET_DDEK_USER_PAYRECORD_LIST, map, new HttpResponseHandler<WalletCashResponse>() {
+            @Override
+            public void onSuccess(WalletCashResponse response) {
+                super.onSuccess(response);
+                callBack.onSuccess(response.getData());
+            }
+
+            @Override
+            public void onFailure(Request request, Exception e) {
+                callBack.onError(request, e);
             }
         });
     }

@@ -99,6 +99,7 @@ import com.yunsen.enjoy.activity.user.TishiWxBangDingActivity;
 import com.yunsen.enjoy.activity.user.UserLoginActivity;
 import com.yunsen.enjoy.activity.user.UserRegisterActivity;
 import com.yunsen.enjoy.common.Constants;
+import com.yunsen.enjoy.common.SpConstants;
 import com.yunsen.enjoy.fragment.buy.SelectBrandActivity;
 import com.yunsen.enjoy.fragment.buy.SeniorFilterActivity;
 import com.yunsen.enjoy.http.AsyncHttp;
@@ -1421,8 +1422,10 @@ public class UIHelper {
     /**
      * @param ctx 投诉
      */
-    public static void showComplaintActivity(Context ctx) {
+    public static void showComplaintActivity(Context ctx, String companyId, String companyName) {
         Intent intent = new Intent(ctx, ComplaintActivity.class);
+        intent.putExtra(SpConstants.COMPANY_ID, companyId);
+        intent.putExtra(SpConstants.COMPANY_NAME, companyName);
         ctx.startActivity(intent);
     }
 

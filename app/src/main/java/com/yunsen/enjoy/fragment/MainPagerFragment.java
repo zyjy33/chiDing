@@ -176,7 +176,7 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
     }
 
     public void requestServiceMore() {
-        HttpProxy.getServiceMoreProvider(mPageIndex, null, "0", new HttpCallBack<List<SProviderModel>>() {
+        HttpProxy.getServiceMoreProvider(mPageIndex, null, "0", "clever", "", new HttpCallBack<List<SProviderModel>>() {
             @Override
             public void onSuccess(List<SProviderModel> responseData) {
                 if (mIsLoadMore) {
@@ -326,7 +326,7 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
             int pos = position - 1;
             if (pos >= 0 && pos < datas.size()) {
                 SProviderModel model = datas.get(pos);
-                UIHelper.showFoodDescriptionActivity(getActivity(), String.valueOf(model.getUser_id()), model.getName());
+                UIHelper.showFoodDescriptionActivity(getActivity(), String.valueOf(model.getUser_id()), model.getShop_name());
             }
         }
     }
@@ -344,7 +344,7 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
                 UIHelper.showSearchActivity(getActivity());
                 break;
             case R.id.qrcode_img:
-                ToastUtils.makeTextShort("二维码");
+                ToastUtils.makeTextShort("功能占未开放");
                 break;
             case R.id.money_discount_tv: //消费券优惠
             case R.id.top_money_discount_tv: //消费券优惠

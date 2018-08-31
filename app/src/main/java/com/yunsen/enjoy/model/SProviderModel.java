@@ -675,8 +675,8 @@ public class SProviderModel implements Parcelable {
     }
 
     public String getShop_name() {
-        return shop_name;
-    }
+        return name;
+    } //todo  列表中 后台没有返回shop_name
 
     public void setShop_name(String shop_name) {
         this.shop_name = shop_name;

@@ -40,30 +40,31 @@ public class WalletCashBean {
 
     private int id;
     private String serial_no;
-    private Object trade_no;
+    private String trade_no;
     private String order_no;
-    private int from_user_id;
+    private String from_user_id;
     private String from_user_name;
-    private double from_previous;
-    private double from_expense;
-    private double from_balance;
-    private Object to_user_id;
-    private Object to_user_name;
-    private Object to_previous;
-    private Object to_income;
-    private Object to_balance;
+    private String from_previous;
+    private String from_expense;
+    private String from_balance;
+    private String to_user_id;
+    private String to_user_name;
+    private double to_previous;
+    private double to_income;
+    private double to_balance;
     private int fund_id;
     private int platform_id;
     private int payment_id;
     private int consumer_id;
-    private Object consumer_name;
+    private String consumer_name;
     private int expenses_id;
     private int company_id;
-    private Object company_name;
-    private Object datatype;
+    private String company_name;
+    private String datatype;
     private String remark;
     private String add_time;
     private String update_time;
+
 
     public int getId() {
         return id;
@@ -71,6 +72,11 @@ public class WalletCashBean {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getFrom_expenseStr() {
+        DecimalFormat df = new DecimalFormat("#0.00");
+        return df.format(from_expense);
     }
 
     public String getSerial_no() {
@@ -81,11 +87,11 @@ public class WalletCashBean {
         this.serial_no = serial_no;
     }
 
-    public Object getTrade_no() {
+    public String getTrade_no() {
         return trade_no;
     }
 
-    public void setTrade_no(Object trade_no) {
+    public void setTrade_no(String trade_no) {
         this.trade_no = trade_no;
     }
 
@@ -97,11 +103,11 @@ public class WalletCashBean {
         this.order_no = order_no;
     }
 
-    public int getFrom_user_id() {
+    public String getFrom_user_id() {
         return from_user_id;
     }
 
-    public void setFrom_user_id(int from_user_id) {
+    public void setFrom_user_id(String from_user_id) {
         this.from_user_id = from_user_id;
     }
 
@@ -113,72 +119,67 @@ public class WalletCashBean {
         this.from_user_name = from_user_name;
     }
 
-    public double getFrom_previous() {
+    public String getFrom_previous() {
         return from_previous;
     }
 
-    public void setFrom_previous(double from_previous) {
+    public void setFrom_previous(String from_previous) {
         this.from_previous = from_previous;
     }
 
-    public double getFrom_expense() {
+    public String getFrom_expense() {
         return from_expense;
     }
 
-    public String getFrom_expenseStr() {
-        DecimalFormat df = new DecimalFormat("#0.00");
-        return df.format(from_expense);
-    }
-
-    public void setFrom_expense(double from_expense) {
+    public void setFrom_expense(String from_expense) {
         this.from_expense = from_expense;
     }
 
-    public double getFrom_balance() {
+    public String getFrom_balance() {
         return from_balance;
     }
 
-    public void setFrom_balance(double from_balance) {
+    public void setFrom_balance(String from_balance) {
         this.from_balance = from_balance;
     }
 
-    public Object getTo_user_id() {
+    public String getTo_user_id() {
         return to_user_id;
     }
 
-    public void setTo_user_id(Object to_user_id) {
+    public void setTo_user_id(String to_user_id) {
         this.to_user_id = to_user_id;
     }
 
-    public Object getTo_user_name() {
+    public String getTo_user_name() {
         return to_user_name;
     }
 
-    public void setTo_user_name(Object to_user_name) {
+    public void setTo_user_name(String to_user_name) {
         this.to_user_name = to_user_name;
     }
 
-    public Object getTo_previous() {
+    public double getTo_previous() {
         return to_previous;
     }
 
-    public void setTo_previous(Object to_previous) {
+    public void setTo_previous(double to_previous) {
         this.to_previous = to_previous;
     }
 
-    public Object getTo_income() {
+    public double getTo_income() {
         return to_income;
     }
 
-    public void setTo_income(Object to_income) {
+    public void setTo_income(double to_income) {
         this.to_income = to_income;
     }
 
-    public Object getTo_balance() {
+    public double getTo_balance() {
         return to_balance;
     }
 
-    public void setTo_balance(Object to_balance) {
+    public void setTo_balance(double to_balance) {
         this.to_balance = to_balance;
     }
 
@@ -214,11 +215,11 @@ public class WalletCashBean {
         this.consumer_id = consumer_id;
     }
 
-    public Object getConsumer_name() {
+    public String getConsumer_name() {
         return consumer_name;
     }
 
-    public void setConsumer_name(Object consumer_name) {
+    public void setConsumer_name(String consumer_name) {
         this.consumer_name = consumer_name;
     }
 
@@ -238,19 +239,19 @@ public class WalletCashBean {
         this.company_id = company_id;
     }
 
-    public Object getCompany_name() {
+    public String getCompany_name() {
         return company_name;
     }
 
-    public void setCompany_name(Object company_name) {
+    public void setCompany_name(String company_name) {
         this.company_name = company_name;
     }
 
-    public Object getDatatype() {
+    public String getDatatype() {
         return datatype;
     }
 
-    public void setDatatype(Object datatype) {
+    public void setDatatype(String datatype) {
         this.datatype = datatype;
     }
 

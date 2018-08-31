@@ -51,6 +51,7 @@
 
 
             <LinearLayout
+                android:visibility="gone"
                 android:id="@+id/facilitator_tag_layout"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/item_height"
@@ -78,6 +79,7 @@
 
 
             <View
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@color/gray_light" />
