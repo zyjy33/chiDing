@@ -152,7 +152,7 @@ public class MyOrderXqAdapter extends BaseAdapter {
             holder.tv_addview.setVisibility(View.GONE);
         }
 
-        holder.tv_sj_name.setText("盖亚商城");
+        holder.tv_sj_name.setText("大道网");
 //        holder.tv_sj_name.setText(myOrderData.getCompany_name());
         holder.tv_order_bh.setText(myOrderData.getOrder_no());//
         // 订单时间

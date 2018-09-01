@@ -482,7 +482,7 @@ public class UIHelper {
     }
 
     /**
-     * 盖亚商城服务
+     * 大道网服务
      *
      * @param ctx
      */

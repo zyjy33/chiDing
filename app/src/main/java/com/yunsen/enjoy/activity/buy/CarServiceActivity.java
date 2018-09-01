@@ -40,7 +40,7 @@ public class CarServiceActivity extends BaseFragmentActivity {
     @Override
     protected void initView() {
         ButterKnife.bind(this);
-        actionBarTitle.setText("盖亚商城服务");
+        actionBarTitle.setText("大道网服务");
     }
 
     @Override
