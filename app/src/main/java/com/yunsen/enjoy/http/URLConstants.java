@@ -418,7 +418,7 @@ public class URLConstants {
      */
     public static final String USER_APPLY_WITHDRAW_LOG_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/user_apply_withdraw_log";
     /**
-     * http://mobile.gaiachn.com/tools/mobile_ajax.asmx/get_payrecord_list 盖亚获取提现信息
+     * 盖亚获取提现信息
      */
     public static final String GET_PAYRECORD_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/get_payrecord_list";
 

@@ -129,14 +129,27 @@ public class PayActivity extends BaseFragmentActivity {
 
     @Override
     protected void initData(Bundle savedInstanceState) {
-        String cardStr = getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, MODE_PRIVATE).getString(SpConstants.CARD, "0");
-        myCardTv.setText("我有消费券:" + cardStr);
+
         mMyHandler = new MyHandler(this);
     }
 
     @Override
     protected void initListener() {
+    }
 
+    @Override
+    public void requestData() {
+        HttpProxy.getUserInfoNoSave(AccountUtils.getUserName(), new HttpCallBack<UserInfo>() {
+            @Override
+            public void onSuccess(UserInfo responseData) {
+                myCardTv.setText("我有消费券:" + responseData.getCard());
+            }
+
+            @Override
+            public void onError(Request request, Exception e) {
+
+            }
+        });
     }
 
     @Override

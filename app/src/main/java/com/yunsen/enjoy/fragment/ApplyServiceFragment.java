@@ -94,12 +94,21 @@ public class ApplyServiceFragment extends BaseFragment {
         HttpProxy.getIsFacilitator(AccountUtils.getUser_id(), new HttpCallBack<Boolean>() {
             @Override
             public void onSuccess(Boolean responseData) {
-                actionBarTitle.setText("商家");
-                nextBtn.setText("进入商家商城");
-                notServiceLayout.setVisibility(View.GONE);
-                gotoShopping.setVisibility(View.VISIBLE);
-                settingShoppingMoney.setVisibility(View.VISIBLE);
-                mIsService = true;
+                if(responseData) {
+                    actionBarTitle.setText("商家");
+                    nextBtn.setText("进入商家商城");
+                    notServiceLayout.setVisibility(View.GONE);
+                    gotoShopping.setVisibility(View.VISIBLE);
+                    settingShoppingMoney.setVisibility(View.VISIBLE);
+                    mIsService = true;
+                }else {
+                    actionBarTitle.setText("申请商家");
+                    nextBtn.setText("立即入驻");
+                    notServiceLayout.setVisibility(View.VISIBLE);
+                    gotoShopping.setVisibility(View.GONE);
+                    settingShoppingMoney.setVisibility(View.GONE);
+                    mIsService = false;
+                }
             }
 
             @Override

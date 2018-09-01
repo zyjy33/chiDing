@@ -1348,7 +1348,12 @@ public class HttpProxy {
                 super.onSuccess(response);
                 SProviderModel data = response.getData();
                 if (data != null) {
-                    callBack.onSuccess(true);
+                    String datatype = data.getDatatype();
+                    if ("Supply".equals(datatype) && data.getGroup_id() == 23) {  // 是商家
+                        callBack.onSuccess(true);
+                    } else {
+                        callBack.onSuccess(false);
+                    }
                 } else {
                     callBack.onSuccess(false);
                 }
