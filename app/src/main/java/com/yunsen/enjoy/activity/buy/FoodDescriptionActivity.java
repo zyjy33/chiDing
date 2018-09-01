@@ -310,7 +310,7 @@ public class FoodDescriptionActivity extends BaseFragmentActivity implements Mul
                 break;
             case R.id.pay_money_tv:
                 if (mData != null) {
-                    UIHelper.showPayActivity(this, String.valueOf(mData.getId()), mData.getShop_name());
+                    UIHelper.showPayActivity(this, String.valueOf(mData.getUser_id()), mData.getShop_name());
                 } else {
                     ToastUtils.makeTextShort("网络慢，请稍后。。。 ");
                 }

@@ -173,7 +173,7 @@ public class MineFragment extends BaseFragment {
 
     @Override
     protected void requestData() {
-        Boolean sFilter = mSp.getBoolean(SpConstants.HAS_SERVICE_SHOP,false);
+        Boolean sFilter = mSp.getBoolean(SpConstants.HAS_SERVICE_SHOP, false);
         if (!sFilter) {
             myOrderLayout.setVisibility(View.VISIBLE);
         } else {
@@ -419,6 +419,7 @@ public class MineFragment extends BaseFragment {
 
     @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
     public void onEvent(UpUiEvent event) {
+        Log.e(TAG, "onEvent: getEventId=" + event.getEventId());
         switch (event.getEventId()) {
             case EventConstants.APP_LOGIN:
                 Log.e(TAG, "onEvent: 登录更新");

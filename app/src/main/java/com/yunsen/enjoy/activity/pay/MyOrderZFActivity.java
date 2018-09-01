@@ -92,11 +92,11 @@ public class MyOrderZFActivity extends AppCompatActivity implements OnClickListe
         TextView item4 = (TextView) findViewById(R.id.item4);
         TextView cardPaytv = (TextView) findViewById(R.id.card_pay_tv);
         ll_zhifu_buju = (LinearLayout) findViewById(R.id.ll_zhifu_buju);
-        if (mIsBecomeVip) {
-            item0.setVisibility(View.GONE);
-        } else {
-            item0.setVisibility(View.VISIBLE);
-        }
+//        if (mIsBecomeVip) {
+//            item0.setVisibility(View.GONE);
+//        } else {
+//            item0.setVisibility(View.VISIBLE);
+//        }
         item0.setOnClickListener(this);
         // item1.setOnClickListener(this);
         item2.setOnClickListener(this);
@@ -130,7 +130,7 @@ public class MyOrderZFActivity extends AppCompatActivity implements OnClickListe
                 finish();
                 break;
             case R.id.card_pay_tv:
-                upPayment(recharge_no, Constants.CARD_PAY_TYPE);
+                upPayment(recharge_no, Constants.STOCK_UP);
                 break;
             default:
                 break;
@@ -467,7 +467,7 @@ public class MyOrderZFActivity extends AppCompatActivity implements OnClickListe
                         startActivity(intent);
                         finish();
                         break;
-                    case Constants.CARD_PAY_TYPE:
+                    case Constants.STOCK_UP:
                         // 消费券支付
                         orderxq = getIntent().getStringExtra("5");
                         Intent intent2 = new Intent(MyOrderZFActivity.this, TishiCarArchivesActivity.class);
@@ -475,6 +475,7 @@ public class MyOrderZFActivity extends AppCompatActivity implements OnClickListe
                         intent2.putExtra("order_no", recharge_no);
                         intent2.putExtra("order_yue", "order_yue");
                         intent2.putExtra("orderxq", orderxq);
+                        intent2.putExtra(Constants.IS_STOCK_UP, true);
                         intent2.putExtra("img_url", getIntent().getStringExtra("img_url"));
                         intent2.putExtra("hd_title", getIntent().getStringExtra("title"));
                         intent2.putExtra("start_time", getIntent().getStringExtra("start_time"));

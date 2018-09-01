@@ -140,6 +140,7 @@ public class MonneyChongZhiActivity extends AppCompatActivity implements OnClick
         payMoneyTv.setText("¥100");
         initData();
 
+        yu_pay2.setVisibility(View.GONE);  //注释余额支付
 //        chongzhi_edit.addTextChangedListener(new TextWatcher() {
 //            @Override
 //            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -349,7 +350,7 @@ public class MonneyChongZhiActivity extends AppCompatActivity implements OnClick
     }
 
     /**
-     * 更新支付宝支付
+     * 支付宝支付
      *
      * @param login_sign
      * @param
@@ -449,7 +450,7 @@ public class MonneyChongZhiActivity extends AppCompatActivity implements OnClick
 
 
     /**
-     * 用户在线充值  支付宝
+     * 用户在线充值 获取支付参数
      *
      * @param
      */
@@ -458,11 +459,9 @@ public class MonneyChongZhiActivity extends AppCompatActivity implements OnClick
 
             String amount = chongzhi_edit.getText().toString().trim();
             //		String amount = "0.01";
-
             AsyncHttp.get(URLConstants.REALM_NAME_LL
                             + "/payment_sign?user_id=" + user_id + "&user_name=" + user_name + "" +
                             "&total_fee=" + amount + "&out_trade_no=" + recharge_no + "&payment_type=alipay",
-
                     new AsyncHttpResponseHandler() {
                         @Override
                         public void onSuccess(int arg0, String arg1) {
@@ -547,7 +546,7 @@ public class MonneyChongZhiActivity extends AppCompatActivity implements OnClick
 
             AsyncHttp.get(URLConstants.REALM_NAME_LL
                             + "/add_amount_recharge?user_id=" + user_id + "&user_name=" + user_name + "" +
-                            "&amount=" + amount + "&fund_id="+mFundId+"&payment_id=" + payment_id + "&rebate_item_id=0",
+                            "&amount=" + amount + "&fund_id=" + mFundId + "&payment_id=" + payment_id + "&rebate_item_id=0",
                     new AsyncHttpResponseHandler() {
                         @Override
                         public void onSuccess(int arg0, String arg1) {

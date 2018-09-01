@@ -22,7 +22,8 @@
             android:gravity="center"
             android:text="余额支付"
             android:textColor="#037BFF"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/item1"
@@ -34,6 +35,7 @@
             android:textColor="#037BFF"
             android:textSize="16sp"
             android:visibility="gone" />
+
         <TextView
             android:id="@+id/item3"
             android:layout_width="match_parent"
@@ -42,7 +44,9 @@
             android:gravity="center"
             android:text="微信支付"
             android:textColor="#FD4A2E"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            android:visibility="gone" />
+
         <TextView
             android:id="@+id/item2"
             android:layout_width="match_parent"
@@ -51,7 +55,8 @@
             android:gravity="center"
             android:text="支付宝支付"
             android:textColor="#FD4A2E"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/card_pay_tv"
@@ -59,7 +64,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/actionsheet_bottom_selector"
             android:gravity="center"
-            android:text="消费券支付"
+            android:text="采购金支付"
             android:textColor="#FD4A2E"
             android:textSize="16sp" />
 
