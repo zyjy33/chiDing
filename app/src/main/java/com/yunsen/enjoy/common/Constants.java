@@ -55,6 +55,9 @@ public class Constants {
     public static final String DATA = "data";
     public static final String GOODS_NAME_KEY = "goods_name_key";
     public static final String PHONE_NUMBER = "4008***888";
+    public static final java.lang.String ADDRESS_BD_LONG = "address_bd_long";
+    public static final java.lang.String ADDRESS_BD_LAT = "ADDRESS_BD_LAT";
+    public static final String COMPANY_LOGO = "company_logo";
 //    public static final String APP_SECRET = "";
 //appId=wxe60c28541b0fa8a2&body=zyjytest&device_info=1000&key=ca30ef7495cdd92ee94e1190f78a8735&mch_id=1502153101&nonce_str=ibuaiVcKdpRxkhJA
 
@@ -66,7 +69,7 @@ public class Constants {
     public static final int ALIPAY_TYPE = 3;  //z支付宝
     public static final int WEI_XIN_PAY_TYPE = 5;//微信
     public static final int CARD_PAY_TYPE = 9;//消费券支付
-    public static final int STOCK_UP = 12;//12  采购金Stock up
+    public static final int STOCK_UP = 12;//12  采购劵Stock up
     /**
      * 买车界面
      */

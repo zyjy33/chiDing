@@ -21,8 +21,9 @@
         android:orientation="horizontal">
 
         <ImageView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:scaleType="fitXY"
             android:layout_marginLeft="@dimen/app_margin"
             android:layout_marginRight="@dimen/app_margin"
             android:src="@mipmap/gade_map" />
@@ -30,9 +31,42 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="高德地图"
+            android:text="高德地图(推荐)"
             android:textColor="@color/color_888"
             android:textSize="22dp" />
 
     </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/baidu_layout"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:scaleType="fitXY"
+            android:layout_marginLeft="@dimen/app_margin"
+            android:layout_marginRight="@dimen/app_margin"
+            android:src="@mipmap/baidu_map" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="百度地图"
+            android:textColor="@color/color_888"
+            android:textSize="22dp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="30dp">
+
+
+    </LinearLayout>
+
 </LinearLayout>

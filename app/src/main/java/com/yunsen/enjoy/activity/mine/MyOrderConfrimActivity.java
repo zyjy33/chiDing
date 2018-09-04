@@ -1,6 +1,7 @@
 package com.yunsen.enjoy.activity.mine;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
@@ -32,16 +33,21 @@ import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.activity.BaseFragmentActivity;
 import com.yunsen.enjoy.activity.mine.adapter.ShopingCartOrderAdapter;
+import com.yunsen.enjoy.activity.pay.PayActivity;
 import com.yunsen.enjoy.activity.pay.TishiCarArchivesActivity;
 import com.yunsen.enjoy.activity.pay.ZhiFuFangShiActivity;
 import com.yunsen.enjoy.common.Constants;
 import com.yunsen.enjoy.common.PayMoneyProxy;
 import com.yunsen.enjoy.common.SpConstants;
 import com.yunsen.enjoy.http.AsyncHttp;
+import com.yunsen.enjoy.http.DataException;
+import com.yunsen.enjoy.http.HttpCallBack;
+import com.yunsen.enjoy.http.HttpProxy;
 import com.yunsen.enjoy.http.URLConstants;
 import com.yunsen.enjoy.model.JuTuanGouData;
 import com.yunsen.enjoy.model.ShopCartData;
 import com.yunsen.enjoy.model.ShopCarts;
+import com.yunsen.enjoy.model.UserInfo;
 import com.yunsen.enjoy.model.UserRegisterllData;
 import com.yunsen.enjoy.model.WxSignData;
 import com.yunsen.enjoy.model.event.EventConstants;
@@ -49,7 +55,10 @@ import com.yunsen.enjoy.model.event.UpUiEvent;
 import com.yunsen.enjoy.thirdparty.PayProxy;
 import com.yunsen.enjoy.thirdparty.alipay.OrderInfoUtil2_0;
 import com.yunsen.enjoy.thirdparty.alipay.PayResult;
+import com.yunsen.enjoy.ui.DialogUtils;
 import com.yunsen.enjoy.ui.UIHelper;
+import com.yunsen.enjoy.ui.interfaces.OnLeftOnclickListener;
+import com.yunsen.enjoy.utils.AccountUtils;
 import com.yunsen.enjoy.utils.ToastUtils;
 import com.yunsen.enjoy.widget.DialogProgress;
 import com.yunsen.enjoy.widget.InScrollListView;
@@ -64,6 +73,8 @@ import org.json.JSONObject;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Map;
+
+import okhttp3.Request;
 
 /**
  * 订单确认
@@ -91,7 +102,7 @@ public class MyOrderConfrimActivity extends BaseFragmentActivity implements OnCl
     TextView tv_size, tv_zhifu;
     private String ZhiFuFangShi, express_id;
     private String jubi;
-    String type = "5"; // 5 微信支付, 3 支付宝支付  ,2 余额支付  9 消费券  12  采购金
+    String type = "5"; // 5 微信支付, 3 支付宝支付  ,2 余额支付  9 消费券  12  采购劵
     String notify_url;
     int kou_hongbao;
     private IWXAPI api;
@@ -143,6 +154,7 @@ public class MyOrderConfrimActivity extends BaseFragmentActivity implements OnCl
     private WxSignData mSignData;
     private LinearLayout stordPayLayout;
     private CheckBox storedCardPay;
+    private AlertDialog mSetPayDialog;
 
 
     @Override
@@ -627,7 +639,36 @@ public class MyOrderConfrimActivity extends BaseFragmentActivity implements OnCl
                             Toast.LENGTH_SHORT).show();
                 } else {
                     System.out.println("type======结算方式========" + type);
-                    loadusertijiao(type, kou_hongbao);// 提交聚团订单
+                    HttpProxy.getUserInfoNoSave(AccountUtils.getUserName(), new HttpCallBack<UserInfo>() {
+                        @Override
+                        public void onSuccess(UserInfo responseData) {
+                            String password = responseData.getPassword();
+                            if (!TextUtils.isEmpty(password) && password.equals(responseData.getPaypassword())) {
+                                if (mSetPayDialog == null) {
+                                    mSetPayDialog = DialogUtils.createUpPayPwdDialog(MyOrderConfrimActivity.this, new OnLeftOnclickListener() {
+                                        @Override
+                                        public void onLeftClick() {
+                                            UIHelper.showForgetPwdActivity2(MyOrderConfrimActivity.this);
+                                            mSetPayDialog.dismiss();
+                                        }
+                                    }, null);
+                                }
+                                if (!mSetPayDialog.isShowing()) {
+                                    mSetPayDialog.show();
+                                }
+                                //修改支付密码
+                            } else {
+                                loadusertijiao(type, kou_hongbao);// 提交聚团订单
+                            }
+                        }
+
+                        @Override
+                        public void onError(Request request, Exception e) {
+                            if (e instanceof DataException) {
+                                ToastUtils.makeTextShort(e.getMessage());
+                            }
+                        }
+                    });
 
                 }
 
@@ -1013,7 +1054,7 @@ public class MyOrderConfrimActivity extends BaseFragmentActivity implements OnCl
                             intent.putExtra("order_no", recharge_no);
                             intent.putExtra("yue", "yue");
                             startActivityForResult(intent, Constants.PAY_MONEY_ACT_REQUEST);
-                        } else if (String.valueOf(Constants.STOCK_UP).equals(type)) { //采购金
+                        } else if (String.valueOf(Constants.STOCK_UP).equals(type)) { //采购劵
                             mHasPay = true;
                             Intent intent = new Intent(MyOrderConfrimActivity.this, TishiCarArchivesActivity.class);
                             intent.putExtra("order_no", recharge_no);
@@ -1143,6 +1184,10 @@ public class MyOrderConfrimActivity extends BaseFragmentActivity implements OnCl
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        if (mSetPayDialog != null && mSetPayDialog.isShowing()) {
+            mSetPayDialog.dismiss();
+        }
+        mSetPayDialog = null;
     }
 
     @Override
@@ -1189,5 +1234,6 @@ public class MyOrderConfrimActivity extends BaseFragmentActivity implements OnCl
                 break;
         }
     }
+
 
 }

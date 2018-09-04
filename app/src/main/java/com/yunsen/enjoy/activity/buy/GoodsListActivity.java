@@ -327,7 +327,7 @@ public class GoodsListActivity extends BaseFragmentActivity implements View.OnCl
                 UIHelper.showSearchActivity(this);
                 break;
             case R.id.qrcode_img:
-                ToastUtils.makeTextShort("二维码");
+                ToastUtils.makeTextShort("功能暂未开发");
                 break;
             case R.id.above_all_type:
                 showTypePopupWindow();

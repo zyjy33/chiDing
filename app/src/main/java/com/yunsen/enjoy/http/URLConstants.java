@@ -9,7 +9,7 @@ import com.yunsen.enjoy.BuildConfig;
 
 public class URLConstants {
     /**
-     * 域名
+     * 域名 http://mobile.ddek3.com
      */
     public static final String REALM_URL = BuildConfig.ROOT_URL;
 
@@ -27,10 +27,11 @@ public class URLConstants {
 //    public static final String CAR_ADV_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/get_adbanner_list?advert_id=13";
     public static final String CAR_ADV_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/get_article_top_list_2017";
     /**
-     * 公告
+     * 帮助中心
      */
-//    public static final String NOTICE_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/get_article_page_size_list";
-    public static final String NOTICE_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/get_article_top_list_2017";
+//   http://mobile.ddek3.com/tools/mobile_ajax.asmx/
+    public static final String HELP_CENTOR_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/get_article_category_list_2017";
+
     /**
      * 首页广告
      */
@@ -45,9 +46,13 @@ public class URLConstants {
      */
     public static final String CAR_BRAND_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/get_article_brand";
     /**
-     * 商家
+     * 其他分类的商家
      */
     public static final String SERVICE_PROVIDE = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/get_user_commpany";
+    /**
+     * 首页的商家
+     */
+    public static final String GET_DDEK_USER_COMMPANY = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/get_ddek_user_commpany";
 
     /* ---买车--**/
     /**
@@ -70,6 +75,11 @@ public class URLConstants {
      */
     public static final String BOUDLE_PHONE_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/user_oauth_register_0217";
     public static final String HEIGHT_FILTER_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/get_category_list";
+    /**
+     * 关于大道网 http://mobile.ddek3.com/goods/conent-54.html
+     */
+    public static final String ABOUT_URL = "http://mobile.ddek3.com/goods/conent-54.html";
+
     //    http://mobile.zams.cn/tools/mobile_ajax.asmx/user_oauth_register_0217
     /**
      * 消息通知

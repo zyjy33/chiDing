@@ -18,11 +18,13 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.common.Constants;
 import com.yunsen.enjoy.utils.WebUitls;
+import com.yunsen.enjoy.widget.NoScrollWebView;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -53,7 +55,9 @@ public class WebActivity extends BaseFragmentActivity {
     TextView webCategoryTv;
     @Bind(R.id.top_layout)
     LinearLayout topLayout;
-    private WebView webView;
+    @Bind(R.id.scroll_view)
+    ScrollView scrollView;
+    private NoScrollWebView webView;
     private String mUrl = "";
     private boolean mWebError = false;
 
@@ -71,13 +75,13 @@ public class WebActivity extends BaseFragmentActivity {
     @Override
     protected void initView() {
         ButterKnife.bind(this);
-        webView = new WebView(this);
+        webView = new NoScrollWebView(this);
         webRootView.addView(webView);
         webView.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-        if(TextUtils.isEmpty(mNoChangeTitle)){
+        if (TextUtils.isEmpty(mNoChangeTitle)) {
             actionBarTitle.setText("加载中，请稍后...");
         }
-
+        webErrorLayout.setVisibility(View.GONE);
     }
 
     @Override
@@ -113,6 +117,13 @@ public class WebActivity extends BaseFragmentActivity {
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
                 super.onPageStarted(view, url, favicon);
                 mWebError = false;
+                scrollView.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        scrollView.scrollTo(0, 0);
+                        scrollView.smoothScrollTo(0, 0);
+                    }
+                });
                 webProgress.setVisibility(View.VISIBLE);
                 if (webView != null) {
                     webView.getSettings().setBlockNetworkImage(true);
@@ -200,6 +211,8 @@ public class WebActivity extends BaseFragmentActivity {
 
         if ((keyCode == KeyEvent.KEYCODE_BACK) && webView != null && webView.canGoBack()) {
             webView.goBack();
+            scrollView.scrollTo(0, 0);
+            scrollView.smoothScrollTo(0, 0);
             return true;
         }
         if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
@@ -223,8 +236,16 @@ public class WebActivity extends BaseFragmentActivity {
     public void onViewClicked() {
         if (webView != null && webView.canGoBack()) {
             webView.goBack();
+            scrollView.post(new Runnable() {
+                @Override
+                public void run() {
+                    scrollView.scrollTo(0, 0);
+                    scrollView.smoothScrollTo(0, 0);
+                }
+            });
         } else {
             finish();
         }
     }
+
 }

@@ -29,12 +29,14 @@ import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.activity.BaseFragmentActivity;
 import com.yunsen.enjoy.common.Constants;
 import com.yunsen.enjoy.common.SpConstants;
+import com.yunsen.enjoy.http.DataException;
 import com.yunsen.enjoy.http.HttpCallBack;
 import com.yunsen.enjoy.http.HttpProxy;
 import com.yunsen.enjoy.http.URLConstants;
 import com.yunsen.enjoy.model.ApkVersionInfo;
 import com.yunsen.enjoy.utils.BitmapUtil;
 import com.yunsen.enjoy.utils.DeviceUtil;
+import com.yunsen.enjoy.utils.ToastUtils;
 import com.yunsen.enjoy.widget.DialogProgress;
 
 import java.util.concurrent.ExecutionException;
@@ -61,6 +63,7 @@ public class DBFengXiangActivity extends BaseFragmentActivity implements OnClick
     private String mShareDescription = "";
     private DialogProgress progress;
     private ImageView qrCodeImg;
+    private boolean mFlag;
 
     @Override
     public int getLayout() {
@@ -125,7 +128,7 @@ public class DBFengXiangActivity extends BaseFragmentActivity implements OnClick
                 qrCodeImg.setVisibility(View.VISIBLE);
                 mShareUrl = URLConstants.REALM_URL + "/appshare/" + mUserId + ".html";
                 final String path = getCacheDir().toString() + "ddek";
-
+                requestAppVersion();
                 new AsyncTask<String, Nullable, Boolean>() {
 
                     @Override
@@ -147,8 +150,6 @@ public class DBFengXiangActivity extends BaseFragmentActivity implements OnClick
 
                     }
                 }.execute(path);
-                mShareTitle = getResources().getString(R.string.app_name);
-                requestAppVersion();
                 break;
             default:
                 qrCodeImg.setVisibility(View.GONE);
@@ -222,6 +223,12 @@ public class DBFengXiangActivity extends BaseFragmentActivity implements OnClick
      * @param shareType
      */
     public void wxHyShare(int shareType) {
+        if (mShareType == Constants.SHARE_APP_INFO) {
+            if (!mFlag) {
+                ToastUtils.makeTextShort("分享数据在加载，请稍后再试");
+                return;
+            }
+        }
         IWXAPI api = WXAPIFactory.createWXAPI(this, Constants.APP_ID);
         WXWebpageObject webPage = new WXWebpageObject();
         webPage.webpageUrl = mShareUrl;
@@ -231,9 +238,9 @@ public class DBFengXiangActivity extends BaseFragmentActivity implements OnClick
         //图片加载是使用的ImageLoader.loadImageSync() 同步方法
         //并且还要创建图片的缩略图，因为微信限制了图片的大小
         if (TextUtils.isEmpty(mImagUrl)) {
-            mShareBitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.app_icon_1);
+            mShareBitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.app_icon);
         } else if (mShareBitmap == null) {
-            mShareBitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.app_icon_1);
+            mShareBitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.app_icon);
         }
         Bitmap thumbBmp = Bitmap.createScaledBitmap(mShareBitmap, 120, 120, true);
         msg.setThumbImage(thumbBmp);
@@ -287,18 +294,28 @@ public class DBFengXiangActivity extends BaseFragmentActivity implements OnClick
         HttpProxy.getApkVersion(new HttpCallBack<ApkVersionInfo>() {
             @Override
             public void onSuccess(ApkVersionInfo responseData) {
+                mFlag = true;
                 if (responseData == null) {
                     responseData = new ApkVersionInfo();
                 }
                 String content = responseData.getContent();
                 if (TextUtils.isEmpty(content)) {
-                    content = "一款放心的买车App~";
+                    content = "大道网App";
                 }
                 mShareDescription = content;
+                if (!TextUtils.isEmpty(getTitle())) {
+                    mShareTitle = responseData.getTitle();
+                }
+//                if(!TextUtils.isEmpty(responseData.getImg_url())){
+//                    mShareUrl
+//                }
             }
 
             @Override
             public void onError(Request request, Exception e) {
+                if (e instanceof DataException) {
+                    ToastUtils.makeTextShort(e.getMessage());
+                }
             }
         });
     }

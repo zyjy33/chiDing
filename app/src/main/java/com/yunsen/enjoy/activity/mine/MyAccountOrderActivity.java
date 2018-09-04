@@ -76,7 +76,7 @@ public class MyAccountOrderActivity extends BaseFragmentActivity {
     private MyAccountOrderAdapter mAdapter;
     private List<WalletCashBean> mDatas;
     private String mNearDay = "0";  //nday:时间筛选（0-全部,1-近一周,2-近一月,3-近三月,4-三月前）
-    private String mFundId = "16,5,1";  //资金类型：fund_id（余额=1,现金=11,积分=2,红包=3,养老金=4,备货金=5,备货金余额=6,备货金累计=7,消费价值=8,营销金=9,培训金=10,公益价值=12,投资价值=13,行为价值=14,时间价值=15..多个逗号分隔）
+    private String mFundId = "16,5,1";  //资金类型：fund_id（余额=1,现金=11,积分=2,红包=3,养老金=4,备货金=5,备货金余额=6,备货金累计=7,消费价值=8,营销劵=9,培训金=10,公益价值=12,投资价值=13,行为价值=14,时间价值=15..多个逗号分隔）
     private String mExpensesId = "0"; //消费类型：expenses_id(充值受益=1,招募展会=2,招募产品=3,招募渠道=4,招募广告=5,终端消费=6,终端推广=7,营销服务=8,平台广告=9,备用金=10,其他11)
     private String mFlag = "1"; //1 收益 2消费
 

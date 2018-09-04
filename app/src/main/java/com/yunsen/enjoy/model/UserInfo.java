@@ -135,6 +135,8 @@ public class UserInfo {
     private Object audit_time;
     private CompanyBean company;
     private double card;
+    private String password;
+    private String paypassword;
 
     public int getId() {
         return id;
@@ -302,6 +304,22 @@ public class UserInfo {
         } else {
             return URLConstants.REALM_URL + avatar;
         }
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getPaypassword() {
+        return paypassword;
+    }
+
+    public void setPaypassword(String paypassword) {
+        this.paypassword = paypassword;
     }
 
     public void setAvatar(String avatar) {

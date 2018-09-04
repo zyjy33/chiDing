@@ -1,5 +1,7 @@
 package com.yunsen.enjoy.activity.pay;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -14,6 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.activity.ApplyAgentActivity;
 import com.yunsen.enjoy.activity.BaseFragmentActivity;
@@ -32,9 +35,13 @@ import com.yunsen.enjoy.model.event.UpUiEvent;
 import com.yunsen.enjoy.model.request.WatchCarModel;
 import com.yunsen.enjoy.thirdparty.PayProxy;
 import com.yunsen.enjoy.thirdparty.alipay.PayResult;
+import com.yunsen.enjoy.ui.DialogUtils;
 import com.yunsen.enjoy.ui.UIHelper;
+import com.yunsen.enjoy.ui.interfaces.OnLeftOnclickListener;
+import com.yunsen.enjoy.ui.interfaces.OnRightOnclickListener;
 import com.yunsen.enjoy.utils.AccountUtils;
 import com.yunsen.enjoy.utils.ToastUtils;
+import com.yunsen.enjoy.widget.GlideCircleTransform;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -86,9 +93,12 @@ public class PayActivity extends BaseFragmentActivity {
     EditText payMoneyEdt;
     @Bind(R.id.my_card_tv)
     TextView myCardTv;
+    @Bind(R.id.company_logo)
+    ImageView companyLogo;
     private int mPayType = Constants.WEI_XIN_PAY_TYPE;
     private MyHandler mMyHandler;
     private WatchCarModel mRequestData;
+    private AlertDialog mSetPayDialog;
 
     @Override
     public int getLayout() {
@@ -107,7 +117,12 @@ public class PayActivity extends BaseFragmentActivity {
         Intent intent = getIntent();
         String companyId = intent.getStringExtra(Constants.COMPANY_ID);
         String companyName = intent.getStringExtra(Constants.COMPANY_NAME);
-
+        String companylogo = intent.getStringExtra(Constants.COMPANY_LOGO);
+        Glide.with(this)
+                .load(companylogo)
+                .transform(new GlideCircleTransform(this))
+                .error(R.mipmap.app_icon)
+                .into(companyLogo);
         mRequestData = new WatchCarModel();
         mRequestData.setGoods_id("9221");
         mRequestData.setArticle_id("16944");
@@ -231,10 +246,27 @@ public class PayActivity extends BaseFragmentActivity {
                     case Constants.BALANCE_PAY_TYPE:
                         mRequestData.setExpress_id("7");
                         mRequestData.setAmount(payMoneyStr);
-                        HttpProxy.gotoShopPay(mRequestData, new HttpCallBack<MyOrderInfo>() {
+                        HttpProxy.getUserInfoNoSave(AccountUtils.getUserName(), new HttpCallBack<UserInfo>() {
                             @Override
-                            public void onSuccess(MyOrderInfo responseData) {
-                                PayMoneyProxy.getInstance().cardPay(PayActivity.this, responseData.getTrade_no());
+                            public void onSuccess(UserInfo responseData) {
+                                String password = responseData.getPassword();
+                                if (!TextUtils.isEmpty(password) && password.equals(responseData.getPaypassword())) {
+                                    if (mSetPayDialog == null) {
+                                        mSetPayDialog = DialogUtils.createUpPayPwdDialog(PayActivity.this, new OnLeftOnclickListener() {
+                                            @Override
+                                            public void onLeftClick() {
+                                                UIHelper.showForgetPwdActivity2(PayActivity.this);
+                                                mSetPayDialog.dismiss();
+                                            }
+                                        }, null);
+                                    }
+                                    if (!mSetPayDialog.isShowing()) {
+                                        mSetPayDialog.show();
+                                    }
+                                    //修改支付密码
+                                } else {
+                                    gotoShopPay();
+                                }
                             }
 
                             @Override
@@ -251,6 +283,24 @@ public class PayActivity extends BaseFragmentActivity {
                 UIHelper.showMonneyChongZhiActivity(this, "16");
                 break;
         }
+    }
+
+    private void gotoShopPay() {
+        HttpProxy.gotoShopPay(mRequestData, new HttpCallBack<MyOrderInfo>() {
+            @Override
+            public void onSuccess(MyOrderInfo responseData) {
+                PayMoneyProxy.getInstance().cardPay(PayActivity.this, responseData.getTrade_no());
+            }
+
+            @Override
+            public void onError(Request request, Exception e) {
+                if (e instanceof DataException) {
+                    ToastUtils.makeTextShort(e.getMessage());
+                }
+            }
+        });
+
+
     }
 
     private static class MyHandler extends Handler {
@@ -291,5 +341,14 @@ public class PayActivity extends BaseFragmentActivity {
                 }
             }
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mSetPayDialog != null && mSetPayDialog.isShowing()) {
+            mSetPayDialog.dismiss();
+        }
+        mSetPayDialog = null;
     }
 }

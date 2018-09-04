@@ -462,25 +462,14 @@ public class MyPopupWindowMenu extends PopupWindow implements OnClickListener,
      */
     private void SoftWarePopuWindow(View view2, final Context context) {
         try {
-            //			mLayoutInflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
-            //			// inflater = LayoutInflater.from(context);
-            //			view = mLayoutInflater.inflate(R.layout.ware_infromation_share,null);
-            //			pop = new PopupWindow(view, LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT, false);
-            //			final Dialog dlg = new Dialog(context, R.style.delete_pop_style);
-            //			pop.setBackgroundDrawable(new BitmapDrawable());
-            //			pop.setOutsideTouchable(true);
-
             spPreferences = context.getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, context.MODE_PRIVATE);
             user_name = spPreferences.getString(SpConstants.USER_NAME, "");
             user_id = spPreferences.getString(SpConstants.USER_ID, "");
 
             inflater = LayoutInflater.from(context);
             view = inflater.inflate(R.layout.ware_infromation_share, null);
-            pop = new PopupWindow(view, LayoutParams.MATCH_PARENT,
-                    LayoutParams.WRAP_CONTENT, false);
-            // pop.setFocusable(true);
-            // pop.setTouchable(true); // 设置PopupWindow可触摸
-            //
+            pop = new PopupWindow(view, LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT, false);
+
             if (!pop.isShowing()) {
                 pop.showAtLocation(view2, Gravity.BOTTOM, 0, 0);
             }
@@ -489,19 +478,13 @@ public class MyPopupWindowMenu extends PopupWindow implements OnClickListener,
                     .findViewById(R.id.img_btn_wx_friend);
             btn_sms = (ImageButton) view.findViewById(R.id.img_btn_sms);
             img_btn_tencent = (ImageButton) view.findViewById(R.id.img_btn_tencent);
-            //			Button btn_holdr = (Button) view.findViewById(R.id.btn_holdr);
-            //			btn_holdr.setOnClickListener(new OnClickListener() {
-            //
-            //				@Override
-            //				public void onClick(View arg0) {
-            //					pop.dismiss();
-            //				}
-            //			});
 
         } catch (Exception e) {
 
             e.printStackTrace();
         }
+
+
 
         // 新浪
         img_btn_tencent.setOnClickListener(new OnClickListener() {
@@ -517,7 +500,6 @@ public class MyPopupWindowMenu extends PopupWindow implements OnClickListener,
             @Override
             public void onClick(View v) {
                 pop.dismiss();
-                // progress.CreateProgress();
                 con(16, 1);
             }
         });
@@ -526,7 +508,6 @@ public class MyPopupWindowMenu extends PopupWindow implements OnClickListener,
 
             @Override
             public void onClick(View v) {
-
                 pop.dismiss();
                 con(17, 1);
             }
@@ -535,7 +516,6 @@ public class MyPopupWindowMenu extends PopupWindow implements OnClickListener,
         btn_sms.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 pop.dismiss();
                 con(18, 0);
             }
@@ -544,14 +524,12 @@ public class MyPopupWindowMenu extends PopupWindow implements OnClickListener,
 
     private void con(final int index, int type) {
         try {
-
             String user_name = spPreferences.getString(SpConstants.USER_NAME, "");
             String user_id = spPreferences.getString(SpConstants.USER_ID, "");
             //							String data = "http://183.62.138.31:8088/appshare/"+id+".html";
             String data = "http://183.62.138.31:1011/appshare/" + user_id + ".html";
             System.out.println("分享11======================" + data);
             String zhou = "大道网下载地址,下载后可帮分享的好友获得福利" + data;
-
             System.out.println("==========" + zhou);
             softshareWxChat(zhou);
         } catch (Exception e) {

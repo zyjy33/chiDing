@@ -65,6 +65,7 @@ public class UserForgotPasswordActivity extends AppCompatActivity implements
             } else if (type_num.equals("2")) {
                 type = "paypassword";
                 tv_title.setText("找回支付密码");
+                userpwd.setHint("请输入支付密码(6-16位数字的密码)");
             } else {
 
             }

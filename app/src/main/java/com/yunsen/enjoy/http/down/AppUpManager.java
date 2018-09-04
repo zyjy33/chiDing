@@ -98,6 +98,11 @@ public class AppUpManager {
         });
     }
 
+
+
+
+
+
     /**
      * 显示发现新版本
      *

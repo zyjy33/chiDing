@@ -151,7 +151,6 @@ public class BecomeVipActivity extends BaseFragmentActivity {
         window.getDecorView().setPadding(0, 0, 0, 0);
         dialog.setContentView(rootView, new ViewGroup.LayoutParams(mScreenWidth, mScreenHeight * 3 / 5));
         dialog.show();
-
     }
 
     private void toBuyRequest() {

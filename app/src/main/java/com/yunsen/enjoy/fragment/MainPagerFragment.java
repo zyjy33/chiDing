@@ -176,7 +176,7 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
     }
 
     public void requestServiceMore() {
-        HttpProxy.getServiceMoreProvider(mPageIndex, null, "0", "clever", "", new HttpCallBack<List<SProviderModel>>() {
+        HttpProxy.getServiceProvider(mPageIndex, "8",  "0", new HttpCallBack<List<SProviderModel>>() {
             @Override
             public void onSuccess(List<SProviderModel> responseData) {
                 if (mIsLoadMore) {
@@ -344,7 +344,7 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
                 UIHelper.showSearchActivity(getActivity());
                 break;
             case R.id.qrcode_img:
-                ToastUtils.makeTextShort("功能占未开放");
+                ToastUtils.makeTextShort("功能暂未开发");
                 break;
             case R.id.money_discount_tv: //消费券优惠
             case R.id.top_money_discount_tv: //消费券优惠

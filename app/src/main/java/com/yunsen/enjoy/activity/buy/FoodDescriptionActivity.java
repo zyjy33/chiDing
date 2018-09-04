@@ -27,6 +27,7 @@ import com.yunsen.enjoy.http.HttpProxy;
 import com.yunsen.enjoy.model.SProviderModel;
 import com.yunsen.enjoy.ui.UIHelper;
 import com.yunsen.enjoy.ui.recyclerview.NoScrollLinearLayoutManager;
+import com.yunsen.enjoy.utils.AccountUtils;
 import com.yunsen.enjoy.utils.GlobalStatic;
 import com.yunsen.enjoy.utils.ToastUtils;
 import com.yunsen.enjoy.utils.Utils;
@@ -77,6 +78,8 @@ public class FoodDescriptionActivity extends BaseFragmentActivity implements Mul
     TextView locationTv;
     @Bind(R.id.good_food_title)
     TextView goodFoodTitle;
+    @Bind(R.id.sell_sum_tv)
+    TextView sellSumtv;
 
     private GoodsListAdapter mAdapter;
     private ArrayList<SProviderModel> mDatas;
@@ -213,15 +216,16 @@ public class FoodDescriptionActivity extends BaseFragmentActivity implements Mul
         Glide.with(this)
                 .load(data.getImg_url())
                 .into(lookImgImg);
-
+        sellSumtv.setText(String.valueOf(data.getPromotion()));
         double lng = data.getLat();
         double lat = data.getLng();
         if (lat != 0 && lng != 0 && GlobalStatic.latitude != 0.0 && GlobalStatic.longitude != 0.0) {
             double algorithm = Utils.algorithm(GlobalStatic.longitude, GlobalStatic.latitude, lng, lat) / 1000;
             BigDecimal b = new BigDecimal(algorithm);
             double df = b.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
-            if (df < 0.1) {
-                distanceTv.setText("小于0.1km");
+            if (df < 1) {
+                double m = df * 1000;
+                distanceTv.setText(m + "m");
             } else {
                 distanceTv.setText(df + "km");
             }
@@ -310,7 +314,15 @@ public class FoodDescriptionActivity extends BaseFragmentActivity implements Mul
                 break;
             case R.id.pay_money_tv:
                 if (mData != null) {
-                    UIHelper.showPayActivity(this, String.valueOf(mData.getUser_id()), mData.getShop_name());
+                    if (AccountUtils.hasLogin()) {
+                        if (AccountUtils.hasBoundPhone()) {
+                            UIHelper.showPayActivity(this, String.valueOf(mData.getUser_id()), mData.getShop_name(), mData.getLogo_url());
+                        } else {
+                            UIHelper.showBundPhoneActivity(this);
+                        }
+                    } else {
+                        UIHelper.showUserLoginActivity(this);
+                    }
                 } else {
                     ToastUtils.makeTextShort("网络慢，请稍后。。。 ");
                 }
@@ -328,7 +340,7 @@ public class FoodDescriptionActivity extends BaseFragmentActivity implements Mul
             case R.id.location_img:
             case R.id.location_tv:
                 if (mData != null) {
-                    UIHelper.showMapActivity(this, mData, mData.getLng(), mData.getLat(), mData.getAddress());
+                    UIHelper.showMapActivity(this, mData, mData.getLng(), mData.getLat(), mData.getBLng(), mData.getBLat(), mData.getAddress());
                 }
                 break;
         }

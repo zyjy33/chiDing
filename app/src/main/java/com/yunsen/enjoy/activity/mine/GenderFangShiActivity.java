@@ -107,8 +107,7 @@ public class GenderFangShiActivity extends AppCompatActivity implements
                     userloginqm();
                 } else if (type.equals("2")) {
                     value = "2";
-                    Intent intent = new Intent(GenderFangShiActivity.this,
-                            ModPassActivity.class);
+                    Intent intent = new Intent(GenderFangShiActivity.this, ModPassActivity.class);
                     intent.putExtra("value", value);
                     startActivity(intent);
                     finish();

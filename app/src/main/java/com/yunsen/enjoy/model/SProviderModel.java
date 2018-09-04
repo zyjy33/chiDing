@@ -124,6 +124,7 @@ public class SProviderModel implements Parcelable {
     private String update_time;
     private String add_time;
     private List<?> article;
+    private double promotion;
     /**
      * shop_name :
      * shop_style :
@@ -213,6 +214,7 @@ public class SProviderModel implements Parcelable {
         distance = in.readInt();
         update_time = in.readString();
         add_time = in.readString();
+        promotion = in.readDouble();
         shop_name = in.readString();
         shop_style = in.readString();
         is_system = in.readInt();
@@ -388,6 +390,14 @@ public class SProviderModel implements Parcelable {
         } else {
             return URLConstants.REALM_URL + img_url;
         }
+    }
+
+    public double getPromotion() {
+        return promotion;
+    }
+
+    public void setPromotion(double promotion) {
+        this.promotion = promotion;
     }
 
     public void setImg_url(String img_url) {
@@ -786,6 +796,15 @@ public class SProviderModel implements Parcelable {
         this.service = service;
     }
 
+    public double getBLng() {
+        return lng;
+    }
+
+    public double getBLat() {
+        return lat;
+    }
+
+
     @Override
     public int describeContents() {
         return 0;
@@ -841,6 +860,7 @@ public class SProviderModel implements Parcelable {
         dest.writeInt(distance);
         dest.writeString(update_time);
         dest.writeString(add_time);
+        dest.writeDouble(promotion);
         dest.writeString(shop_name);
         dest.writeString(shop_style);
         dest.writeInt(is_system);

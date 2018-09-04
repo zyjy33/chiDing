@@ -217,4 +217,18 @@ public class AccountUtils {
         }
         return mCertificationState;
     }
+
+    /**
+     * 是否登录
+     *
+     * @return
+     */
+    public static boolean isLogin() {
+        String userName = getUserName();
+        if (TextUtils.isEmpty(userName)) {
+            return false;
+        } else {
+            return true;
+        }
+    }
 }

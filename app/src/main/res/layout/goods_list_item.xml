@@ -64,7 +64,6 @@
                 android:textSize="12sp" />
 
             <TextView
-                android:visibility="gone"
                 android:drawableLeft="@mipmap/chibi"
                 android:drawablePadding="5dp"
                 android:id="@+id/goods_list_coin_tv"

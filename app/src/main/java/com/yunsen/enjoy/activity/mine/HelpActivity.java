@@ -1,6 +1,7 @@
 package com.yunsen.enjoy.activity.mine;
 
 import android.os.Bundle;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -10,18 +11,29 @@ import com.yanzhenjie.permission.Permission;
 import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.activity.BaseFragmentActivity;
 import com.yunsen.enjoy.activity.WebActivity;
+import com.yunsen.enjoy.activity.mine.adapter.HelpListAdapter;
 import com.yunsen.enjoy.common.Constants;
+import com.yunsen.enjoy.fragment.notice.adapter.NoticeListAdapter;
+import com.yunsen.enjoy.http.HttpCallBack;
+import com.yunsen.enjoy.http.HttpProxy;
+import com.yunsen.enjoy.model.NoticeModel;
 import com.yunsen.enjoy.ui.UIHelper;
+import com.yunsen.enjoy.ui.recyclerview.NoScrollLinearLayoutManager;
+import com.yunsen.enjoy.widget.recyclerview.MultiItemTypeAdapter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import okhttp3.Request;
 
 /**
  * Created by Administrator on 2018/8/2/002.
  */
 
-public class HelpActivity extends BaseFragmentActivity {
+public class HelpActivity extends BaseFragmentActivity implements MultiItemTypeAdapter.OnItemClickListener {
     @Bind(R.id.action_back)
     ImageView actionBack;
     @Bind(R.id.action_bar_title)
@@ -34,16 +46,11 @@ public class HelpActivity extends BaseFragmentActivity {
     LinearLayout teamTopLayout;
     @Bind(R.id.service_online_layout)
     LinearLayout serviceOnlineLayout;
-    @Bind(R.id.one_layout)
-    LinearLayout oneLayout;
-    @Bind(R.id.two_layout)
-    LinearLayout twoLayout;
-    @Bind(R.id.three_layout)
-    LinearLayout threeLayout;
-    @Bind(R.id.four_layout)
-    LinearLayout fourLayout;
-    @Bind(R.id.five_layout)
-    LinearLayout fiveLayout;
+    @Bind(R.id.recycler_view)
+    RecyclerView recyclerView;
+
+    private List<NoticeModel> mDatas;
+    private HelpListAdapter mAdapter;
 
     @Override
     public int getLayout() {
@@ -54,20 +61,38 @@ public class HelpActivity extends BaseFragmentActivity {
     protected void initView() {
         ButterKnife.bind(this);
         actionBarTitle.setText("大道网帮助中心");
+        recyclerView.setLayoutManager(new NoScrollLinearLayoutManager(this));
+        mDatas = new ArrayList<>();
+        mAdapter = new HelpListAdapter(this, R.layout.help_item, mDatas);
+        recyclerView.setAdapter(mAdapter);
     }
 
     @Override
     protected void initData(Bundle savedInstanceState) {
-
     }
 
     @Override
     protected void initListener() {
-
+        mAdapter.setOnItemClickListener(this);
     }
 
+    @Override
+    public void requestData() {
+        super.requestData();
+        HttpProxy.getHelpList(new HttpCallBack<List<NoticeModel>>() {
+            @Override
+            public void onSuccess(List<NoticeModel> responseData) {
+                mAdapter.upBaseDatas(responseData);
+            }
 
-    @OnClick({R.id.action_back, R.id.service_online_layout, R.id.one_layout, R.id.two_layout, R.id.three_layout, R.id.four_layout, R.id.five_layout})
+            @Override
+            public void onError(Request request, Exception e) {
+
+            }
+        });
+    }
+
+    @OnClick({R.id.action_back, R.id.service_online_layout})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.action_back:
@@ -75,20 +100,6 @@ public class HelpActivity extends BaseFragmentActivity {
                 break;
             case R.id.service_online_layout:
                 requestPermission(Permission.CALL_PHONE, Constants.CALL_PHONE);
-                break;
-            case R.id.one_layout:
-                UIHelper.showWebActivity(this, "http://www.baidu.com", "消费券使用说明");
-            case R.id.two_layout:
-                UIHelper.showWebActivity(this, "http://www.baidu.com", "退款说明");
-                break;
-            case R.id.three_layout:
-                UIHelper.showWebActivity(this, "http://www.baidu.com", "退款步骤说明");
-                break;
-            case R.id.four_layout:
-                UIHelper.showWebActivity(this, "http://www.baidu.com", "恶意刷单处罚");
-                break;
-            case R.id.five_layout:
-                UIHelper.showWebActivity(this, "http://www.baidu.com", "什么事消费券,如何做到折扣!");
                 break;
         }
     }
@@ -99,5 +110,18 @@ public class HelpActivity extends BaseFragmentActivity {
         if (requestCode == Constants.CALL_PHONE) {
             UIHelper.showPhoneNumberActivity(this, "123456");
         }
+    }
+
+    @Override
+    public void onItemClick(View view, RecyclerView.Adapter adapter, RecyclerView.ViewHolder holder, int position) {
+        if (position >= 0 && position < mDatas.size()) {
+            UIHelper.showHelpWebActivity(this, mDatas.get(position).getId());
+        }
+
+    }
+
+    @Override
+    public boolean onItemLongClick(View view, RecyclerView.Adapter adapter, RecyclerView.ViewHolder holder, int position) {
+        return false;
     }
 }

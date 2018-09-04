@@ -53,7 +53,7 @@
                     style="@style/HomePointImgStyle"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:src="@mipmap/integral_change_0" />
+                    />
 
                 <TextView
                     android:id="@+id/home_point_old_price_0"
@@ -89,7 +89,7 @@
                     style="@style/HomePointImgStyle"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:src="@mipmap/integral_change_1" />
+                     />
 
 
                 <TextView
@@ -128,7 +128,7 @@
                     style="@style/HomePointImgStyle"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:src="@mipmap/integral_change_2" />
+                     />
 
 
                 <TextView
@@ -161,7 +161,7 @@
                     style="@style/HomePointImgStyle"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:src="@mipmap/integral_change_3" />
+                     />
 
 
                 <TextView
@@ -194,7 +194,7 @@
                     style="@style/HomePointImgStyle"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:src="@mipmap/integral_change_4" />
+                     />
 
 
                 <TextView

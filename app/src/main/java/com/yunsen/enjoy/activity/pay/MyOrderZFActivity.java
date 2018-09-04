@@ -1,5 +1,6 @@
 package com.yunsen.enjoy.activity.pay;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -22,9 +23,11 @@ import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.common.Constants;
 import com.yunsen.enjoy.common.SpConstants;
 import com.yunsen.enjoy.http.AsyncHttp;
+import com.yunsen.enjoy.http.DataException;
 import com.yunsen.enjoy.http.HttpCallBack;
 import com.yunsen.enjoy.http.HttpProxy;
 import com.yunsen.enjoy.http.URLConstants;
+import com.yunsen.enjoy.model.UserInfo;
 import com.yunsen.enjoy.model.UserRegisterllData;
 import com.yunsen.enjoy.model.event.EventConstants;
 import com.yunsen.enjoy.model.event.UpUiEvent;
@@ -33,6 +36,11 @@ import com.yunsen.enjoy.thirdparty.PayProxy;
 import com.yunsen.enjoy.thirdparty.alipay.AuthResult;
 import com.yunsen.enjoy.thirdparty.alipay.OrderInfoUtil2_0;
 import com.yunsen.enjoy.thirdparty.alipay.PayResult;
+import com.yunsen.enjoy.ui.DialogUtils;
+import com.yunsen.enjoy.ui.UIHelper;
+import com.yunsen.enjoy.ui.interfaces.OnLeftOnclickListener;
+import com.yunsen.enjoy.utils.AccountUtils;
+import com.yunsen.enjoy.utils.ToastUtils;
 import com.yunsen.enjoy.widget.DialogProgress;
 
 import org.greenrobot.eventbus.EventBus;
@@ -66,6 +74,7 @@ public class MyOrderZFActivity extends AppCompatActivity implements OnClickListe
     LinearLayout ll_zhifu_buju;
     public static String huodong_type = "0";
     private boolean mIsBecomeVip = false;
+    private AlertDialog mSetPayDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -130,7 +139,36 @@ public class MyOrderZFActivity extends AppCompatActivity implements OnClickListe
                 finish();
                 break;
             case R.id.card_pay_tv:
-                upPayment(recharge_no, Constants.STOCK_UP);
+                HttpProxy.getUserInfoNoSave(AccountUtils.getUserName(), new HttpCallBack<UserInfo>() {
+                    @Override
+                    public void onSuccess(UserInfo responseData) {
+                        String password = responseData.getPassword();
+                        if (!TextUtils.isEmpty(password) && password.equals(responseData.getPaypassword())) {
+                            if (mSetPayDialog == null) {
+                                mSetPayDialog = DialogUtils.createUpPayPwdDialog(MyOrderZFActivity.this, new OnLeftOnclickListener() {
+                                    @Override
+                                    public void onLeftClick() {
+                                        UIHelper.showForgetPwdActivity2(MyOrderZFActivity.this);
+                                        mSetPayDialog.dismiss();
+                                    }
+                                }, null);
+                            }
+                            if (!mSetPayDialog.isShowing()) {
+                                mSetPayDialog.show();
+                            }
+                            //修改支付密码
+                        } else {
+                            upPayment(recharge_no, Constants.STOCK_UP);
+                        }
+                    }
+
+                    @Override
+                    public void onError(Request request, Exception e) {
+                        if (e instanceof DataException) {
+                            ToastUtils.makeTextShort(e.getMessage());
+                        }
+                    }
+                });
                 break;
             default:
                 break;
@@ -475,7 +513,6 @@ public class MyOrderZFActivity extends AppCompatActivity implements OnClickListe
                         intent2.putExtra("order_no", recharge_no);
                         intent2.putExtra("order_yue", "order_yue");
                         intent2.putExtra("orderxq", orderxq);
-                        intent2.putExtra(Constants.IS_STOCK_UP, true);
                         intent2.putExtra("img_url", getIntent().getStringExtra("img_url"));
                         intent2.putExtra("hd_title", getIntent().getStringExtra("title"));
                         intent2.putExtra("start_time", getIntent().getStringExtra("start_time"));
@@ -484,7 +521,7 @@ public class MyOrderZFActivity extends AppCompatActivity implements OnClickListe
                         intent2.putExtra("id", getIntent().getStringExtra("id"));
                         intent2.putExtra("real_name", getIntent().getStringExtra("real_name"));
                         intent2.putExtra("mobile", getIntent().getStringExtra("mobile"));
-                        intent2.putExtra(Constants.IS_CARD_MONEY, true);
+                        intent2.putExtra(Constants.IS_STOCK_UP, true);
                         startActivity(intent2);
                         finish();
                         break;
@@ -505,5 +542,12 @@ public class MyOrderZFActivity extends AppCompatActivity implements OnClickListe
         });
     }
 
-
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mSetPayDialog != null && mSetPayDialog.isShowing()) {
+            mSetPayDialog.dismiss();
+        }
+        mSetPayDialog = null;
+    }
 }

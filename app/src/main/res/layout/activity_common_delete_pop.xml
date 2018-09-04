@@ -64,7 +64,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/actionsheet_bottom_selector"
             android:gravity="center"
-            android:text="采购金支付"
+            android:text="采购劵支付"
             android:textColor="#FD4A2E"
             android:textSize="16sp" />
 

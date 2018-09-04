@@ -58,7 +58,7 @@ public class SettingShopMoneyActivity extends BaseFragmentActivity {
     @Override
     protected void initView() {
         ButterKnife.bind(this);
-        actionBarTitle.setText("营销金");
+        actionBarTitle.setText("营销劵");
     }
 
     @Override
@@ -76,7 +76,7 @@ public class SettingShopMoneyActivity extends BaseFragmentActivity {
         HttpProxy.getUserInfoNoSave(AccountUtils.getUserName(), new HttpCallBack<UserInfo>() {
             @Override
             public void onSuccess(UserInfo responseData) {
-                currentShopMoney.setText("当前营销金为" + String.valueOf(responseData.getPromotion()) + "元");
+                currentShopMoney.setText("当前营销劵为" + String.valueOf(responseData.getPromotion()) + "元");
             }
 
             @Override

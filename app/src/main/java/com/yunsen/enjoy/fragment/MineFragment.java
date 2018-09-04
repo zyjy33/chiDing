@@ -1,6 +1,7 @@
 package com.yunsen.enjoy.fragment;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -9,13 +10,14 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.LayoutInflater;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.tencent.tauth.Tencent;
@@ -26,7 +28,6 @@ import com.yunsen.enjoy.activity.mine.PersonCenterActivity;
 import com.yunsen.enjoy.common.AppContext;
 import com.yunsen.enjoy.common.Constants;
 import com.yunsen.enjoy.common.SpConstants;
-import com.yunsen.enjoy.common.wsmanager.WsManager;
 import com.yunsen.enjoy.http.DataException;
 import com.yunsen.enjoy.http.HttpCallBack;
 import com.yunsen.enjoy.http.HttpProxy;
@@ -38,6 +39,7 @@ import com.yunsen.enjoy.model.event.UpUiEvent;
 import com.yunsen.enjoy.ui.DialogUtils;
 import com.yunsen.enjoy.ui.UIHelper;
 import com.yunsen.enjoy.utils.AccountUtils;
+import com.yunsen.enjoy.utils.DeviceUtil;
 import com.yunsen.enjoy.utils.GetImgUtil;
 import com.yunsen.enjoy.utils.ToastUtils;
 import com.yunsen.enjoy.widget.GlideCircleTransform;
@@ -102,6 +104,7 @@ public class MineFragment extends BaseFragment {
     private SharedPreferences mSp;
     private String mGroupId;
     private boolean mIsFacilitator;
+    private Dialog mLoginDialog;
 
 
     @Override
@@ -151,6 +154,10 @@ public class MineFragment extends BaseFragment {
             loginTv.setVisibility(View.VISIBLE);
             logoutLayout.setVisibility(View.GONE);
         }
+        if (!AccountUtils.isLogin()) {
+            showLoginDialog();
+        }
+
     }
 
     private void setWeiXinLoginInfo() {
@@ -366,56 +373,30 @@ public class MineFragment extends BaseFragment {
     }
 
 
-    /**
-     * 设置用户图标 和 名字
-     *
-     * @param name
-     * @param imgString
-     * @param imgUrl
-     */
-    private void setUserIconAndName(String name, String imgString, String imgUrl) {
-//        userNameTv.setText(name);
-//        if (!TextUtils.isEmpty(imgString)) {
-//            Glide.with(MineFragment.this)
-//                    .load(imgString)
-//                    .error(R.mipmap.login_icon)
-//                    .transform(new GlideCircleTransform(getActivity()))
-//                    .into(userIconImg);
-//        } else {
-//            Glide.with(MineFragment.this)
-//                    .load(imgUrl)
-//                    .error(R.mipmap.login_icon)
-//                    .transform(new GlideCircleTransform(getActivity()))
-//                    .into(userIconImg);
-//        }
-
-    }
-
-    /**
-     * 获取乐享用户信息
-     */
-    public void getLeXiangUserInfo() {
-        HttpProxy.getUserInfo("user_name_phone", new HttpCallBack<UserInfo>() {
-            @Override
-            public void onSuccess(UserInfo data) {
-
-            }
-
-            @Override
-            public void onError(Request request, Exception e) {
-                Toast.makeText(context, "连接超时", Toast.LENGTH_SHORT).show();
-
-            }
-        });
-    }
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == Constants.ORDER_ACT_REQUEST) {
-
         }
     }
 
+    public void onResumes() {
+        if (getActivity() != null) {
+            if (!AccountUtils.isLogin()) {
+                showLoginDialog();
+            } else {
+                if (mLoginDialog != null && mLoginDialog.isShowing()) {
+                    mLoginDialog.dismiss();
+                }
+            }
+
+            if (AccountUtils.hasBoundPhone()) {
+                getUserInfo();
+            } else {
+                UIHelper.showBindBankCardActivity(getActivity());
+                setWeiXinLoginInfo();
+            }
+        }
+    }
 
     @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
     public void onEvent(UpUiEvent event) {
@@ -501,7 +482,7 @@ public class MineFragment extends BaseFragment {
             R.id.logout_layout})
     public void onViewClicked(View view) {
         if (view.getId() == R.id.about_layout) {
-            UIHelper.showWebActivity(getActivity(), "http://www.baidu.com");
+            UIHelper.showWebActivity(getActivity(), URLConstants.ABOUT_URL);
         } else if (view.getId() == R.id.logout_layout) {
             DialogUtils.showLoginDialog(getActivity());
         } else if (!AccountUtils.hasLogin()) {
@@ -572,4 +553,35 @@ public class MineFragment extends BaseFragment {
         DialogUtils.closeLoginDialog();
     }
 
+    private void showLoginDialog() {
+        if (mLoginDialog == null) {
+            mLoginDialog = new Dialog(getActivity(), R.style.AlertDialogStyle2);
+            View rootView = getLayoutInflater().inflate(R.layout.login_dialog, null);
+            rootView.findViewById(R.id.login_btn).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    UIHelper.showUserLoginActivity(getActivity());
+                }
+            });
+            int screenHeight = DeviceUtil.getScreenHeight();
+            mLoginDialog.setCancelable(false);//点击外部不可dismiss
+            mLoginDialog.setCanceledOnTouchOutside(true);
+            Window window = mLoginDialog.getWindow();
+            window.setGravity(Gravity.CENTER);
+            mLoginDialog.setContentView(rootView, new ViewGroup.LayoutParams(DeviceUtil.getScreenWidth() / 3 * 2, screenHeight / 4));
+        }
+
+        if (!mLoginDialog.isShowing()) {
+            mLoginDialog.show();
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (mLoginDialog.isShowing()) {
+            mLoginDialog.dismiss();
+        }
+        mLoginDialog = null;
+    }
 }

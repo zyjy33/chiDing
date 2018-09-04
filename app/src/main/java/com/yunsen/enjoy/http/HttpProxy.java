@@ -179,23 +179,17 @@ public class HttpProxy {
     }
 
     /**
-     * 首页通知1
+     * 帮助列表
      *
      * @param callBack
      */
-    public static void getNoticeData1(final HttpCallBack<List<NoticeModel>> callBack) {
+    public static void getHelpList(final HttpCallBack<List<NoticeModel>> callBack) {
         HashMap<String, String> param = new HashMap<>();
-//        param.put("channel_name", "news");
-//        param.put("category_id", "6");
-//        param.put("page_size", "8");
-//        param.put("page_index", "1");
-//        param.put("strwhere", "status=0");
-//        param.put("orderby", "");
-        param.put("channel_name", "news");
-        param.put("top", "10");
+        param.put("channel_name", "content");
+        param.put("category_id", "2731");
+        param.put("top", "100");
         param.put("strwhere", "");
-
-        HttpClient.get(URLConstants.NOTICE_URL, param, new HttpResponseHandler<NoticeResponse>() {
+        HttpClient.get(URLConstants.HELP_CENTOR_URL, param, new HttpResponseHandler<NoticeResponse>() {
             @Override
             public void onSuccess(NoticeResponse response) {
                 callBack.onSuccess(response.getData());
@@ -275,17 +269,17 @@ public class HttpProxy {
      * @param pageIndex
      * @param callBack
      */
-    public static void getServiceProvider(int pageIndex, String city, final HttpCallBack<List<SProviderModel>> callBack) {
+    public static void getServiceProvider(int pageIndex, String pageSize, String tradeId, final HttpCallBack<List<SProviderModel>> callBack) {
         HashMap<String, String> param = new HashMap<>();
-        param.put("trade_id", "0");
-        param.put("page_size", "5");
+        param.put("trade_id", tradeId);
+        param.put("page_size", pageSize);
         param.put("page_index", "" + pageIndex);
-        param.put("strwhere", "status=0 and datatype='Supply' ");//and group_id=23
-//        param.put("strwhere", "status=0 and datatype='Supply'and city = \'" + city + "\'");
+        param.put("strwhere", "status=0 and datatype='Supply' and group_id =23"); //   group_id=23   门店商家 group_id=19 供应商
         param.put("orderby", "");
+        param.put("distance", "");
+        param.put("orderstr", "");
 
-
-        HttpClient.get(URLConstants.SERVICE_PROVIDE, param, new HttpResponseHandler<ServiceProvideResponse>() {
+        HttpClient.get(URLConstants.GET_DDEK_USER_COMMPANY, param, new HttpResponseHandler<ServiceProvideResponse>() {
             @Override
             public void onSuccess(ServiceProvideResponse response) {
                 if (response.getData() != null) {
@@ -308,19 +302,19 @@ public class HttpProxy {
      * 商家
      *
      * @param pageIndex
-     * @param city
+     * @param pageSize
      * @param callBack
      */
-    public static void getServiceMoreProvider(int pageIndex, String city, String tradeId, String orderStr, String distance, final HttpCallBack<List<SProviderModel>> callBack) {
+    public static void getServiceMoreProvider(int pageIndex, String pageSize, String tradeId, String orderStr, String distance, final HttpCallBack<List<SProviderModel>> callBack) {
         HashMap<String, String> param = new HashMap<>();
         param.put("trade_id", tradeId);
-        if (!TextUtils.isEmpty(city)) {
+        if (!TextUtils.isEmpty(pageSize)) {
             param.put("page_size", "4");
         } else {
             param.put("page_size", "10");
         }
         param.put("page_index", "" + pageIndex);
-        param.put("strwhere", "status=0 and datatype='Supply'"); //  and group_id =23 group_id=23   门店商家 group_id=19 供应商
+        param.put("strwhere", "status=0 and datatype='Supply'and group_id =23"); //  and group_id =23 group_id=23   门店商家 group_id=19 供应商
         param.put("orderby", "");
         param.put("distance", distance);
         param.put("orderstr", orderStr);
@@ -1349,7 +1343,7 @@ public class HttpProxy {
                 SProviderModel data = response.getData();
                 if (data != null) {
                     String datatype = data.getDatatype();
-                    if ("Supply".equals(datatype) && data.getGroup_id() == 23) {  // 是商家
+                    if ("Supply".equals(datatype) && data.getGroup_id() == 23) {  // 23 是商家  19 是供应商
                         callBack.onSuccess(true);
                     } else {
                         callBack.onSuccess(false);
@@ -1991,7 +1985,7 @@ public class HttpProxy {
         HttpClient.get(URLConstants.GET_APK_VERSION, param, new HttpResponseHandler<ApkVersionResponse>() {
             @Override
             public void onSuccess(ApkVersionResponse response) {
-//                callBack.onSuccess(response.getData());
+                callBack.onSuccess(response.getData());
             }
 
             @Override
@@ -2587,7 +2581,7 @@ public class HttpProxy {
     }
 
     /**
-     * 营销金设置
+     * 营销劵设置
      *
      * @param amount
      * @param callBack
@@ -2598,7 +2592,7 @@ public class HttpProxy {
         map.put(SpConstants.USER_ID, AccountUtils.getUser_id());
         map.put(SpConstants.USER_NAME, AccountUtils.getUserName());
         map.put(SpConstants.AMOUNT, amount);
-        map.put("fund_id", "9"); // 9 营销金
+        map.put("fund_id", "9"); // 9 营销劵
         map.put("payment_id", "1"); //1 内部充值
         map.put("rebate_item_id", "0");
         HttpClient.get(URLConstants.ADD_AMOUNT_RECHARGE_URL, map, new HttpResponseHandler<RechargeNoResponse>() {

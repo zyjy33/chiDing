@@ -221,4 +221,31 @@ public class DialogUtils {
         AlertDialog dialog = new AlertDialog.Builder(ctx).setView(view).create();
         return dialog;
     }
+
+    /**
+     * 提示填写支付密码
+     *
+     * @param ctx
+     * @param rightListener
+     * @param leftListener
+     * @return
+     */
+    public static AlertDialog createUpPayPwdDialog(Context ctx, final OnLeftOnclickListener leftListener, OnRightOnclickListener rightListener) {
+        LayoutInflater inflater = (LayoutInflater) ctx.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View view = inflater.inflate(R.layout.up_pay_pwd_dialog, null);
+        Button submit = (Button) view.findViewById(R.id.submit_btn);
+
+        submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (leftListener != null) {
+                    leftListener.onLeftClick();
+                }
+            }
+        });
+
+        view.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 250));
+        AlertDialog dialog = new AlertDialog.Builder(ctx).setView(view).create();
+        return dialog;
+    }
 }

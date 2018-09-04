@@ -29,7 +29,7 @@
                     android:layout_marginLeft="@dimen/app_margin"
                     android:layout_marginRight="@dimen/app_margin"
                     android:gravity="center_vertical"
-                    android:text="消费券消费券"
+                    android:text="充值消费券"
                     android:textColor="@color/title_color"
                     android:textSize="16sp" />
 
@@ -42,7 +42,8 @@
                     android:paddingBottom="10dp"
                     android:text="仅限于有消费券余额的商家支付"
                     android:textColor="@color/color_theme"
-                    android:textSize="12sp" />
+                    android:textSize="12sp"
+                    android:visibility="gone" />
 
             </LinearLayout>
 
@@ -256,6 +257,7 @@
                 android:text="选择支付方式"
                 android:textColor="@color/title_color"
                 android:textSize="14sp" />
+
             <LinearLayout
                 android:id="@+id/yu_pay2"
                 android:layout_width="match_parent"
@@ -307,6 +309,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@color/color_f5f7fa" />
+
             <LinearLayout
                 android:id="@+id/yu_pay0"
                 android:layout_width="match_parent"
@@ -410,8 +413,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@color/color_f5f7fa" />
-
-
 
 
             <LinearLayout

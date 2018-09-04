@@ -30,6 +30,12 @@ import com.amap.api.maps2d.model.LatLng;
 import com.amap.api.maps2d.model.Marker;
 import com.amap.api.maps2d.model.MarkerOptions;
 import com.amap.api.maps2d.model.MyLocationStyle;
+import com.amap.api.services.core.LatLonPoint;
+import com.amap.api.services.geocoder.GeocodeResult;
+import com.amap.api.services.geocoder.GeocodeSearch;
+import com.amap.api.services.geocoder.RegeocodeAddress;
+import com.amap.api.services.geocoder.RegeocodeQuery;
+import com.amap.api.services.geocoder.RegeocodeResult;
 import com.bumptech.glide.Glide;
 import com.yanzhenjie.permission.Permission;
 import com.yunsen.enjoy.R;
@@ -54,7 +60,7 @@ import static com.amap.api.maps2d.AMap.MAP_TYPE_NORMAL;
  * Created by Administrator on 2018/8/23/023.
  */
 
-public class MapActivity extends BaseFragmentActivity implements AMapLocationListener, AMap.OnMarkerClickListener {
+public class MapActivity extends BaseFragmentActivity implements AMapLocationListener, AMap.OnMarkerClickListener, GeocodeSearch.OnGeocodeSearchListener {
     private static final String TAG = "MapActivity";
     @Bind(R.id.map_view)
     MapView mapView;
@@ -87,8 +93,11 @@ public class MapActivity extends BaseFragmentActivity implements AMapLocationLis
     private Marker mMarker;
     private MarkerOptions meEndMarkerOptions;
     private LatLng latLng2;
-    private AlertDialog mShopDialog;
     private SProviderModel mData;
+    private String mLocationAddress = "";
+    private GeocodeSearch geocodeSearch;
+    private double mAddressBdLon;
+    private double mAddressBdLat;
 
     @Override
     public int getLayout() {
@@ -101,6 +110,8 @@ public class MapActivity extends BaseFragmentActivity implements AMapLocationLis
         Bundle extras = getIntent().getExtras();
         mAddressLon = extras.getDouble(Constants.ADDRESS_LONG, 0.00);
         mAddressLat = extras.getDouble(Constants.ADDRESS_LAT, 0.00);
+        mAddressBdLon = extras.getDouble(Constants.ADDRESS_BD_LONG, 0.00);
+        mAddressBdLat = extras.getDouble(Constants.ADDRESS_BD_LAT, 0.00);
         mEndAddress = extras.getString(Constants.ADDRESS_KEY);
         mData = extras.getParcelable(Constants.DATA);
 
@@ -116,13 +127,15 @@ public class MapActivity extends BaseFragmentActivity implements AMapLocationLis
             aMap.setMapType(MAP_TYPE_NORMAL);
             aMap.setOnMarkerClickListener(this);
         }
-        requestPermission(new String[]{Permission.ACCESS_COARSE_LOCATION, Permission.ACCESS_FINE_LOCATION}, 1);
-
+        //地理搜索类
+        geocodeSearch = new GeocodeSearch(this);
+        geocodeSearch.setOnGeocodeSearchListener(this);
         Glide.with(MapActivity.this)
                 .load(mData.getImg_url())
                 .into(goodsListImg);
         goodsListTitleTv.setText(mData.getShop_name());
         goodsListAddressTv.setText(mData.getAddress());
+        requestPermission(new String[]{Permission.ACCESS_COARSE_LOCATION, Permission.ACCESS_FINE_LOCATION}, 1);
 
 
     }
@@ -183,7 +196,8 @@ public class MapActivity extends BaseFragmentActivity implements AMapLocationLis
                 .snippet(mEndAddress)
                 .icon(BitmapDescriptorFactory.fromBitmap(BitmapFactory.decodeResource(getResources(), R.mipmap.end_point)))
                 .draggable(false).visible(true);
-
+        LatLng latLng = new LatLng(mAddressBdLat, mAddressBdLon);
+        getAddressByLatlng(latLng);
         aMap.addMarker(meEndMarkerOptions);
 //        Animation animation = new RotateAnimation(marker.getRotateAngle(),marker.getRotateAngle()+180,0,0,0);
 //        long duration = 1000L;
@@ -195,6 +209,15 @@ public class MapActivity extends BaseFragmentActivity implements AMapLocationLis
 
     }
 
+    private void getAddressByLatlng(LatLng latLng) {
+        //逆地理编码查询条件：逆地理编码查询的地理坐标点、查询范围、坐标类型。
+        LatLonPoint latLonPoint = new LatLonPoint(latLng.latitude, latLng.longitude);
+        RegeocodeQuery query = new RegeocodeQuery(latLonPoint, 500f, GeocodeSearch.AMAP);
+        //异步查询
+        geocodeSearch.getFromLocationAsyn(query);
+    }
+
+
     @Override
     public void onLocationChanged(AMapLocation amapLocation) {
         if (amapLocation != null) {
@@ -203,6 +226,7 @@ public class MapActivity extends BaseFragmentActivity implements AMapLocationLis
                 //定位成功回调信息，设置相关消息
                 //定位完成之后更新数据
                 mLatLng = new LatLng(amapLocation.getLatitude(), amapLocation.getLongitude());
+                mLocationAddress = amapLocation.getAddress();
 //                if (mLocationUpMarker) {
 //                    mLocationUpMarker = false;
                 aMap.moveCamera(CameraUpdateFactory.zoomTo(10));
@@ -212,7 +236,12 @@ public class MapActivity extends BaseFragmentActivity implements AMapLocationLis
                     double algorithm = Utils.algorithm(amapLocation.getLongitude(), amapLocation.getLatitude(), mAddressLon, mAddressLat) / 1000;
                     BigDecimal b = new BigDecimal(algorithm);
                     double df = b.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
-                    goodsListDistanceTv.setText(df + "km");
+                    if (df < 1) {
+                        double m = df * 1000;
+                        goodsListDistanceTv.setText(m + "m");
+                    } else {
+                        goodsListDistanceTv.setText(df + "km");
+                    }
                 } else {
 //            view.setVisibility(View.GONE);
                     goodsListDistanceTv.setText("0.0 km");
@@ -280,40 +309,8 @@ public class MapActivity extends BaseFragmentActivity implements AMapLocationLis
             mSelectMapDialog.dismiss();
         }
         mSelectMapDialog = null;
-        if (mShopDialog != null && mShopDialog.isShowing()) {
-            mShopDialog.dismiss();
-        }
-        mShopDialog = null;
     }
 
-    /**
-     * 显示商店dialog
-     */
-    private void showShopDialog() {
-        if (mShopDialog == null) {
-            LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            View view = inflater.inflate(R.layout.shop_dialog, null);
-            ImageView goodsListImg = (ImageView) view.findViewById(R.id.goods_list_img);
-            TextView goodsListTitleTv = (TextView) view.findViewById(R.id.goods_list_title_tv);
-            TextView goodsListAddressTv = (TextView) view.findViewById(R.id.goods_list_address_tv);
-            TextView goodsListCoinTv = (TextView) view.findViewById(R.id.goods_list_coin_tv);
-            TextView goodsListVipTv = (TextView) view.findViewById(R.id.goods_list_vip_tv);
-            TextView goodsListTypeTv = (TextView) view.findViewById(R.id.goods_list_type_tv);
-            TextView goodsListDistanceTv = (TextView) view.findViewById(R.id.goods_list_distance_tv);
-            Button lookBtn = (Button) view.findViewById(R.id.look_line_btn);
-
-            view.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-
-            mShopDialog = new AlertDialog.Builder(this)
-                    .setView(view)
-                    .create();
-            mShopDialog.getWindow().setGravity(Gravity.BOTTOM);
-        }
-        if (!mShopDialog.isShowing()) {
-            mShopDialog.show();
-        }
-
-    }
 
     /**
      * 选择地图
@@ -323,10 +320,19 @@ public class MapActivity extends BaseFragmentActivity implements AMapLocationLis
             LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             View view = inflater.inflate(R.layout.select_map_dialog, null);
             LinearLayout gadeLayout = (LinearLayout) view.findViewById(R.id.gade_layout);
+            LinearLayout baiduLayout = (LinearLayout) view.findViewById(R.id.baidu_layout);
             gadeLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     UIHelper.openGaoDeMap(MapActivity.this, mAddressLat, mAddressLon, mEndAddress);
+                }
+            });
+            baiduLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (mLatLng != null) {
+                        UIHelper.openBaiduMap(MapActivity.this, mLatLng.latitude, mLatLng.longitude, mLocationAddress, mAddressLat, mAddressLon, mEndAddress, "");
+                    }
                 }
             });
             view.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
@@ -351,8 +357,6 @@ public class MapActivity extends BaseFragmentActivity implements AMapLocationLis
     }
 
 
-
-
     @OnClick({R.id.back_img, R.id.look_line_btn})
     public void onViewClicked(View view) {
         switch (view.getId()) {
@@ -363,5 +367,19 @@ public class MapActivity extends BaseFragmentActivity implements AMapLocationLis
                 showSelectMapDialog();
                 break;
         }
+    }
+
+    @Override
+    public void onRegeocodeSearched(RegeocodeResult regeocodeResult, int i) {
+        RegeocodeAddress regeocodeAddress = regeocodeResult.getRegeocodeAddress();
+        String formatAddress = regeocodeAddress.getFormatAddress();
+        String simpleAddress = formatAddress.substring(9);
+        Log.e(TAG, "onRegeocodeSearched: " + simpleAddress);
+        Log.e(TAG, "onRegeocodeSearched: " + regeocodeAddress.getCity());
+    }
+
+    @Override
+    public void onGeocodeSearched(GeocodeResult geocodeResult, int i) {
+
     }
 }

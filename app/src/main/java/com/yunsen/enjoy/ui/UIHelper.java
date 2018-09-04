@@ -59,6 +59,7 @@ import com.yunsen.enjoy.activity.mine.ExtensionActivity;
 import com.yunsen.enjoy.activity.mine.HelpActivity;
 import com.yunsen.enjoy.activity.mine.InvitationFriendActivity;
 import com.yunsen.enjoy.activity.mine.MineAchievementActivity;
+import com.yunsen.enjoy.activity.mine.ModPassActivity;
 import com.yunsen.enjoy.activity.mine.MoneyRecordActivity;
 import com.yunsen.enjoy.activity.mine.MoneyWithdrawActivity;
 import com.yunsen.enjoy.activity.mine.MonthIncomeActivity;
@@ -673,6 +674,16 @@ public class UIHelper {
     }
 
     /**
+     * 忘记支付密码
+     * @param ctx
+     */
+    public static void showForgetPwdActivity2(Context ctx) {
+        Intent intent = new Intent(ctx, UserForgotPasswordActivity.class);
+        intent.putExtra("type", "2");
+        ctx.startActivity(intent);
+    }
+
+    /**
      * 提现页面
      *
      * @param act
@@ -1145,7 +1156,7 @@ public class UIHelper {
     /**
      * 充值
      *
-     * @param ctx 1 充值余额 16 充值消费券 9 营销金
+     * @param ctx 1 充值余额 16 充值消费券 9 营销劵
      */
     public static void showMonneyChongZhiActivity(Context ctx, String fundId) {
         Intent intent = new Intent(ctx, MonneyChongZhiActivity.class);
@@ -1196,7 +1207,7 @@ public class UIHelper {
     }
 
     /**
-     * 设置营销金
+     * 设置营销劵
      *
      * @param act
      * @param orderNo
@@ -1412,10 +1423,11 @@ public class UIHelper {
     /**
      * @param ctx 付款
      */
-    public static void showPayActivity(Context ctx, String companyId, String companyName) {
+    public static void showPayActivity(Context ctx, String companyId, String companyName, String logoUrl) {
         Intent intent = new Intent(ctx, PayActivity.class);
         intent.putExtra(Constants.COMPANY_ID, companyId);
         intent.putExtra(Constants.COMPANY_NAME, companyName);
+        intent.putExtra(Constants.COMPANY_LOGO, logoUrl);
         ctx.startActivity(intent);
     }
 
@@ -1426,6 +1438,18 @@ public class UIHelper {
         Intent intent = new Intent(ctx, ComplaintActivity.class);
         intent.putExtra(SpConstants.COMPANY_ID, companyId);
         intent.putExtra(SpConstants.COMPANY_NAME, companyName);
+        ctx.startActivity(intent);
+    }
+
+    /**
+     * 修改密码
+     *
+     * @param ctx
+     * @param value 1 用户密码 2 支付密码
+     */
+    public static void showModPassActivity(Context ctx, String value) {
+        Intent intent = new Intent(ctx, ModPassActivity.class);
+        intent.putExtra(SpConstants.VALUE, value);
         ctx.startActivity(intent);
     }
 
@@ -1441,7 +1465,7 @@ public class UIHelper {
     }
 
     /**
-     * 设置营销金
+     * 设置营销劵
      *
      * @param ctx
      */
@@ -1456,7 +1480,7 @@ public class UIHelper {
      * @param ctx
      * @param data
      */
-    public static void showMapActivity(Context ctx, SProviderModel data, double dlat, double dlon, String dname) {
+    public static void showMapActivity(Context ctx, SProviderModel data, double dlat, double dlon, double blat, double blon, String dname) {
         Intent intent = new Intent(ctx, MapActivity.class);
         Bundle bundle = new Bundle();
         bundle.putDouble(Constants.ADDRESS_LAT, dlat);
@@ -1486,7 +1510,8 @@ public class UIHelper {
             act.startActivity(intent); //启动调用
         } catch (Exception e) {
             e.printStackTrace();
-            ToastUtils.makeTextShort("请先安装高德地图");
+//            ToastUtils.makeTextShort("请先安装高德地图");
+            openOutWebView(act, "http://www.autonavi.com/#/");
         }
     }
 
@@ -1515,14 +1540,15 @@ public class UIHelper {
      * @author jack
      * created at 2017/8/2 15:01
      */
-    public void openBaiduMap(Activity act, double slat, double slon, String sname,
-                             double dlat, double dlon, String dname, String city) {
+    public static void openBaiduMap(Activity act, double slat, double slon, String sname,
+                                    double dlat, double dlon, String dname, String city) {
         try {
             String uri = getBaiduMapUri(String.valueOf(slat), String.valueOf(slon), sname,
                     String.valueOf(dlat), String.valueOf(dlon), dname, city, "");
             Intent intent = Intent.parseUri(uri, 0);
             act.startActivity(intent); //启动调用
         } catch (Exception e) {
+            openOutWebView(act, "http://map.baidu.com/zt/client/index/");
             e.printStackTrace();
         }
     }
@@ -1534,5 +1560,32 @@ public class UIHelper {
         return String.format(uri, originLat, originLon, originName, desLat, desLon, destination, region, src);
     }
 
+    /**
+     * 用外部浏览器打开url
+     *
+     * @param act
+     * @param url
+     */
+    public static void openOutWebView(Activity act, String url) {
+        try {
+            Intent intent = new Intent();
+            intent.setAction("android.intent.action.VIEW");
+            Uri content_url = Uri.parse(url);
+            intent.setData(content_url);
+            act.startActivity(intent);
+        } catch (IllegalStateException e) {
+            ToastUtils.makeTextShort("请先安装浏览器");
+        }
+    }
+
+    /**
+     * 帮助中心的网页
+     *
+     * @param ctx
+     * @param id
+     */
+    public static void showHelpWebActivity(Context ctx, int id) {
+        showWebActivity(ctx, "http://mobile.ddek3.com/goods/conent-" + id + ".html");
+    }
 
 }

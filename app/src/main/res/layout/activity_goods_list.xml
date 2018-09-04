@@ -54,6 +54,7 @@
         </LinearLayout>
 
         <ImageView
+            android:visibility="invisible"
             android:id="@+id/qrcode_img"
             android:layout_width="25dp"
             android:layout_height="25dp"

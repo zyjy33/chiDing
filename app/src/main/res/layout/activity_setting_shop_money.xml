@@ -32,7 +32,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/app_margin"
-                    android:text="营销金"
+                    android:text="营销劵"
                     android:textColor="@color/title_color"
                     android:textSize="14sp" />
 
@@ -45,7 +45,7 @@
                     android:background="@color/color_f5f7fa"
                     android:drawableLeft="@mipmap/red_rmb"
                     android:drawablePadding="5dp"
-                    android:hint="输入您预售的营销金额"
+                    android:hint="输入您预售的营销劵额"
                     android:inputType="numberDecimal"
                     android:paddingBottom="8dp"
                     android:paddingLeft="5dp"
@@ -59,7 +59,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/app_margin"
-                    android:text="当前营销金为"
+                    android:text="当前营销劵为"
                     android:textColor="@color/color_888"
                     android:textSize="13sp" />
 

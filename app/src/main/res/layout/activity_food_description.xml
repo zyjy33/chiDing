@@ -65,20 +65,19 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
-                        android:orientation="horizontal"
-                        android:visibility="gone">
+                        android:orientation="horizontal">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="可消费消费券:"
+                            android:text="消费总额度:"
                             android:textColor="@color/color_888"
                             android:textSize="13sp" />
 
                         <TextView
+                            android:id="@+id/sell_sum_tv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="88.62"
                             android:textColor="@color/color_theme"
                             android:textSize="13sp" />
                     </LinearLayout>
@@ -170,8 +169,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/app_margin"
                     android:layout_marginRight="5dp"
-                    android:gravity="center_vertical"
                     android:layout_weight="1"
+                    android:gravity="center_vertical"
                     android:textColor="@color/color_666"
                     android:textSize="13sp" />
 

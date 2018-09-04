@@ -56,7 +56,7 @@ public class AppContext extends Application {
                 .methodCount(0)         // (Optional) How many method line to show. Default 2
                 .methodOffset(7)        // (Optional) Hides internal method calls up to offset. Default 5
                 .build();
-        initAppStatusListener();//webService
+//        initAppStatusListener();//webService
         /**
          * logger 日志
          */

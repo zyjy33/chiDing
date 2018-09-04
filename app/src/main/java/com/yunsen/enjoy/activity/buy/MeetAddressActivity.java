@@ -76,19 +76,19 @@ public class MeetAddressActivity extends BaseFragmentActivity implements MultiIt
     @Override
     public void requestData() {
         super.requestData();
-        HttpProxy.getServiceProvider(mPageIndex, null, new HttpCallBack<List<SProviderModel>>() {
-            @Override
-            public void onSuccess(List<SProviderModel> responseData) {
-                mAdapter.upDatas(responseData);
-                noDataErrorLayout.setVisibility(View.GONE);
-            }
-
-            @Override
-            public void onError(Request request, Exception e) {
-                Logger.e("onError: " + e.getMessage());
-                noDataErrorLayout.setVisibility(View.VISIBLE);
-            }
-        });
+//        HttpProxy.getServiceProvider(mPageIndex, null, new HttpCallBack<List<SProviderModel>>() {
+//            @Override
+//            public void onSuccess(List<SProviderModel> responseData) {
+//                mAdapter.upDatas(responseData);
+//                noDataErrorLayout.setVisibility(View.GONE);
+//            }
+//
+//            @Override
+//            public void onError(Request request, Exception e) {
+//                Logger.e("onError: " + e.getMessage());
+//                noDataErrorLayout.setVisibility(View.VISIBLE);
+//            }
+//        });
     }
 
     @OnClick(R.id.action_back)

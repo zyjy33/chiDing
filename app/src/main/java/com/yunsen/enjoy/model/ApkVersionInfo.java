@@ -1,5 +1,7 @@
 package com.yunsen.enjoy.model;
 
+import com.yunsen.enjoy.http.URLConstants;
+
 /**
  * Created by Administrator on 2018/6/7.
  */
@@ -150,7 +152,11 @@ public class ApkVersionInfo {
     }
 
     public String getImg_url() {
-        return img_url;
+        if (img_url != null && img_url.startsWith("http")) {
+            return img_url;
+        } else {
+            return URLConstants.REALM_URL + img_url;
+        }
     }
 
     public void setImg_url(String img_url) {

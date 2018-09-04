@@ -217,6 +217,7 @@ public class DeviceUtil {
         int contentHeight = getScreenHeight(context);
         return totlaHeight - contentHeight;
     }
+
     /**
      * 获取底部虚拟键盘的高度
      *
@@ -252,5 +253,21 @@ public class DeviceUtil {
 
         return dpi;
     }
+
+    private boolean isAppInstalled(Context context, String packageName) {
+        PackageInfo packageInfo;
+        try {
+            packageInfo = context.getPackageManager().getPackageInfo(packageName, 0);
+        } catch (PackageManager.NameNotFoundException e) {
+            packageInfo = null;
+            e.printStackTrace();
+        }
+        if (packageInfo == null) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
 
 }

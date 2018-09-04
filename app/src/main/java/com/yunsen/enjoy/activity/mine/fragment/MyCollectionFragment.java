@@ -176,20 +176,20 @@ public class MyCollectionFragment extends BaseFragment implements MultiItemTypeA
     public void onItemClick(View view, RecyclerView.Adapter adapter, RecyclerView.ViewHolder holder, int position) {
         if (mDatas != null && mDatas.size() > 0 && mDatas.size() > position) {
             GoodsData goodsData = mDatas.get(position);
-            switch (goodsData.getChannel_id()) {//7车  13积分 22商品
-                case 7:
-                    UIHelper.showCarDetailsActivity(getActivity(), Integer.toString(goodsData.getId()));
-                    break;
-                case 13:
-                    UIHelper.showGoodsDescriptionActivity(getActivity(), Integer.toString(goodsData.getId()), goodsData.getTitle(), Constants.POINT_BUY);
-                    break;
-                case 22:
-                    UIHelper.showGoodsDescriptionActivity(getActivity(), Integer.toString(goodsData.getId()), goodsData.getTitle());
-                    break;
-                default:
-                    UIHelper.showCarDetailsActivity(getActivity(), Integer.toString(goodsData.getId()));
-                    break;
-            }
+//            switch (goodsData.getChannel_id()) {//7车  13积分 22商品
+//                case 7:
+//                    UIHelper.showCarDetailsActivity(getActivity(), Integer.toString(goodsData.getId()));
+//                    break;
+//                case 13:
+//                    UIHelper.showGoodsDescriptionActivity(getActivity(), Integer.toString(goodsData.getId()), goodsData.getTitle(), Constants.POINT_BUY);
+//                    break;
+//                case 22:
+                    UIHelper.showGoodsDescriptionActivity(getActivity(), Integer.toString(goodsData.getArticle_id()), goodsData.getTitle());
+//                    break;
+//                default:
+//                    UIHelper.showCarDetailsActivity(getActivity(), Integer.toString(goodsData.getId()));
+//                    break;
+//            }
         }
     }
 

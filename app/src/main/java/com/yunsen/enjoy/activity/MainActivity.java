@@ -82,7 +82,7 @@ public class MainActivity extends BaseFragmentActivity implements AMapLocationLi
 
     @Override
     protected void initView() {
-        WsManager.getInstance().init();
+//        WsManager.getInstance().init();
     }
 
     @Override
@@ -156,7 +156,7 @@ public class MainActivity extends BaseFragmentActivity implements AMapLocationLi
                 amapLocation.getLocationType();//获取当前定位结果来源，如网络定位结果，详见定位类型表
                 GlobalStatic.latitude = amapLocation.getLatitude();//获取纬度
                 GlobalStatic.longitude = amapLocation.getLongitude();//获取经度
-                Log.e(TAG, "onLocationChanged:    GlobalStatic.latitude "+   GlobalStatic.latitude +"   GlobalStatic.longitude ="+ GlobalStatic.longitude  );
+                Log.e(TAG, "onLocationChanged:    GlobalStatic.latitude " + GlobalStatic.latitude + "   GlobalStatic.longitude =" + GlobalStatic.longitude);
                 SharedPreference.getInstance().putString(SpConstants.CITY_KEY, name);
                 SharedPreference.getInstance().putString(SpConstants.CITY_CODE, amapLocation.getCityCode());
                 SharedPreference.getInstance().putString(SpConstants.PROVINCE, amapLocation.getProvince());
@@ -194,7 +194,7 @@ public class MainActivity extends BaseFragmentActivity implements AMapLocationLi
 
     @Override
     public void requestData() {
-        AppUpManager.getInstance().startCheckUpdate(this, false);
+//        AppUpManager.getInstance().startCheckUpdate(this, false);
     }
 
     @Override
@@ -268,6 +268,9 @@ public class MainActivity extends BaseFragmentActivity implements AMapLocationLi
         } else {
             fragmentTransaction.add(R.id.fragment_container, fragment, fragmentTags.get(currIndex));
         }
+        if (fragment instanceof MineFragment) {
+            ((MineFragment) fragment).onResumes();
+        }
         fragmentTransaction.commitAllowingStateLoss();
         fragmentManager.executePendingTransactions();
     }
@@ -300,6 +303,14 @@ public class MainActivity extends BaseFragmentActivity implements AMapLocationLi
             }
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (currIndex == 3) {
+            mMineFragment.onResumes();
+        }
     }
 
     public void setCurrIndex(int index) {

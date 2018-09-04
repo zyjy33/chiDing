@@ -48,44 +48,6 @@ public class ModPassActivity extends AppCompatActivity implements OnClickListene
     String user_name;
     String type, type_num;
 
-    // private Handler handler = new Handler() {
-    // public void dispatchMessage(android.os.Message msg) {
-    // switch (msg.what) {
-    // case 0:
-    // oldP = mi;
-    // // /mi/resetpwd.ashx?yth=1&pwd=1&newpwd=1
-    // RequestParams params = new RequestParams();
-    // params.put("yth", yth);
-    // params.put("pwd", oldP);
-    // params.put("newpwd", newP1);
-    // String url = "";
-    // if(tag==0){
-    // url = "/mi/resetpwd.ashx";
-    // }else if(tag==1){
-    // url = "/mi/resetpaypwd.ashx";
-    // }
-    // AsyncHttp.post(RealmName.REALM_NAME + url,
-    // params, new AsyncHttpResponseHandler() {
-    // public void onSuccess(int arg0, String arg1) {
-    // System.out.println("~" + arg1);
-    // try {
-    // JSONObject object = new JSONObject(arg1);
-    //
-    // Toast.makeText(getApplicationContext(),
-    // object.getString("msg"), 200).show();
-    // } catch (JSONException e) {
-    // e.printStackTrace();
-    // }
-    // };
-    // }, getApplicationContext());
-    // break;
-    //
-    // default:
-    // break;
-    // }
-    // };
-    // };
-
     @SuppressLint("WrongViewCast")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,6 +59,8 @@ public class ModPassActivity extends AppCompatActivity implements OnClickListene
         tv1 = (TextView) findViewById(R.id.tv1);
         try {
             type_num = getIntent().getStringExtra("value");
+            String pwd = getIntent().getStringExtra(SpConstants.PASSWORD);
+
             System.out.println("===type_num==========" + type_num);
             if (type_num != null) {
                 if (type_num.equals("1")) {
@@ -235,11 +199,9 @@ public class ModPassActivity extends AppCompatActivity implements OnClickListene
 
         switch (v.getId()) {
             case R.id.wenhao:// 找回密码
-                System.out.println("=================type_num==" + type_num);
-				Intent intent2 = new Intent(ModPassActivity.this,
-						UserForgotPasswordActivity.class);
-				intent2.putExtra("type", type_num);
-				startActivity(intent2);
+                Intent intent2 = new Intent(ModPassActivity.this, UserForgotPasswordActivity.class);
+                intent2.putExtra("type", type_num);
+                startActivity(intent2);
                 break;
             case R.id.denglu:
                 oldP = v1.getText().toString();
@@ -272,15 +234,11 @@ public class ModPassActivity extends AppCompatActivity implements OnClickListene
                                 String result = object.getString("status");
                                 String info = object.getString("info");
                                 if (result.equals("y")) {
-                                    // handler.sendEmptyMessage(2);
-                                    Toast.makeText(ModPassActivity.this, info, Toast.LENGTH_SHORT)
-                                            .show();
+                                    Toast.makeText(ModPassActivity.this, info, Toast.LENGTH_SHORT).show();
                                     finish();
                                 } else {
-                                    Toast.makeText(ModPassActivity.this, info, Toast.LENGTH_SHORT)
-                                            .show();
+                                    Toast.makeText(ModPassActivity.this, info, Toast.LENGTH_SHORT).show();
                                     finish();
-                                    // handler.sendEmptyMessage(3);
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();

@@ -38,15 +38,14 @@ public class GoodsListAdapter extends CommonAdapter<SProviderModel> {
         holder.setText(R.id.goods_list_title_tv, data.getShop_name());
         String address = data.getProvince() + data.getCity() + data.getArea() + data.getAddress();
         holder.setText(R.id.goods_list_address_tv, address);
-//        String text = "可用消费券" + 88 + "元";
-        String text = mContext.getResources().getString(R.string.available_volume, "88.88");
+        String text = mContext.getResources().getString(R.string.available_volume, String.valueOf(data.getPromotion()));
         TextView textView = (TextView) holder.getView(R.id.goods_list_coin_tv);
         //ForegroundColorSpan 为文字前景色，BackgroundColorSpan为文字背景色
         ForegroundColorSpan redSpan = new ForegroundColorSpan(mContext.getResources().getColor(R.color.color_theme));
         ForegroundColorSpan graySpan = new ForegroundColorSpan(mContext.getResources().getColor(R.color.color_888));
         //这里注意一定要先给textview赋值
         SpannableStringBuilder builder = new SpannableStringBuilder(text);
-        int startEnd = text.indexOf("券");
+        int startEnd = text.indexOf("度");
         int End = text.indexOf("元");
         //为不同位置字符串设置不同颜色
         builder.setSpan(graySpan, 0, startEnd + 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -68,8 +67,9 @@ public class GoodsListAdapter extends CommonAdapter<SProviderModel> {
 
             BigDecimal b = new BigDecimal(algorithm);
             double df = b.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
-            if (df < 0.1) {
-                holder.setText(R.id.goods_list_distance_tv, "小于0.1km");
+            if (df < 1) {
+                double m = df * 1000;
+                holder.setText(R.id.goods_list_distance_tv, m + "m");
             } else {
                 holder.setText(R.id.goods_list_distance_tv, df + "km");
             }
