@@ -35,7 +35,7 @@ public class Guide2Activity extends AppCompatActivity implements OnPageChangeLis
     LayoutInflater layoutInflater;
     LinearLayout ll_yindaoye1;
     ImageView iv_yindaoye1;
-    private Button bv_experience;
+    private View bv_experience;
     // 定义ViewPager对象
     private ViewPager viewPager;
     // 定义ViewPager适配器
@@ -64,7 +64,7 @@ public class Guide2Activity extends AppCompatActivity implements OnPageChangeLis
     private void initView() {
         ll_yindaoye1 = (LinearLayout) findViewById(R.id.ll_yindaoye1);
         iv_yindaoye1 = (ImageView) findViewById(R.id.iv_yindaoye1);
-        bv_experience = (Button) findViewById(R.id.bv_experience);
+        bv_experience = (View) findViewById(R.id.bv_experience);
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         views = new ArrayList<View>();
 

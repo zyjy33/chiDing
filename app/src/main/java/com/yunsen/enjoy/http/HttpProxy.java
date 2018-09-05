@@ -311,7 +311,7 @@ public class HttpProxy {
         if (!TextUtils.isEmpty(pageSize)) {
             param.put("page_size", "4");
         } else {
-            param.put("page_size", "10");
+            param.put("page_size", "8");
         }
         param.put("page_index", "" + pageIndex);
         param.put("strwhere", "status=0 and datatype='Supply'and group_id =23"); //  and group_id =23 group_id=23   门店商家 group_id=19 供应商
@@ -3076,6 +3076,25 @@ public class HttpProxy {
         HttpClient.get(URLConstants.GET_DDEK_USER_PAYRECORD_LIST, map, new HttpResponseHandler<WalletCashResponse>() {
             @Override
             public void onSuccess(WalletCashResponse response) {
+                super.onSuccess(response);
+                callBack.onSuccess(response.getData());
+            }
+
+            @Override
+            public void onFailure(Request request, Exception e) {
+                callBack.onError(request, e);
+            }
+        });
+    }
+
+    /**
+     * @param callBack
+     */
+    public static void getTelUrl(final HttpCallBack<String> callBack) {
+        HashMap<String, String> map = new HashMap<String, String>();
+        HttpClient.get(URLConstants.GET_TEL_URL, map, new HttpResponseHandler<StringResponse>() {
+            @Override
+            public void onSuccess(StringResponse response) {
                 super.onSuccess(response);
                 callBack.onSuccess(response.getData());
             }

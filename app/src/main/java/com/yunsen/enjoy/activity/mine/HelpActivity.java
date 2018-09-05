@@ -14,11 +14,13 @@ import com.yunsen.enjoy.activity.WebActivity;
 import com.yunsen.enjoy.activity.mine.adapter.HelpListAdapter;
 import com.yunsen.enjoy.common.Constants;
 import com.yunsen.enjoy.fragment.notice.adapter.NoticeListAdapter;
+import com.yunsen.enjoy.http.DataException;
 import com.yunsen.enjoy.http.HttpCallBack;
 import com.yunsen.enjoy.http.HttpProxy;
 import com.yunsen.enjoy.model.NoticeModel;
 import com.yunsen.enjoy.ui.UIHelper;
 import com.yunsen.enjoy.ui.recyclerview.NoScrollLinearLayoutManager;
+import com.yunsen.enjoy.utils.ToastUtils;
 import com.yunsen.enjoy.widget.recyclerview.MultiItemTypeAdapter;
 
 import java.util.ArrayList;
@@ -51,6 +53,7 @@ public class HelpActivity extends BaseFragmentActivity implements MultiItemTypeA
 
     private List<NoticeModel> mDatas;
     private HelpListAdapter mAdapter;
+    private String mPhoneNumber = Constants.EMPTY;
 
     @Override
     public int getLayout() {
@@ -90,6 +93,19 @@ public class HelpActivity extends BaseFragmentActivity implements MultiItemTypeA
 
             }
         });
+        HttpProxy.getTelUrl(new HttpCallBack<String>() {
+            @Override
+            public void onSuccess(String responseData) {
+                mPhoneNumber = responseData;
+            }
+
+            @Override
+            public void onError(Request request, Exception e) {
+                if (e instanceof DataException) {
+                    ToastUtils.makeTextShort(e.getMessage());
+                }
+            }
+        });
     }
 
     @OnClick({R.id.action_back, R.id.service_online_layout})
@@ -108,7 +124,7 @@ public class HelpActivity extends BaseFragmentActivity implements MultiItemTypeA
     protected void onRequestPermissionSuccess(int requestCode) {
         super.onRequestPermissionSuccess(requestCode);
         if (requestCode == Constants.CALL_PHONE) {
-            UIHelper.showPhoneNumberActivity(this, "123456");
+            UIHelper.showPhoneNumberActivity(this, mPhoneNumber);
         }
     }
 

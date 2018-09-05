@@ -2,6 +2,7 @@ package com.yunsen.enjoy.activity.about;
 
 import android.graphics.Bitmap;
 import android.net.http.SslError;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -69,17 +70,21 @@ public class AboutFragment extends BaseFragment {
         actionBarTitle.setText("关于我们");
         actionBarTitle.setTextColor(getResources().getColor(R.color.white));
 
-        aboutImg.post(new Runnable() {
-            @Override
-            public void run() {
-                int screenWidth = DeviceUtil.getScreenWidth();
-                int height = screenWidth / 793 * 3200;
-                LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) aboutImg.getLayoutParams();
-                params.height = height;
-                params.width = screenWidth;
-                aboutImg.requestLayout();
-            }
-        });
+//        aboutImg.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+        aboutImg.setBackgroundResource(R.mipmap.about_img);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            aboutImg.post(new Runnable() {
+                @Override
+                public void run() {
+                    int screenWidth = DeviceUtil.getScreenWidth();
+                    int height = screenWidth / 793 * 3200;
+                    LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) aboutImg.getLayoutParams();
+                    params.height = height;
+                    params.width = screenWidth;
+                    aboutImg.requestLayout();
+                }
+            });
+        }
 
 
 //        webView = new WebView(getActivity());

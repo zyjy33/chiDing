@@ -473,6 +473,11 @@ public class URLConstants {
      * 查看我的账单
      */
     public static final String GET_DDEK_USER_PAYRECORD_LIST = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/get_ddek_user_payrecord_list";
+    /**
+     * 获取服务热线电话
+     * http://mobile.ddek3.com/tools/mobile_ajax.asmx/get_tel
+     */
+    public static final String GET_TEL_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/get_tel";
 
 
     public static final String REALM_NAME_WEB = BuildConfig.ROOT_URL;

@@ -308,7 +308,7 @@ public class MainActivity extends BaseFragmentActivity implements AMapLocationLi
     @Override
     protected void onResume() {
         super.onResume();
-        if (currIndex == 3) {
+        if (currIndex == 3 && mMineFragment != null) {
             mMineFragment.onResumes();
         }
     }

@@ -579,7 +579,7 @@ public class MineFragment extends BaseFragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (mLoginDialog.isShowing()) {
+        if (mLoginDialog!=null&&mLoginDialog.isShowing()) {
             mLoginDialog.dismiss();
         }
         mLoginDialog = null;
