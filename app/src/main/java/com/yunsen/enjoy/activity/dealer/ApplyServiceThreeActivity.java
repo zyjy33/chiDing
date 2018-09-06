@@ -150,7 +150,9 @@ public class ApplyServiceThreeActivity extends BaseFragmentActivity {
 
             @Override
             public void onError(Request request, Exception e) {
-
+                if (e instanceof DataException) {
+                    ToastUtils.makeTextShort(e.getMessage());
+                }
             }
         });
     }

@@ -2,7 +2,6 @@ package com.yunsen.enjoy.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.support.v7.widget.LinearLayoutManager;
 import android.text.TextUtils;
 
 import com.yunsen.enjoy.common.AppContext;

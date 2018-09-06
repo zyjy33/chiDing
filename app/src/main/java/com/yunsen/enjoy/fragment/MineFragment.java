@@ -181,8 +181,8 @@ public class MineFragment extends BaseFragment {
     @Override
     protected void requestData() {
         Boolean sFilter = mSp.getBoolean(SpConstants.HAS_SERVICE_SHOP, false);
-        if (!sFilter) {
-            myOrderLayout.setVisibility(View.VISIBLE);
+        if (sFilter) {
+            myOrderLayout.setVisibility(View.VISIBLE);//商家
         } else {
             requestIsFacilitator();
         }
@@ -359,10 +359,14 @@ public class MineFragment extends BaseFragment {
             @Override
             public void onSuccess(Boolean isFacilitator) {
                 mIsFacilitator = isFacilitator;
-                myOrderLayout.setVisibility(View.VISIBLE);
-                SharedPreferences.Editor edit = mSp.edit();
-                edit.putBoolean(SpConstants.HAS_SERVICE_SHOP, isFacilitator);
-                edit.commit();
+                if(isFacilitator){
+                    myOrderLayout.setVisibility(View.VISIBLE);
+                    SharedPreferences.Editor edit = mSp.edit();
+                    edit.putBoolean(SpConstants.HAS_SERVICE_SHOP, isFacilitator);
+                    edit.commit();
+                }else {
+                    myOrderLayout.setVisibility(View.GONE);
+                }
             }
 
             @Override

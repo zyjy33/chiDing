@@ -1,5 +1,7 @@
 package com.yunsen.enjoy.fragment;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +13,7 @@ import android.widget.TextView;
 
 import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.activity.pay.MonneyChongZhiActivity;
+import com.yunsen.enjoy.common.SpConstants;
 import com.yunsen.enjoy.http.DataException;
 import com.yunsen.enjoy.http.HttpCallBack;
 import com.yunsen.enjoy.http.HttpProxy;
@@ -55,6 +58,7 @@ public class ApplyServiceFragment extends BaseFragment {
     @Bind(R.id.setting_shopping_money)
     Button settingShoppingMoney;
     private boolean mIsService = false;
+    private SharedPreferences mSp;
 
     @Override
     protected int getLayoutId() {
@@ -71,7 +75,7 @@ public class ApplyServiceFragment extends BaseFragment {
 
     @Override
     protected void initData() {
-
+        mSp = getActivity().getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, Context.MODE_PRIVATE);
     }
 
     @Override
@@ -91,38 +95,48 @@ public class ApplyServiceFragment extends BaseFragment {
     }
 
     private void requestIsService() {
-        HttpProxy.getIsFacilitator(AccountUtils.getUser_id(), new HttpCallBack<Boolean>() {
-            @Override
-            public void onSuccess(Boolean responseData) {
-                if(responseData) {
-                    actionBarTitle.setText("商家");
-                    nextBtn.setText("进入商家商城");
-                    notServiceLayout.setVisibility(View.GONE);
-                    gotoShopping.setVisibility(View.VISIBLE);
-                    settingShoppingMoney.setVisibility(View.VISIBLE);
-                    mIsService = true;
-                }else {
-                    actionBarTitle.setText("申请商家");
-                    nextBtn.setText("立即入驻");
-                    notServiceLayout.setVisibility(View.VISIBLE);
-                    gotoShopping.setVisibility(View.GONE);
-                    settingShoppingMoney.setVisibility(View.GONE);
-                    mIsService = false;
+        Boolean sFilter = mSp.getBoolean(SpConstants.HAS_SERVICE_SHOP, false);
+        if (sFilter) {
+            actionBarTitle.setText("商家");
+            nextBtn.setText("进入商家商城");
+            notServiceLayout.setVisibility(View.GONE);
+            gotoShopping.setVisibility(View.VISIBLE);
+            settingShoppingMoney.setVisibility(View.VISIBLE);
+            mIsService = true;
+        } else {
+            HttpProxy.getIsFacilitator(AccountUtils.getUser_id(), new HttpCallBack<Boolean>() {
+                @Override
+                public void onSuccess(Boolean responseData) {
+                    if (responseData) {
+                        actionBarTitle.setText("商家");
+                        nextBtn.setText("进入商家商城");
+                        notServiceLayout.setVisibility(View.GONE);
+                        gotoShopping.setVisibility(View.VISIBLE);
+                        settingShoppingMoney.setVisibility(View.VISIBLE);
+                        mIsService = true;
+                    } else {
+                        actionBarTitle.setText("申请商家");
+                        nextBtn.setText("立即入驻");
+                        notServiceLayout.setVisibility(View.VISIBLE);
+                        gotoShopping.setVisibility(View.GONE);
+                        settingShoppingMoney.setVisibility(View.GONE);
+                        mIsService = false;
+                    }
                 }
-            }
 
-            @Override
-            public void onError(Request request, Exception e) {
-                if (e instanceof DataException) {
-                    actionBarTitle.setText("申请商家");
-                    nextBtn.setText("立即入驻");
-                    notServiceLayout.setVisibility(View.VISIBLE);
-                    gotoShopping.setVisibility(View.GONE);
-                    settingShoppingMoney.setVisibility(View.GONE);
-                    mIsService = false;
+                @Override
+                public void onError(Request request, Exception e) {
+                    if (e instanceof DataException) {
+                        actionBarTitle.setText("申请商家");
+                        nextBtn.setText("立即入驻");
+                        notServiceLayout.setVisibility(View.VISIBLE);
+                        gotoShopping.setVisibility(View.GONE);
+                        settingShoppingMoney.setVisibility(View.GONE);
+                        mIsService = false;
+                    }
                 }
-            }
-        });
+            });
+        }
     }
 
     @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
@@ -168,7 +182,7 @@ public class ApplyServiceFragment extends BaseFragment {
                     UIHelper.showUserLoginActivity(getActivity());
                 } else if (!AccountUtils.hasBoundPhone()) {
                     UIHelper.showBundPhoneActivity(getActivity());
-                }else {
+                } else {
                     UIHelper.showShopCar(getActivity());
                 }
                 break;
