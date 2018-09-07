@@ -194,7 +194,7 @@ public class MainActivity extends BaseFragmentActivity implements AMapLocationLi
 
     @Override
     public void requestData() {
-//        AppUpManager.getInstance().startCheckUpdate(this, false);
+        AppUpManager.getInstance().startCheckUpdate(this, false);
     }
 
     @Override

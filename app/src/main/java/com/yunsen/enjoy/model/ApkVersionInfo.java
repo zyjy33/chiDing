@@ -136,7 +136,11 @@ public class ApkVersionInfo {
     }
 
     public String getFile_path() {
-        return file_path;
+        if (file_path != null && file_path.startsWith("http")) {
+            return file_path;
+        } else {
+            return URLConstants.REALM_URL + file_path;
+        }
     }
 
     public void setFile_path(String file_path) {

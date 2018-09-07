@@ -359,12 +359,12 @@ public class MineFragment extends BaseFragment {
             @Override
             public void onSuccess(Boolean isFacilitator) {
                 mIsFacilitator = isFacilitator;
-                if(isFacilitator){
+                if (isFacilitator) {
                     myOrderLayout.setVisibility(View.VISIBLE);
                     SharedPreferences.Editor edit = mSp.edit();
                     edit.putBoolean(SpConstants.HAS_SERVICE_SHOP, isFacilitator);
                     edit.commit();
-                }else {
+                } else {
                     myOrderLayout.setVisibility(View.GONE);
                 }
             }
@@ -388,16 +388,15 @@ public class MineFragment extends BaseFragment {
             if (!AccountUtils.isLogin()) {
                 showLoginDialog();
             } else {
+                if (AccountUtils.hasBoundPhone()) {
+                    getUserInfo();
+                } else {
+                    UIHelper.showBundPhoneActivity(getActivity());
+                    setWeiXinLoginInfo();
+                }
                 if (mLoginDialog != null && mLoginDialog.isShowing()) {
                     mLoginDialog.dismiss();
                 }
-            }
-
-            if (AccountUtils.hasBoundPhone()) {
-                getUserInfo();
-            } else {
-                UIHelper.showBindBankCardActivity(getActivity());
-                setWeiXinLoginInfo();
             }
         }
     }
@@ -583,7 +582,7 @@ public class MineFragment extends BaseFragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (mLoginDialog!=null&&mLoginDialog.isShowing()) {
+        if (mLoginDialog != null && mLoginDialog.isShowing()) {
             mLoginDialog.dismiss();
         }
         mLoginDialog = null;

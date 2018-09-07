@@ -117,7 +117,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="分享赚钱"
+                android:text="分享推广"
                 android:textColor="@color/color_666" />
 
         </LinearLayout>

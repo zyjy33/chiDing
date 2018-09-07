@@ -24,12 +24,16 @@ import com.yunsen.enjoy.common.Constants;
 import com.yunsen.enjoy.common.PermissionSetting;
 import com.yunsen.enjoy.http.HttpCallBack;
 import com.yunsen.enjoy.http.HttpProxy;
+import com.yunsen.enjoy.model.ApkVersionInfo;
 import com.yunsen.enjoy.model.PgyAppVersion;
 import com.yunsen.enjoy.ui.DialogUtils;
 import com.yunsen.enjoy.ui.interfaces.OnLeftOnclickListener;
 import com.yunsen.enjoy.ui.interfaces.OnRightOnclickListener;
+import com.yunsen.enjoy.utils.DeviceUtil;
 import com.yunsen.enjoy.utils.ToastUtils;
+
 import java.lang.ref.WeakReference;
+
 import okhttp3.Request;
 
 /**
@@ -76,17 +80,27 @@ public class AppUpManager {
      */
     public void startCheckUpdate(Activity act, final boolean byHand) {
         final Activity fAct = act;
-        HttpProxy.getPGYApkVersion(new HttpCallBack<PgyAppVersion>() {
+        HttpProxy.getApkVersion(new HttpCallBack<ApkVersionInfo>() {
             @Override
-            public void onSuccess(PgyAppVersion responseData) {
+            public void onSuccess(ApkVersionInfo responseData) {
                 //有新版本
-                if (responseData != null && responseData.isBuildHaveNewVersion())
-                    showDiscoverNewVersion(fAct, responseData);
-                else {
+                if (responseData != null) {
+                    String fileVersion = responseData.getFile_version();
+//                    float server_version = Float.parseFloat(fileVersion.replaceAll("\\.", ""));//服务器
+                    String appVersionName = DeviceUtil.getAppVersionName(fAct);
+//                    float client_version = Float.parseFloat(appVersionName.replace("\\.", ""));//当前
+                    if (DeviceUtil.VersionComparison(fileVersion, appVersionName) == 1) {
+                        showDiscoverNewVersion2(fAct, responseData);
+                    } else {
+                        ToastUtils.makeTextShort("当前为最新版本");
+                    }
+                } else {
                     if (byHand) {
                         ToastUtils.makeTextShort("当前是最新版本");
                     }
                 }
+
+
             }
 
             @Override
@@ -96,11 +110,8 @@ public class AppUpManager {
                 }
             }
         });
+
     }
-
-
-
-
 
 
     /**
@@ -141,6 +152,49 @@ public class AppUpManager {
                     }
                 });
         mDiscoverNewVersionDialog.setMessage(version.getBuildUpdateDescription() + "");
+        mDiscoverNewVersionDialog.show();
+    }
+
+    /**
+     * 显示发现新版本
+     *
+     * @param act
+     * @param version
+     */
+    public void showDiscoverNewVersion2(Activity act, ApkVersionInfo version) {
+        final Activity fAct = act;
+        final String fUrl = version.getFile_path();
+        if (mDiscoverNewVersionDialog != null && mDiscoverNewVersionDialog.isShowing()) {
+            mDiscoverNewVersionDialog.dismiss();
+        }
+//        String content = "有最新版本了，服务器" + version.getFile_version() + "是否替换当前版本" + DeviceUtil.getAppVersionName(fAct);
+        mDiscoverNewVersionDialog = DialogUtils.createYesAndNoDialog(act, "发现新版本"+version.getFile_version(),
+                "取消", "确认", new OnLeftOnclickListener() {
+                    @Override
+                    public void onLeftClick() {
+                    }
+                }, new OnRightOnclickListener() {
+                    @Override
+                    public void onRightClick(int... index) {
+//                        AndPermission.with(fAct)
+//                                .permission(Permission.Group.STORAGE)
+//                                .onGranted(new Action() {
+//                                    @Override
+//                                    public void onAction(List<String> permissions) {
+                        //检查本地版本是下载最新版本
+                        startDownLoadFile(fAct, fUrl);
+//                                    }
+//                                })
+//                                .onDenied(new Action() {
+//                                    @Override
+//                                    public void onAction(List<String> permissions) {
+//                                        new PermissionSetting(fAct).showSettingStorage(permissions);
+//                                    }
+//                                }).start();
+                    }
+                });
+        mDiscoverNewVersionDialog.setTitle(version.getTitle()+"");
+        mDiscoverNewVersionDialog.setMessage(version.getContent() + "");
         mDiscoverNewVersionDialog.show();
     }
 
