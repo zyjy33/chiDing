@@ -47,8 +47,12 @@ public class WXUserInfo {
         this.nickname = nickname;
     }
 
-    public int getSex() {
-        return sex;
+    public String getSex() {
+        if (sex == 1) {
+            return "男";
+        } else {
+            return "女";
+        }
     }
 
     public void setSex(int sex) {

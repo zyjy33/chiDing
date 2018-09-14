@@ -24,12 +24,12 @@ public class URLConstants {
     /**
      * 小汽车广告
      */
-//    public static final String CAR_ADV_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/get_adbanner_list?advert_id=13";
+    //    public static final String CAR_ADV_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/get_adbanner_list?advert_id=13";
     public static final String CAR_ADV_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/get_article_top_list_2017";
     /**
      * 帮助中心
      */
-//   http://mobile.ddek3.com/tools/mobile_ajax.asmx/
+    //   http://mobile.ddek3.com/tools/mobile_ajax.asmx/
     public static final String HELP_CENTOR_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/get_article_category_list_2017";
 
     /**
@@ -249,13 +249,13 @@ public class URLConstants {
     /**
      * 发现页面的广告图
      */
-//    public static final String DISCOVER_BANNER_URL = BuildConfig.ROOT_URL + "/toolS/mobile_ajax.asmx/get_article_top_list";
+    //    public static final String DISCOVER_BANNER_URL = BuildConfig.ROOT_URL + "/toolS/mobile_ajax.asmx/get_article_top_list";
     public static final String DISCOVER_BANNER_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/get_adbanner_list?advert_id=12";
 
     /**
      * 积分兑换 数据接口
      */
-//    public static final String INTEGRAL_CHANGE_URL = BuildConfig.ROOT_URL + "/toolS/mobile_ajax.asmx/get_article_top_list_2017?channel_name=point&top=5&strwhere=";
+    //    public static final String INTEGRAL_CHANGE_URL = BuildConfig.ROOT_URL + "/toolS/mobile_ajax.asmx/get_article_top_list_2017?channel_name=point&top=5&strwhere=";
     public static final String INTEGRAL_CHANGE_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/get_article_top_list_2017";
     /**
      * 商品部件
@@ -304,9 +304,12 @@ public class URLConstants {
      */
     public static final String CANCEL_GOODS_COLLECT_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/user_favorite_cancel";
     /**
-     * 获取token
+     * 获取tokenhttps://api.weixin.qq.com/sns/userinfo?access_token=ACCESS_TOKEN&openid=OPENID
      */
+    //    public static final String WX_ACCESS_TOKEN_URL = "https://api.weixin.qq.com/sns/oauth2/access_token";
     public static final String WX_ACCESS_TOKEN_URL = "https://api.weixin.qq.com/sns/oauth2/access_token";
+
+    public static final String WX_USER_INfO_URL = "https://api.weixin.qq.com/sns/userinfo?access_token";
 
     /**
      * 获取apk版本信息
@@ -314,7 +317,7 @@ public class URLConstants {
     public static final String GET_APK_VERSION = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/get_apk_version?browser=android";
 
     /**
-     * 微信登录
+     * 微信登录https://api.weixin.qq.com/sns/userinfo
      */
     public static final String WX_LOGIN_URL = "https://api.weixin.qq.com/sns/userinfo";
     /**

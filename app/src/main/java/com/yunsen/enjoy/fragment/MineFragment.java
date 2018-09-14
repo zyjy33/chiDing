@@ -14,7 +14,6 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -105,6 +104,7 @@ public class MineFragment extends BaseFragment {
     private String mGroupId;
     private boolean mIsFacilitator;
     private Dialog mLoginDialog;
+    private boolean mFlag;
 
 
     @Override
@@ -131,10 +131,10 @@ public class MineFragment extends BaseFragment {
                 .load(R.mipmap.app_icon)
                 .transform(new GlideCircleTransform(getActivity()))
                 .into(userImg);
-//        Glide.with(MineFragment.this)
-//                .load(R.mipmap.login_icon)
-//                .transform(new GlideCircleTransform(getActivity()))
-//                .into(userIconImg);
+        //        Glide.with(MineFragment.this)
+        //                .load(R.mipmap.login_icon)
+        //                .transform(new GlideCircleTransform(getActivity()))
+        //                .into(userIconImg);
     }
 
 
@@ -149,15 +149,12 @@ public class MineFragment extends BaseFragment {
             }
             logoutLayout.setVisibility(View.VISIBLE);
         } else {
+            showLoginDialog();
             memberIdTv.setVisibility(View.GONE);
             userNameTv.setVisibility(View.GONE);
             loginTv.setVisibility(View.VISIBLE);
             logoutLayout.setVisibility(View.GONE);
         }
-        if (!AccountUtils.isLogin()) {
-            showLoginDialog();
-        }
-
     }
 
     private void setWeiXinLoginInfo() {
@@ -171,6 +168,11 @@ public class MineFragment extends BaseFragment {
         } else {
             userNameTv.setText(userName);
         }
+        String headImg = mSp.getString(SpConstants.HEADIMGURL, "");
+        Glide.with(MineFragment.this)
+                .load(headImg)
+                .transform(new GlideCircleTransform(getActivity()))
+                .into(userImg);
         String userCode = mSp.getString(SpConstants.USER_CODE, Constants.EMPTY);
         if (!TextUtils.isEmpty(userCode)) {
             memberIdTv.setText("会员号:" + userCode);
@@ -302,52 +304,52 @@ public class MineFragment extends BaseFragment {
         });
 
 
-//        String nickname = mSp.getString(SpConstants.NICK_NAME, "");
-//        headimgurl = mSp.getString(SpConstants.HEAD_IMG_URL, "");
-//        headimgurl2 = mSp.getString(SpConstants.HEAD_IMG_URL_2, "");
-//        user_name_phone = mSp.getString(SpConstants.USER_NAME, "");
-//        user_id = mSp.getString(SpConstants.USER_ID, "");
-//
-//        String loginFlag = mSp.getString(SpConstants.LOGIN_FLAG, "");
-//        mUserName = mSp.getString(SpConstants.USER_NAME, "");
-//        if (TextUtils.isEmpty(mUserName)) {
-//            mUserName = nickname;
-//        }
-//        String userId = mSp.getString(SpConstants.USER_CODE, "");
-//        if (!TextUtils.isEmpty(userId)) {
-//            userIdTv.setText("ID: " + userId);
-//        }
-//        String groupName = mSp.getString(SpConstants.GROUP_NAME, "");
-//        if (!TextUtils.isEmpty(groupName)) {
-//            gradeTv.setText(groupName);
-//        }
-//        String sex = mSp.getString(SpConstants.SEX, "");
-//        if (Constants.GIRL.equals(sex)) {
-//            userSexImg.setImageResource(R.mipmap.girl_img);
-//        } else if (Constants.BOY.equals(sex)) {
-//            userSexImg.setImageResource(R.mipmap.boy_img);
-//        } else {
-//            userSexImg.setImageResource(R.mipmap.secrecy);
-//        }
-//
-//        if (SpConstants.WEI_XIN.equals(loginFlag) || SpConstants.QQ_LOGIN.equals(loginFlag)) {//微信登录 QQ登录
-//            if (AccountUtils.hasBoundPhone()) {
-//                getLeXiangUserInfo();//获取乐享用户信息
-//                requestIsFacilitator();//判断是否是商家
-//            } else {
-//                setUserIconAndName(mUserName, headimgurl2, headimgurl);
-//            }
-//        } else {
-//            if (!TextUtils.isEmpty(user_name_phone)) {//手机登录
-//                getLeXiangUserInfo();//获取乐享用户信息
-//                requestIsFacilitator();//判断是否是商家
-//            } else {
-//                hasLoginLayout.setVisibility(View.GONE);
-//                loginIcon.setVisibility(View.VISIBLE);
-//                loginTv.setVisibility(View.VISIBLE);
-//                noLoginLayout.setVisibility(View.VISIBLE);
-//            }
-//        }
+        //        String nickname = mSp.getString(SpConstants.NICK_NAME, "");
+        //        headimgurl = mSp.getString(SpConstants.HEAD_IMG_URL, "");
+        //        headimgurl2 = mSp.getString(SpConstants.HEAD_IMG_URL_2, "");
+        //        user_name_phone = mSp.getString(SpConstants.USER_NAME, "");
+        //        user_id = mSp.getString(SpConstants.USER_ID, "");
+        //
+        //        String loginFlag = mSp.getString(SpConstants.LOGIN_FLAG, "");
+        //        mUserName = mSp.getString(SpConstants.USER_NAME, "");
+        //        if (TextUtils.isEmpty(mUserName)) {
+        //            mUserName = nickname;
+        //        }
+        //        String userId = mSp.getString(SpConstants.USER_CODE, "");
+        //        if (!TextUtils.isEmpty(userId)) {
+        //            userIdTv.setText("ID: " + userId);
+        //        }
+        //        String groupName = mSp.getString(SpConstants.GROUP_NAME, "");
+        //        if (!TextUtils.isEmpty(groupName)) {
+        //            gradeTv.setText(groupName);
+        //        }
+        //        String sex = mSp.getString(SpConstants.SEX, "");
+        //        if (Constants.GIRL.equals(sex)) {
+        //            userSexImg.setImageResource(R.mipmap.girl_img);
+        //        } else if (Constants.BOY.equals(sex)) {
+        //            userSexImg.setImageResource(R.mipmap.boy_img);
+        //        } else {
+        //            userSexImg.setImageResource(R.mipmap.secrecy);
+        //        }
+        //
+        //        if (SpConstants.WEI_XIN.equals(loginFlag) || SpConstants.QQ_LOGIN.equals(loginFlag)) {//微信登录 QQ登录
+        //            if (AccountUtils.hasBoundPhone()) {
+        //                getLeXiangUserInfo();//获取乐享用户信息
+        //                requestIsFacilitator();//判断是否是商家
+        //            } else {
+        //                setUserIconAndName(mUserName, headimgurl2, headimgurl);
+        //            }
+        //        } else {
+        //            if (!TextUtils.isEmpty(user_name_phone)) {//手机登录
+        //                getLeXiangUserInfo();//获取乐享用户信息
+        //                requestIsFacilitator();//判断是否是商家
+        //            } else {
+        //                hasLoginLayout.setVisibility(View.GONE);
+        //                loginIcon.setVisibility(View.VISIBLE);
+        //                loginTv.setVisibility(View.VISIBLE);
+        //                noLoginLayout.setVisibility(View.VISIBLE);
+        //            }
+        //        }
     }
 
     /**
@@ -379,20 +381,24 @@ public class MineFragment extends BaseFragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == Constants.ORDER_ACT_REQUEST) {
+        if (requestCode == Constants.BUND_ACTIVITY) {
+            mFlag = true;
         }
     }
 
     public void onResumes() {
         if (getActivity() != null) {
-            if (!AccountUtils.isLogin()) {
+            if (!mFlag && !AccountUtils.hasLogin()) {
                 showLoginDialog();
             } else {
                 if (AccountUtils.hasBoundPhone()) {
                     getUserInfo();
                 } else {
-                    UIHelper.showBundPhoneActivity(getActivity());
-                    setWeiXinLoginInfo();
+                    if (!mFlag) {
+                        UIHelper.showBundPhoneActivity2(getActivity());
+
+                    }
+                    //                    setWeiXinLoginInfo();
                 }
                 if (mLoginDialog != null && mLoginDialog.isShowing()) {
                     mLoginDialog.dismiss();
@@ -457,11 +463,11 @@ public class MineFragment extends BaseFragment {
                     ToastUtils.makeTextShort("上传失败");
                 }
             });
-//            Glide.with(this)
-//                    .load(URLConstants.REALM_URL + imgUrl)
-//                    .placeholder(R.mipmap.login_icon)
-//                    .transform(new GlideCircleTransform(getActivity()))
-//                    .into(userImg);
+            //            Glide.with(this)
+            //                    .load(URLConstants.REALM_URL + imgUrl)
+            //                    .placeholder(R.mipmap.login_icon)
+            //                    .transform(new GlideCircleTransform(getActivity()))
+            //                    .into(userImg);
         }
     }
 
@@ -487,7 +493,7 @@ public class MineFragment extends BaseFragment {
         if (view.getId() == R.id.about_layout) {
             UIHelper.showWebActivity(getActivity(), URLConstants.ABOUT_URL);
         } else if (view.getId() == R.id.logout_layout) {
-            DialogUtils.showLoginDialog(getActivity());
+            DialogUtils.showLogoutDialog(getActivity());
         } else if (!AccountUtils.hasLogin()) {
             UIHelper.showUserLoginActivity(getActivity());
         } else if (!AccountUtils.hasBoundPhone()) {
@@ -563,6 +569,8 @@ public class MineFragment extends BaseFragment {
             rootView.findViewById(R.id.login_btn).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    Log.e(TAG, "onClick: 提示登录");
+                    mLoginDialog.dismiss();
                     UIHelper.showUserLoginActivity(getActivity());
                 }
             });

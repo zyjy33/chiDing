@@ -93,6 +93,9 @@ public class GoodsListActivity extends BaseFragmentActivity implements View.OnCl
     private int mTreadId = 0;
     private String mOrderStrValue = "clever";
     private String mDistanceValue = "";
+    private RecyclerView typeRecycler2;
+    private int mOlderPosition = -1;
+    private TypeListAdapter mAdapter1;
 
 
     @Override
@@ -227,17 +230,17 @@ public class GoodsListActivity extends BaseFragmentActivity implements View.OnCl
 
     @Override
     public void requestData() {
-//        HttpProxy.getChangeGoodsList(String.valueOf(mPageIndex), "", "", new HttpCallBack<List<CarDetails>>() {
-//            @Override
-//            public void onSuccess(List<CarDetails> responseData) {
-//                mAdapter.upBaseDatas(responseData);
-//            }
-//
-//            @Override
-//            public void onError(Request request, Exception e) {
-//
-//            }
-//        });
+        //        HttpProxy.getChangeGoodsList(String.valueOf(mPageIndex), "", "", new HttpCallBack<List<CarDetails>>() {
+        //            @Override
+        //            public void onSuccess(List<CarDetails> responseData) {
+        //                mAdapter.upBaseDatas(responseData);
+        //            }
+        //
+        //            @Override
+        //            public void onError(Request request, Exception e) {
+        //
+        //            }
+        //        });
         HttpProxy.getTypeTradeList(String.valueOf(mTypeId), new HttpCallBack<List<TradeData>>() {
             @Override
             public void onSuccess(List<TradeData> responseData) {
@@ -288,7 +291,7 @@ public class GoodsListActivity extends BaseFragmentActivity implements View.OnCl
                         public void run() {
                             aboveTitleLayout.setVisibility(View.GONE);
                             recyclerView.scrollBy(0, -totalDy);
-                            totalDy =0;
+                            totalDy = 0;
                         }
                     });
                     refreshLayout.finishRefreshing();
@@ -366,15 +369,17 @@ public class GoodsListActivity extends BaseFragmentActivity implements View.OnCl
         if (mTypePopupWindow == null) {
             LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
             View view = inflater.inflate(R.layout.type_popup_layout, null);
-            RecyclerView typeRecycler = (RecyclerView) view.findViewById(R.id.recycler_type);
+            final RecyclerView typeRecycler = (RecyclerView) view.findViewById(R.id.recycler_type);
+            typeRecycler2 = (RecyclerView) view.findViewById(R.id.recycler_type_2);
             typeRecycler.setLayoutManager(new LinearLayoutManager(this));
+            typeRecycler2.setLayoutManager(new LinearLayoutManager(this));
 
-            TypeListAdapter adapter = new TypeListAdapter(this, R.layout.type_item_layout, mTopDatas);
-            typeRecycler.setAdapter(adapter);
+            mAdapter1 = new TypeListAdapter(this, R.layout.type_item_layout, mTopDatas);
+            typeRecycler.setAdapter(mAdapter1);
             mTypePopupWindow = new PopupWindow(view, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
             mTypePopupWindow.setFocusable(true);
             mTypePopupWindow.setBackgroundDrawable(this.getResources().getDrawable(R.drawable.empty));
-            adapter.setOnItemClickListener(new MultiItemTypeAdapter.OnItemClickListener() {
+            mAdapter1.setOnItemClickListener(new MultiItemTypeAdapter.OnItemClickListener() {
                 @Override
                 public void onItemClick(View view, RecyclerView.Adapter adapter, RecyclerView.ViewHolder holder, int position) {
                     if (adapter instanceof TypeListAdapter) {
@@ -382,9 +387,33 @@ public class GoodsListActivity extends BaseFragmentActivity implements View.OnCl
                         String data = tradeData.getTitle();
                         topAllType.setText(data);
                         aboveAllType.setText(data);
-                        mTypePopupWindow.dismiss();
                         mTreadId = tradeData.getId();
+                        mTypePopupWindow.dismiss();
                         requestList(String.valueOf(mTreadId), true);
+                        //                        if (!tradeData.isSelected() && typeRecycler2 != null) {
+                        //                            typeRecycler2.setVisibility(View.VISIBLE);
+                        //                            TypeListAdapter adapter1 = new TypeListAdapter(GoodsListActivity.this, R.layout.type_item_layout, mTopDatas);
+                        //                            typeRecycler2.setAdapter(adapter1);
+                        //                            adapter1.setOnItemClickListener(new MultiItemTypeAdapter.OnItemClickListener() {
+                        //                                @Override
+                        //                                public void onItemClick(View view, RecyclerView.Adapter adapter, RecyclerView.ViewHolder holder, int position) {
+                        //                                    requestList(String.valueOf(mTreadId), true);
+                        //                                    mAdapter1.clearSelected();
+                        //                                    mTypePopupWindow.dismiss();
+                        //                                }
+                        //
+                        //                                @Override
+                        //                                public boolean onItemLongClick(View view, RecyclerView.Adapter adapter, RecyclerView.ViewHolder holder, int position) {
+                        //                                    return false;
+                        //                                }
+                        //                            });
+                        //                            ((TypeListAdapter) adapter).upSelected(position);
+                        //
+                        //                        } else if (typeRecycler2 != null) {
+                        //                            typeRecycler2.setVisibility(View.INVISIBLE);
+                        //                            ((TypeListAdapter) adapter).clearSelected();
+                        //                        }
+                        //                        mOlderPosition = position;
                     }
                 }
 

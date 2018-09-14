@@ -85,7 +85,7 @@ public class SpConstants {
 
 
     public static final String OAUTH_NAME = "oauth_name";
-    public static final String OAUTH_UNIONID = "oauth_unionid";
+    public static final String OAUTH_UNIONID = "unionid";
     /**
      * 用户地址
      */
@@ -98,4 +98,5 @@ public class SpConstants {
     public static final String COMPANY_NAME = "company_name";
     public static final String VALUE = "value";
     public static final String PASSWORD = "password";
+    public static final String HEADIMGURL = "headimgurl";
 }

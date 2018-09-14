@@ -2,11 +2,9 @@
 package com.yunsen.enjoy.activity;
 
 import android.content.Intent;
-import android.database.Cursor;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -16,7 +14,6 @@ import android.view.Window;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
-import com.amap.api.col.s2.hw;
 import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
@@ -24,25 +21,14 @@ import com.amap.api.location.AMapLocationListener;
 import com.yanzhenjie.permission.Permission;
 import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.activity.about.AboutFragment;
-import com.yunsen.enjoy.common.AppManager;
 import com.yunsen.enjoy.common.Constants;
 import com.yunsen.enjoy.common.SpConstants;
-import com.yunsen.enjoy.common.wsmanager.WsManager;
 import com.yunsen.enjoy.fragment.ApplyServiceFragment;
-import com.yunsen.enjoy.fragment.BuyFragment;
-import com.yunsen.enjoy.fragment.CarFragment;
-import com.yunsen.enjoy.fragment.DiscoverFragment;
 import com.yunsen.enjoy.fragment.MainPagerFragment;
 import com.yunsen.enjoy.fragment.MineFragment;
-import com.yunsen.enjoy.fragment.NoticeFragment;
-import com.yunsen.enjoy.http.HttpCallBack;
-import com.yunsen.enjoy.http.HttpProxy;
-import com.yunsen.enjoy.http.down.AppUpManager;
-import com.yunsen.enjoy.model.PgyAppVersion;
 import com.yunsen.enjoy.model.event.EventConstants;
 import com.yunsen.enjoy.model.event.UpCityEvent;
 import com.yunsen.enjoy.ui.UIHelper;
-import com.yunsen.enjoy.utils.AccountUtils;
 import com.yunsen.enjoy.utils.GlobalStatic;
 import com.yunsen.enjoy.utils.SharedPreference;
 
@@ -50,8 +36,6 @@ import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-
-import okhttp3.Request;
 
 public class MainActivity extends BaseFragmentActivity implements AMapLocationListener {
 
@@ -82,7 +66,7 @@ public class MainActivity extends BaseFragmentActivity implements AMapLocationLi
 
     @Override
     protected void initView() {
-//        WsManager.getInstance().init();
+        //        WsManager.getInstance().init();
     }
 
     @Override
@@ -131,7 +115,6 @@ public class MainActivity extends BaseFragmentActivity implements AMapLocationLi
                 } else {
                     initAddress();
                 }
-                initAddress();
             } else {
                 Toast.makeText(this, "系统检测到未开启GPS定位服务", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent();
@@ -194,7 +177,7 @@ public class MainActivity extends BaseFragmentActivity implements AMapLocationLi
 
     @Override
     public void requestData() {
-        AppUpManager.getInstance().startCheckUpdate(this, false);
+        //        AppUpManager.getInstance().startCheckUpdate(this, false);
     }
 
     @Override
@@ -349,18 +332,22 @@ public class MainActivity extends BaseFragmentActivity implements AMapLocationLi
                 }
             }
         }
-        if (requestCode == Constants.ORDER_ACT_REQUEST) {
-            if (mMineFragment != null) {
-                mMineFragment.onActivityResult(requestCode, resultCode, data);
-            }
+        //        if (requestCode == Constants.ORDER_ACT_REQUEST) {
+        if (mMineFragment != null) {
+            mMineFragment.onActivityResult(requestCode, resultCode, data);
         }
+        if (requestCode == Constants.LOCATION_ADDRESS_REQUEST) {
+            Log.e(TAG, "onActivityResult: resultCode=" + resultCode);
+            initAddress();
+        }
+        //        }
     }
 
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-//        WsManager.getInstance().disconnect();
+        //        WsManager.getInstance().disconnect();
     }
 
 

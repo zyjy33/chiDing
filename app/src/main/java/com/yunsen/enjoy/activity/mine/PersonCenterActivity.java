@@ -536,7 +536,7 @@ public class PersonCenterActivity extends BaseFragmentActivity implements OnClic
                 showDatePicker();
                 break;
             case R.id.logout_layout:
-                DialogUtils.showLoginDialog(this);
+                DialogUtils.showLogoutDialog(this);
                 break;
             default:
                 break;

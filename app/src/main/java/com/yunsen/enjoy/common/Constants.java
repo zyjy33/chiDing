@@ -58,7 +58,8 @@ public class Constants {
     public static final java.lang.String ADDRESS_BD_LONG = "address_bd_long";
     public static final java.lang.String ADDRESS_BD_LAT = "ADDRESS_BD_LAT";
     public static final String COMPANY_LOGO = "company_logo";
-//    public static final String APP_SECRET = "";
+    public static final int BUND_ACTIVITY = 13;
+    //    public static final String APP_SECRET = "";
 //appId=wxe60c28541b0fa8a2&body=zyjytest&device_info=1000&key=ca30ef7495cdd92ee94e1190f78a8735&mch_id=1502153101&nonce_str=ibuaiVcKdpRxkhJA
 
     public static String WX_Code = "";

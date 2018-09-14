@@ -13,6 +13,7 @@ public class TradeData {
     private String title;
     private String img_url;
     private String icon_url;
+    private boolean selected;
 
     public TradeData() {
     }
@@ -76,5 +77,13 @@ public class TradeData {
 
     public void setIcon_url(String icon_url) {
         this.icon_url = icon_url;
+    }
+
+    public boolean isSelected() {
+        return selected;
+    }
+
+    public void setSelected(boolean selected) {
+        this.selected = selected;
     }
 }

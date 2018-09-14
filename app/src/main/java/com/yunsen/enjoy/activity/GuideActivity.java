@@ -3,7 +3,6 @@ package com.yunsen.enjoy.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -13,12 +12,12 @@ import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
 
-import com.bumptech.glide.Glide;
 import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.yunsen.enjoy.R;
+import com.yunsen.enjoy.common.Constants;
 import com.yunsen.enjoy.common.SpConstants;
 import com.yunsen.enjoy.http.AsyncHttp;
-import com.yunsen.enjoy.http.DataException;
 import com.yunsen.enjoy.http.HttpCallBack;
 import com.yunsen.enjoy.http.HttpProxy;
 import com.yunsen.enjoy.http.URLConstants;
@@ -50,6 +49,8 @@ public class GuideActivity extends AppCompatActivity {
         i0 = (ImageView) findViewById(R.id.i0);
         i0.setVisibility(View.VISIBLE);
         handler.sendEmptyMessageDelayed(0, 3000);
+        AccountUtils.mWxApi = WXAPIFactory.createWXAPI(this, Constants.APP_ID,true);
+        AccountUtils.mWxApi.registerApp(Constants.APP_ID);
 //        Glide.with(this)
 //                .load(R.drawable.zams_qdy)
 //                .into(i0);

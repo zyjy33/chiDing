@@ -9,7 +9,6 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -27,17 +26,12 @@ import android.widget.Toast;
 
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.orhanobut.logger.Logger;
-import com.tencent.connect.auth.QQAuth;
 import com.tencent.mm.opensdk.modelmsg.SendAuth;
-import com.tencent.mm.opensdk.openapi.IWXAPI;
-import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.tencent.tauth.IUiListener;
 import com.tencent.tauth.Tencent;
 import com.tencent.tauth.UiError;
 import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.activity.BaseFragmentActivity;
-import com.yunsen.enjoy.activity.MainActivity;
-import com.yunsen.enjoy.activity.mine.PersonCenterActivity;
 import com.yunsen.enjoy.common.AppContext;
 import com.yunsen.enjoy.common.Constants;
 import com.yunsen.enjoy.common.SpConstants;
@@ -117,7 +111,7 @@ public class LoginActivity extends BaseFragmentActivity {
         }
     };
 
-    private IWXAPI mWxApi;
+//    private IWXAPI mWxApi;
     private String access_token;
     private String nickname, headimgurl, unionid, sex, province, city, country, oauth_openid;
     private boolean mIsWXLogin;
@@ -137,8 +131,6 @@ public class LoginActivity extends BaseFragmentActivity {
     @Override
     protected void initView() {
         ButterKnife.bind(this);
-        mWxApi = WXAPIFactory.createWXAPI(this, Constants.APP_ID, true);
-        mWxApi.registerApp(Constants.APP_ID);
     }
 
     @Override
@@ -175,7 +167,7 @@ public class LoginActivity extends BaseFragmentActivity {
                 SendAuth.Req req = new SendAuth.Req();
                 req.scope = "snsapi_userinfo";
                 req.state = "ddw_wei_xin_log_in";
-                mWxApi.sendReq(req);
+                AccountUtils.mWxApi.sendReq(req);
                 break;
         }
     }

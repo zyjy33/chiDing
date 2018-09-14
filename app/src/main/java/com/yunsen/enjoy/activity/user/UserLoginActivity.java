@@ -2,7 +2,6 @@ package com.yunsen.enjoy.activity.user;
 
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -11,9 +10,7 @@ import android.content.SharedPreferences.Editor;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
@@ -24,18 +21,13 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
-
 
 import com.bumptech.glide.Glide;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.orhanobut.logger.Logger;
 import com.tencent.connect.UserInfo;
-import com.tencent.connect.auth.QQAuth;
 import com.tencent.mm.opensdk.modelmsg.SendAuth;
-import com.tencent.mm.opensdk.openapi.IWXAPI;
-import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.tencent.tauth.IUiListener;
 import com.tencent.tauth.Tencent;
 import com.tencent.tauth.UiError;
@@ -43,8 +35,6 @@ import com.yanzhenjie.permission.Action;
 import com.yanzhenjie.permission.AndPermission;
 import com.yanzhenjie.permission.Permission;
 import com.yunsen.enjoy.R;
-import com.yunsen.enjoy.activity.MainActivity;
-import com.yunsen.enjoy.activity.mine.PersonCenterActivity;
 import com.yunsen.enjoy.common.AppContext;
 import com.yunsen.enjoy.common.Constants;
 import com.yunsen.enjoy.common.PermissionSetting;
@@ -60,7 +50,6 @@ import com.yunsen.enjoy.model.event.UpUiEvent;
 import com.yunsen.enjoy.ui.UIHelper;
 import com.yunsen.enjoy.utils.AccountUtils;
 import com.yunsen.enjoy.utils.SpUtils;
-import com.yunsen.enjoy.utils.ToastUtils;
 import com.yunsen.enjoy.widget.DialogProgress;
 import com.yunsen.enjoy.widget.GlideCircleTransform;
 
@@ -68,12 +57,6 @@ import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.List;
 
 import okhttp3.Request;
@@ -88,7 +71,7 @@ public class UserLoginActivity extends AppCompatActivity implements OnClickListe
     private SharedPreferences spPreferences_weixin;
     private SharedPreferences spPreferences_login;
     public static boolean isWXLogin = false;
-    private IWXAPI mWxApi;
+    //    private IWXAPI mWxApi;
     public static String WX_CODE = "";
     public static Bitmap bitmap;
     public static String oauth_name = "";
@@ -113,8 +96,8 @@ public class UserLoginActivity extends AppCompatActivity implements OnClickListe
         setContentView(R.layout.activity_weixin_login);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
-        mWxApi = WXAPIFactory.createWXAPI(this, Constants.APP_ID,true);
-        mWxApi.registerApp(Constants.APP_ID);
+        //        mWxApi = WXAPIFactory.createWXAPI(this, Constants.APP_ID,true);
+        //        mWxApi.registerApp(Constants.APP_ID);
         mTencent = Tencent.createInstance(Constants.APP_QQ_ID, AppContext.getInstance());
         spPreferences_weixin = getSharedPreferences("longuserset_weixin", MODE_PRIVATE);
         spPreferences_login = getSharedPreferences("longuserset_login", MODE_PRIVATE);
@@ -292,11 +275,11 @@ public class UserLoginActivity extends AppCompatActivity implements OnClickListe
                 SendAuth.Req req = new SendAuth.Req();
                 req.scope = "snsapi_userinfo";
                 req.state = "ddw_wei_xin_log_in";
-                mWxApi.sendReq(req);
+                AccountUtils.mWxApi.sendReq(req);
                 break;
             case R.id.phone_login_btn://qq登录
-//                Intent intent = new Intent(this, LoginActivity.class);
-//                startActivityForResult(intent, PHONE_LOGIN_REQUEST);
+                //                Intent intent = new Intent(this, LoginActivity.class);
+                //                startActivityForResult(intent, PHONE_LOGIN_REQUEST);
                 UIHelper.showPhoneLoginActivity(this);
                 break;
         }

@@ -3,7 +3,6 @@ package com.yunsen.enjoy.activity.user;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -145,6 +144,7 @@ public class TishiWxBangDingActivity extends AppCompatActivity implements OnClic
                                 public void onSuccess(AuthorizationModel responseData) {
                                     SpUtils.saveUserInfo(responseData, loginFlag);
                                     EventBus.getDefault().postSticky(new UpUiEvent(EventConstants.APP_LOGIN));
+                                    setResult(RESULT_OK);
                                     finish();
                                 }
 

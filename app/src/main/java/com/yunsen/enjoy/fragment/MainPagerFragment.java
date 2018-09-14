@@ -24,6 +24,8 @@ import com.yunsen.enjoy.http.HttpProxy;
 import com.yunsen.enjoy.model.AdvertModel;
 import com.yunsen.enjoy.model.CarDetails;
 import com.yunsen.enjoy.model.SProviderModel;
+import com.yunsen.enjoy.model.event.EventConstants;
+import com.yunsen.enjoy.model.event.UpCityEvent;
 import com.yunsen.enjoy.ui.UIHelper;
 import com.yunsen.enjoy.ui.loadmore.ZyBottomView;
 import com.yunsen.enjoy.ui.loopviewpager.AutoLoopViewPager;
@@ -34,6 +36,10 @@ import com.yunsen.enjoy.utils.SharedPreference;
 import com.yunsen.enjoy.utils.ToastUtils;
 import com.yunsen.enjoy.widget.SearchActionBar;
 import com.yunsen.enjoy.widget.recyclerview.MultiItemTypeAdapter;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -80,6 +86,7 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
 
     @Override
     protected void initView() {
+        EventBus.getDefault().register(this);
         searchLayout = rootView.findViewById(R.id.search_layout);
         qrCodeImg = rootView.findViewById(R.id.qrcode_img);
         recyclerView = rootView.findViewById(R.id.recyclerView);
@@ -157,26 +164,26 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
             }
         });
 
-//        /**
-//         * 首页的商品
-//         */
-//        HttpProxy.getHomeGoods(new HttpCallBack<List<CarDetails>>() {
-//            @Override
-//            public void onSuccess(List<CarDetails> responseData) {
-//                mAdapter.addBaseDatas(responseData);
-//            }
-//
-//            @Override
-//            public void onError(Request request, Exception e) {
-//                Log.e(TAG, "onError: " + e.getMessage());
-//            }
-//        });
+        //        /**
+        //         * 首页的商品
+        //         */
+        //        HttpProxy.getHomeGoods(new HttpCallBack<List<CarDetails>>() {
+        //            @Override
+        //            public void onSuccess(List<CarDetails> responseData) {
+        //                mAdapter.addBaseDatas(responseData);
+        //            }
+        //
+        //            @Override
+        //            public void onError(Request request, Exception e) {
+        //                Log.e(TAG, "onError: " + e.getMessage());
+        //            }
+        //        });
         requestServiceMore();
 
     }
 
     public void requestServiceMore() {
-        HttpProxy.getServiceProvider(mPageIndex, "8",  "0", new HttpCallBack<List<SProviderModel>>() {
+        HttpProxy.getServiceProvider(mPageIndex, "8", "0", new HttpCallBack<List<SProviderModel>>() {
             @Override
             public void onSuccess(List<SProviderModel> responseData) {
                 if (mIsLoadMore) {
@@ -355,24 +362,42 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
                 ToastUtils.makeTextShort("会员优惠");
                 break;
             case R.id.delicious_layout:
-//                ToastUtils.makeTextShort("美食");
+                //                ToastUtils.makeTextShort("美食");
                 UIHelper.showGoodsListActivity(getActivity(), "美食", Constants.DELICIOUS_ID);
                 break;
             case R.id.entertainment_layout:
                 UIHelper.showGoodsListActivity(getActivity(), "娱乐", Constants.ENTERTAINMENT_ID);
-//                ToastUtils.makeTextShort("娱乐");
+                //                ToastUtils.makeTextShort("娱乐");
                 break;
             case R.id.stay_layout:
                 UIHelper.showGoodsListActivity(getActivity(), "住宿", Constants.STAY_ID);
-//                ToastUtils.makeTextShort("住宿");
+                //                ToastUtils.makeTextShort("住宿");
                 break;
             case R.id.experience_layout:
                 UIHelper.showGoodsListActivity(getActivity(), "商品体验", Constants.EXPERIENCE_ID);
-//                ToastUtils.makeTextShort("商品体验");
+                //                ToastUtils.makeTextShort("商品体验");
                 break;
             case R.id.share_layout:
                 UIHelper.showInvitationFriendActivity(getActivity());
                 break;
+        }
+
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(UpCityEvent event) {
+        if (event.getEventId() == EventConstants.UP_CITY) {
+            Log.e(TAG, "onEvent: zyjy");
+            if (mAdapter != null) {
+                mAdapter.notifyDataSetChanged();
+            }
         }
     }
 }

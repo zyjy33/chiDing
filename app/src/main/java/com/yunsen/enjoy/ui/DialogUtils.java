@@ -16,9 +16,6 @@ import android.widget.TextView;
 
 import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.activity.MainActivity;
-import com.yunsen.enjoy.activity.user.PhoneLoginActivity;
-import com.yunsen.enjoy.activity.user.UserLoginActivity;
-import com.yunsen.enjoy.activity.user.UserLoginWayActivity;
 import com.yunsen.enjoy.common.SpConstants;
 import com.yunsen.enjoy.model.event.EventConstants;
 import com.yunsen.enjoy.model.event.UpUiEvent;
@@ -69,7 +66,7 @@ public class DialogUtils {
     /**
      * 提示是否注销登录
      */
-    public static void showLoginDialog(Activity act) {
+    public static void showLogoutDialog(Activity act) {
         final Activity fAct = act;
         AlertDialog.Builder builder = new AlertDialog.Builder(act);
         builder.setMessage("是否注销登录?");

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.text.TextUtils;
 
+import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.yunsen.enjoy.common.AppContext;
 import com.yunsen.enjoy.common.Constants;
 import com.yunsen.enjoy.common.SpConstants;
@@ -32,6 +33,7 @@ public class AccountUtils {
     private static boolean mIsVip;
     private static boolean mIsAgent;
     private static int mCertificationState = 0; // 0 未认证，1 正在认证中 2 认证完成
+    public static IWXAPI mWxApi;
 
     static {
         mSp = AppContext.getInstance().getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, Context.MODE_PRIVATE);

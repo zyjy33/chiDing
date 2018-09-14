@@ -38,7 +38,6 @@ import okhttp3.Request;
 
 public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
     private static final String TAG = "WXEntryActivity";
-    public static String SIGN;
     /**
      * 微信登录相关
      */
@@ -102,6 +101,7 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
                     param.put("secret", Constants.APP_SECRET);
                     param.put("code", entity.getCode());
                     param.put("grant_type", "authorization_code");
+
                     HttpProxy.getWXAccessTokenEntity(param, new HttpCallBack<WXAccessTokenEntity>() {
                         @Override
                         public void onSuccess(WXAccessTokenEntity accessTokenEntity) {
@@ -158,9 +158,9 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
                 SharedPreferences spPreferences_login = getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, MODE_PRIVATE);
                 SharedPreferences.Editor editor = spPreferences_login.edit();
                 editor.putString(SpConstants.NICK_NAME, wxResponse.getNickname());
-                editor.putString("headimgurl", wxResponse.getHeadimgurl());
+                editor.putString(SpConstants.HEADIMGURL, wxResponse.getHeadimgurl());
                 editor.putString("access_token", accessToken);
-                editor.putString("unionid", wxResponse.getUnionid());
+                editor.putString(SpConstants.OAUTH_UNIONID, wxResponse.getUnionid());
                 editor.putString("sex", "" + wxResponse.getSex());
                 editor.putString("province", wxResponse.getProvince());
                 editor.putString("city", wxResponse.getCity());

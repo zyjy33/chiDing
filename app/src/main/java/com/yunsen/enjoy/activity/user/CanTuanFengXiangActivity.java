@@ -7,7 +7,6 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -18,18 +17,15 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-
 import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
 import com.tencent.mm.opensdk.modelmsg.WXMediaMessage;
 import com.tencent.mm.opensdk.modelmsg.WXWebpageObject;
-import com.tencent.mm.opensdk.openapi.IWXAPI;
-import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.activity.mine.JuJingCaiXqActivity;
 import com.yunsen.enjoy.activity.mine.JuTuanGouXqActivity;
-import com.yunsen.enjoy.common.Constants;
 import com.yunsen.enjoy.common.SpConstants;
 import com.yunsen.enjoy.http.URLConstants;
+import com.yunsen.enjoy.utils.AccountUtils;
 import com.yunsen.enjoy.utils.GetImgUtil;
 import com.yunsen.enjoy.utils.Utils;
 import com.yunsen.enjoy.widget.DialogProgress;
@@ -58,7 +54,7 @@ public class CanTuanFengXiangActivity extends AppCompatActivity implements
     private ImageButton btn_wechat;
     String title, img_url, data;
     protected static Uri tempUri;
-    private IWXAPI api;
+//    private IWXAPI api;
     private ImageButton img_btn_tencent, btn_wx_friend, btn_sms;
     String user_id;
     String unionid, fx_cs;
@@ -246,9 +242,9 @@ public class CanTuanFengXiangActivity extends AppCompatActivity implements
     private void softshareWxChat(String text) {
 
         String temp[] = text.split("http");
-        api = WXAPIFactory.createWXAPI(CanTuanFengXiangActivity.this,
-                Constants.APP_ID, false);
-        api.registerApp(Constants.APP_ID);
+//        api = WXAPIFactory.createWXAPI(CanTuanFengXiangActivity.this,
+//                Constants.APP_ID, false);
+//        api.registerApp(Constants.APP_ID);
         WXWebpageObject webpage = new WXWebpageObject();
         webpage.webpageUrl = "http" + temp[1];
         // webpage.webpageUrl = temp[1];
@@ -275,7 +271,7 @@ public class CanTuanFengXiangActivity extends AppCompatActivity implements
         req.transaction = buildTransaction("webpage");
         req.message = msg;
         req.scene = SendMessageToWX.Req.WXSceneSession;
-        boolean flag = api.sendReq(req);
+        boolean flag =   AccountUtils.mWxApi.sendReq(req);
 
         System.out.println("微信注册" + flag);
 
@@ -288,9 +284,9 @@ public class CanTuanFengXiangActivity extends AppCompatActivity implements
      */
     private void softshareWxFriend(String text) {
         String temp[] = text.split("http");
-        api = WXAPIFactory.createWXAPI(CanTuanFengXiangActivity.this,
-                Constants.APP_ID, false);
-        api.registerApp(Constants.APP_ID);
+//        api = WXAPIFactory.createWXAPI(CanTuanFengXiangActivity.this,
+//                Constants.APP_ID, false);
+//        api.registerApp(Constants.APP_ID);
         WXWebpageObject webpage = new WXWebpageObject();
         webpage.webpageUrl = "http" + temp[1];
         WXMediaMessage msg = new WXMediaMessage(webpage);
@@ -316,7 +312,7 @@ public class CanTuanFengXiangActivity extends AppCompatActivity implements
         req.transaction = buildTransaction("webpage");
         req.message = msg;
         req.scene = SendMessageToWX.Req.WXSceneTimeline;
-        boolean flag = api.sendReq(req);
+        boolean flag =  AccountUtils.mWxApi.sendReq(req);
         System.out.println(flag + "-->" + msg.thumbData);
     }
 

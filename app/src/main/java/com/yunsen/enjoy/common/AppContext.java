@@ -8,7 +8,6 @@ import android.support.annotation.Nullable;
 import android.support.multidex.MultiDex;
 
 import com.orhanobut.logger.AndroidLogAdapter;
-import com.orhanobut.logger.DiskLogAdapter;
 import com.orhanobut.logger.FormatStrategy;
 import com.orhanobut.logger.Logger;
 import com.orhanobut.logger.PrettyFormatStrategy;
@@ -21,7 +20,6 @@ import com.yunsen.enjoy.utils.WebUitls;
 public class AppContext extends Application {
 
     private static AppContext app;
-
     public AppContext() {
         app = this;
     }

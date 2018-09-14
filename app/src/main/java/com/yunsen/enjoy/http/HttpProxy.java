@@ -1426,9 +1426,9 @@ public class HttpProxy {
      */
     public static void getDiscoverBannerList(final HttpCallBack<List<AdvertModel>> callBack) {
         HashMap<String, String> map = new HashMap<>();
-//        map.put("channel_name", "news");
-//        map.put("top", "5");
-//        map.put("strwhere", "is_slide=1");
+        //        map.put("channel_name", "news");
+        //        map.put("top", "5");
+        //        map.put("strwhere", "is_slide=1");
 
         HttpClient.get(URLConstants.DISCOVER_BANNER_URL, map, new HttpResponseHandler<AdvertList>() {
             @Override
@@ -1485,13 +1485,13 @@ public class HttpProxy {
     public static void requestBindPhone(final HttpCallBack<AuthorizationModel> callBack) {
         SharedPreferences sp = AppContext.getInstance().getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, Context.MODE_PRIVATE);
         String nickName = sp.getString(SpConstants.NICK_NAME, "");
-        String avatar = sp.getString(SpConstants.HEAD_IMG_URL_2, "");
+        String avatar = sp.getString(SpConstants.HEADIMGURL, "");
         String sex = sp.getString(SpConstants.SEX, "");
         String province = sp.getString(SpConstants.PROVINCE, "");
         String city = sp.getString(SpConstants.CITY, "");
         String country = sp.getString(SpConstants.COUNTRY, "");
         String oauthOpenId = sp.getString(SpConstants.OAUTH_OPEN_ID, "");
-        String oauthName = sp.getString(SpConstants.OAUTH_NAME, null);
+        String oauthName = sp.getString(SpConstants.OAUTH_NAME, "weixin_android");
         String oauthUnionId = sp.getString(SpConstants.OAUTH_UNIONID, "");
 
         HashMap<String, String> param = new HashMap<>();
@@ -1503,7 +1503,7 @@ public class HttpProxy {
         param.put(SpConstants.COUNTRY, country);
         param.put(SpConstants.OAUTH_OPEN_ID, oauthOpenId);
         param.put(SpConstants.OAUTH_NAME, oauthName);
-        param.put(SpConstants.OAUTH_UNIONID, oauthUnionId);
+        param.put("oauth_unionid", oauthUnionId);
 
         HttpClient.get(URLConstants.BOUDLE_PHONE_URL, param, new HttpResponseHandler<AuthorizationResponse>() {
             @Override
@@ -1522,6 +1522,8 @@ public class HttpProxy {
     }
 
     /**
+     * qq 绑定
+     *
      * @param callBack
      */
     public static void requestBindPhone(String aa, final HttpCallBack<AuthorizationModel> callBack) {
@@ -1545,7 +1547,7 @@ public class HttpProxy {
         param.put(SpConstants.COUNTRY, country);
         param.put(SpConstants.OAUTH_OPEN_ID, oauthOpenId);
         param.put(SpConstants.OAUTH_NAME, oauthName);
-        param.put(SpConstants.OAUTH_UNIONID, oauthUnionId);
+        param.put("oauth_unionid", oauthUnionId);
 
         HttpClient.get(URLConstants.BOUDLE_PHONE_URL, param, new HttpResponseHandler<AuthorizationResponse>() {
             @Override
@@ -1918,6 +1920,43 @@ public class HttpProxy {
      */
     public static void getWXAccessTokenEntity(Map<String, String> param, final HttpCallBack<WXAccessTokenEntity> callBack) {
         String url = URLConstants.WX_ACCESS_TOKEN_URL;
+        if (param != null && param.size() > 0) {
+            url = url + "?" + mapToQueryString(param);
+            Log.e(TAG, "getWXAccessTokenEntity: " + url);
+        }
+        final Request request = new Request.Builder().url(url).build();
+        HttpClient.getClient().newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                callBack.onError(request, e);
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) {
+                try {
+                    String responseBody = response.body().string();
+                    WXAccessTokenEntity wxResponse = JSON.parseObject(responseBody, WXAccessTokenEntity.class);
+                    callBack.onSuccess(wxResponse);
+                } catch (Exception e) {
+                    Log.e(TAG, "onResponse: " + e.getMessage());
+                    callBack.onError(request, e);
+                }
+            }
+        });
+    }
+
+    /**
+     * param.put("openid")
+     * access_token	是	调用凭证
+     * openid	是	普通用户的标识，对当前开发者帐号唯一
+     * lang	否	国家地区语言版本，zh_CN 简体，zh_TW 繁体，en 英语，默认为zh-CN
+     * zh_CN
+     *
+     * @param param
+     * @param callBack
+     */
+    public static void getWXuserinfo(Map<String, String> param, final HttpCallBack<WXAccessTokenEntity> callBack) {
+        String url = URLConstants.WX_USER_INfO_URL;
         if (param != null && param.size() > 0) {
             url = url + "?" + mapToQueryString(param);
             Log.e(TAG, "getWXAccessTokenEntity: " + url);
@@ -2730,8 +2769,8 @@ public class HttpProxy {
      * 换产品的接口
      */
     public static void getChangeGoodsList(String pageIdx, String orderBy, String city, final HttpCallBack<List<CarDetails>> callBack) {
-//        UIHelper.showChangeGoodsActivity(getActivity(), "goods", "1698", "换产品", 0);
-//        String channelName, String categoryId,
+        //        UIHelper.showChangeGoodsActivity(getActivity(), "goods", "1698", "换产品", 0);
+        //        String channelName, String categoryId,
 
         HashMap<String, String> map = new HashMap<>();
         map.put("channel_name", "goods");

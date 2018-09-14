@@ -17,14 +17,11 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.FutureTarget;
 import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
 import com.tencent.mm.opensdk.modelmsg.WXMediaMessage;
 import com.tencent.mm.opensdk.modelmsg.WXWebpageObject;
-import com.tencent.mm.opensdk.openapi.IWXAPI;
-import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.activity.BaseFragmentActivity;
 import com.yunsen.enjoy.common.Constants;
@@ -34,6 +31,7 @@ import com.yunsen.enjoy.http.HttpCallBack;
 import com.yunsen.enjoy.http.HttpProxy;
 import com.yunsen.enjoy.http.URLConstants;
 import com.yunsen.enjoy.model.ApkVersionInfo;
+import com.yunsen.enjoy.utils.AccountUtils;
 import com.yunsen.enjoy.utils.BitmapUtil;
 import com.yunsen.enjoy.utils.DeviceUtil;
 import com.yunsen.enjoy.utils.ToastUtils;
@@ -229,7 +227,7 @@ public class DBFengXiangActivity extends BaseFragmentActivity implements OnClick
                 return;
             }
         }
-        IWXAPI api = WXAPIFactory.createWXAPI(this, Constants.APP_ID);
+//        IWXAPI api = WXAPIFactory.createWXAPI(this, Constants.APP_ID);
         WXWebpageObject webPage = new WXWebpageObject();
         webPage.webpageUrl = mShareUrl;
         WXMediaMessage msg = new WXMediaMessage(webPage);
@@ -251,7 +249,7 @@ public class DBFengXiangActivity extends BaseFragmentActivity implements OnClick
         //好友
         req.scene = shareType == 0 ? SendMessageToWX.Req.WXSceneSession : SendMessageToWX.Req.WXSceneTimeline;
         // 调用api接口发送数据到微信
-        api.sendReq(req);
+        AccountUtils.mWxApi.sendReq(req);
     }
 
     /**

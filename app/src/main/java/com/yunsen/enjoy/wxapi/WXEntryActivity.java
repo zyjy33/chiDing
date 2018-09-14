@@ -1,16 +1,20 @@
 package com.yunsen.enjoy.wxapi;
 
+import android.app.Activity;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.Bundle;
+import android.util.Log;
+
 import com.alibaba.fastjson.JSON;
 import com.orhanobut.logger.Logger;
 import com.tencent.mm.opensdk.constants.ConstantsAPI;
 import com.tencent.mm.opensdk.modelbase.BaseReq;
 import com.tencent.mm.opensdk.modelbase.BaseResp;
 import com.tencent.mm.opensdk.modelbiz.WXLaunchMiniProgram;
-import com.tencent.mm.opensdk.modelmsg.SendAuth;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
-import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.common.Constants;
 import com.yunsen.enjoy.common.SpConstants;
 import com.yunsen.enjoy.http.HttpCallBack;
@@ -24,14 +28,6 @@ import com.yunsen.enjoy.model.event.UpUiEvent;
 import com.yunsen.enjoy.utils.AccountUtils;
 import com.yunsen.enjoy.utils.SpUtils;
 import com.yunsen.enjoy.utils.ToastUtils;
-
-
-import android.app.Activity;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.os.Bundle;
-import android.util.Log;
-import android.widget.Toast;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -162,7 +158,7 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
                 SharedPreferences spPreferences_login = getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, MODE_PRIVATE);
                 SharedPreferences.Editor editor = spPreferences_login.edit();
                 editor.putString(SpConstants.NICK_NAME, wxResponse.getNickname());
-                editor.putString("headimgurl", wxResponse.getHeadimgurl());
+                editor.putString(SpConstants.HEADIMGURL, wxResponse.getHeadimgurl());
                 editor.putString("access_token", accessToken);
                 editor.putString("unionid", wxResponse.getUnionid());
                 editor.putString("sex", "" + wxResponse.getSex());

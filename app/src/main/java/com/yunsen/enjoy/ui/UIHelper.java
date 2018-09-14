@@ -3,7 +3,6 @@ package com.yunsen.enjoy.ui;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -406,6 +405,10 @@ public class UIHelper {
         ctx.startActivity(intent);
     }
 
+    public static void showBundPhoneActivity2(Activity ctx) {
+        Intent intent = new Intent(ctx, TishiWxBangDingActivity.class);
+        ctx.startActivityForResult(intent,Constants.BUND_ACTIVITY);
+    }
     /**
      * 微信登录
      *
